@@ -14,7 +14,7 @@ int env_count(char **envp)
 char **env_list(char **envp, t_env *env)
 {
     int       i;
-    char **list;
+    char    **list;
 
     i = 0;
     list = (char **) malloc(sizeof(char *) * env_count(envp));
