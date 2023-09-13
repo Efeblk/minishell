@@ -10,14 +10,13 @@ int env_count(char **envp)
     return (i);
 }
 
-
 char **env_list(char **envp, t_env *env)
 {
     int       i;
     char    **list;
 
     i = 0;
-    list = (char **) malloc(sizeof(char *) * env_count(envp));
+    list = (char **) malloc(sizeof(char *) * (env_count(envp)) + 1);
     while (envp[i])
     {
         list[i] = envp[i];
@@ -41,12 +40,10 @@ char    **add_env_list(t_env *env, char *str)
         i++;
     while (str[j])
     {
-        printf("**str[j] = %c\n ***", str[j]);
-        env->env_list[i][j] = str[j];
+        env->env_list[i] = &str[j];
         j++;
     }
-    env->env_list[i + 1] = 0;
-    new_list = env->env_list;
+    env->env_list = new_list;
     return (new_list);
 }
 
