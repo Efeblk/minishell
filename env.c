@@ -51,6 +51,8 @@ char    **add_env_list(t_env *env, char *str)
 int main(int ac, char **av, char **envp)
 {
    t_env env;
+   (void)ac;
+   (void)av;
    int i;
    char **a;
    char **b;
