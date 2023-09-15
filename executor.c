@@ -2,13 +2,25 @@
 
 void executor(t_node *node)
 {
-
+    //printf("%s\n %s",node->args[0], node->args[1]);
+    execve(node->args[0], node->args, NULL);
 }
 
 int main(int argc, char const *argv[])
 {
-    find_env("ls");
-    system("leaks main");
+    t_node *node;
+    
+    node = (t_node *)malloc(sizeof(t_node));
+    node->cmd = (char *)malloc(sizeof(char) * 3);
+    node->args = (char **)malloc(sizeof(char *) * 3);
+    node->args[1] = (char *)malloc(sizeof(char) * 4);
+    node->args[2] = NULL;
+
+    node->cmd = "ls";
+    node->args[1] = "-la";
+    find_env(node);
+    executor(node);
+    //system("leaks main");
     return 0;
 }
 
