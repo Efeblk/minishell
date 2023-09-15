@@ -1,55 +1,56 @@
 #include "minishell.h"
 
+char    **parse_word(t_data data)
+{
+    
+}
 
-
-void    ft_readline(t_node *node)
+void    ft_readline(t_data *data)
 {
     char    *input;
+    char    *str;
     int     i;
 
     i = 0;
     input = readline("Enter a command: ");
-    node->args = ft_split(input, ' ');
-    node->infile = NULL;
-    node->outfile = NULL;
-    node->pipe_count = pipe_count(input, node);
     add_history(input);
+    str = input;
     free(input);
 }
 
-int arg_count(t_node *node)
+int arg_count(t_data *data)
 {
     int i;
 
     i = 0;
-    while (node->args[i])
+    while (data->nodes->args[i])
         i++;
     return (i);
 }
-int pipe_count(char *input, t_node *node)
+
+int pipe_count(char *input, t_data *data)
 {
     int i;
 
     i = 0;
-    node->pipe_count = 0;
+    data->pipe_count = 0;
     while (input[i])
     {
         if (input[i] == '|')
-            node->pipe_count++;
+            data->pipe_count++;
         i++;
     }
-    return (node->pipe_count);
+    return (data->pipe_count);
 }
 
 
 int main() 
 {
-    t_node node;
+    t_data data;
     int       i;
 
     i = 0;
-    node.pipe_count = 0;
-    ft_readline(&node);
+    ft_readline(&data);
 
     return (0);
 }
