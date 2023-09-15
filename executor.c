@@ -1,25 +1,26 @@
 #include "minishell.h"
 
-void executor(t_node *node)
+void executor(t_data data)
 {
     //printf("%s\n %s",node->args[0], node->args[1]);
-    execve(node->args[0], node->args, NULL);
+    execve(data.nodes->args[0], data.nodes->args, NULL);
 }
 
 int main(int argc, char const *argv[])
 {
-    t_node *node;
-    
-    node = (t_node *)malloc(sizeof(t_node));
-    node->cmd = (char *)malloc(sizeof(char) * 3);
-    node->args = (char **)malloc(sizeof(char *) * 3);
-    node->args[1] = (char *)malloc(sizeof(char) * 4);
-    node->args[2] = NULL;
+    t_data data;
 
-    node->cmd = "ls";
-    node->args[1] = "-la";
-    find_env(node);
-    executor(node);
+    data.nodes =(t_node *)malloc(sizeof(t_node) * 2);
+    data.nodes[0].cmd = (char *)malloc(sizeof(char) * 3);
+    data.nodes[0].args = (char **)malloc(sizeof(char *) * 3);
+    data.nodes[0].args[1] = (char *)malloc(sizeof(char) * 4);
+
+    data.nodes[0].cmd = "ls";
+    data.nodes[0].args[1] = "-la";
+    data.nodes[0].args[2] = NULL;
+
+    find_env(data);
+    executor(data);
     //system("leaks main");
     return 0;
 }

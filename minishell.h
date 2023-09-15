@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:18:23 by alakin            #+#    #+#             */
-/*   Updated: 2023/09/15 15:38:10 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:23:28 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,30 @@ typedef struct s_node
 {
     char    *cmd;
     char    **args;
+    char    **outfile;
+    char    **infile;
 }t_node;
+
+typedef struct s_data
+{
+    int     pipe_count;
+    t_env   *env;
+    t_node  *nodes;
+} t_data;
 
 int     env_count(char **envp);
 char    **env_list(char **envp, t_env *env);
-char	*ft_strdup(const char *s1);
 
 char	**ft_split(const char *s, char c);
 
-char	*ft_substr(const char *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
-size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
-
+char    *ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s1);
 char	*ft_strjoin(char const *s1, char const *s2);
 
-int     find_env(t_node *node);
+int     find_env(t_data data);
 
 void    free_array(char **array);
 
+void    executor(t_data data);
 #endif
