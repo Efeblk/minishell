@@ -11,7 +11,7 @@ void    ft_readline(t_node *node)
     int     i;
 
     i = 0;
-    input = readline("");
+    input = readline("Enter a command: ");
     node->args = ft_split(input, ' ');
     node->infile = NULL;
     node->outfile = NULL;
