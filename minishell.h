@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:18:23 by alakin            #+#    #+#             */
-/*   Updated: 2023/09/15 14:05:39 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/09/15 14:17:15 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ typedef struct s_env
 
 typedef struct s_node
 {
-    char    *cmd;
     char    **args;
     char    **outfile;
     char    **infile;
+    int     arg_count;
 }t_node;
 
 int     env_count(char **envp);
