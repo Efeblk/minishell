@@ -1,9 +1,6 @@
 #include "minishell.h"
 
-char    **input_parse(t_node *node)
-{
-    
-}
+
 
 void    ft_readline(t_node *node)
 {
@@ -53,12 +50,6 @@ int main()
     i = 0;
     node.pipe_count = 0;
     ft_readline(&node);
-    while (node.args[i])
-    {
-        printf("%s\n", node.args[i]);
-        i++;
-    }
-    printf("pipe count: %d\n", node.pipe_count);
 
     return (0);
 }
