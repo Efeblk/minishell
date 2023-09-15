@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:18:23 by alakin            #+#    #+#             */
-/*   Updated: 2023/09/13 17:25:48 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/09/15 14:49:26 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,9 @@ size_t	ft_strlen(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 
 char	*ft_strjoin(char const *s1, char const *s2);
+
+int     find_env(char *cmd);
+
+void    free_array(char **array);
 
 #endif
