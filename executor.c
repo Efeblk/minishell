@@ -1,9 +1,11 @@
 #include "minishell.h"
 
-void executor(t_data data)
+int executor(t_data data)
 {
-    //printf("%s\n %s",node->args[0], node->args[1]);
+    if((find_env(data)) == -1)
+        return -1;
     execve(data.nodes->args[0], data.nodes->args, NULL);
+    return 0;
 }
 
 int main(int argc, char const *argv[])
@@ -19,7 +21,23 @@ int main(int argc, char const *argv[])
     data.nodes[0].args[1] = "-la";
     data.nodes[0].args[2] = NULL;
 
-    find_env(data);
+    data.pipe_count = 2;
+    
+    data.nodes[1].cmd = (char *)malloc(sizeof(char) * 3);
+    data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);
+    data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 4);
+    data.nodes[1].cmd = "ls";
+    data.nodes[1].args[1] = "-la";
+    data.nodes[1].args[2] = NULL;
+
+    int i = 0;
+    // while (i < data.pipe_count)
+    // {
+    //     if (data.tokens[i] == '>')
+    //     {
+
+    //     }
+    // }
     executor(data);
     //system("leaks main");
     return 0;

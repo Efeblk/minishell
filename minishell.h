@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:18:23 by alakin            #+#    #+#             */
-/*   Updated: 2023/09/15 18:23:28 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/09/15 18:50:59 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_data
     int     pipe_count;
     t_env   *env;
     t_node  *nodes;
+    char    **tokens;
 } t_data;
 
 int     env_count(char **envp);
@@ -53,5 +54,5 @@ int     find_env(t_data data);
 
 void    free_array(char **array);
 
-void    executor(t_data data);
+int    executor(t_data data);
 #endif
