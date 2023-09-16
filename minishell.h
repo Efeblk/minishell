@@ -4,7 +4,8 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-
+#include <readline/readline.h>
+#include <readline/history.h>
 
 
 typedef struct s_env
@@ -15,6 +16,7 @@ typedef struct s_env
 
 typedef struct s_node
 {
+    char    *cmd;
     char    **args;
     char    **outfile;
     char    **infile;
@@ -38,6 +40,6 @@ char	**ft_split(const char *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 void    ft_readline(t_data *data);
-int     arg_count(t_data *data);
+int pipe_count(char *input, t_data *data);
 #endif
 

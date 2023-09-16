@@ -1,25 +1,35 @@
-NAME            =   minishell
 
-SRC				=	ft_split.c ft_strdup.c env.c parser.c ft_substr.c ft_strlen.c
+GREEN = \033[0;32m
+RED = \033[0;31m
+NC = \033[0m
 
-
+NAME = minishell
+SRC = ft_split.c ft_strdup.c parser.c ft_substr.c ft_strlen.c
 OBJ = $(SRC:.c=.o)
 
-CC				=	gcc
-RM 				=	rm -rf
-CFLAGS			= 	-Wall -Werror -Wextra
+CC = gcc
+RM = rm -rf
+CFLAGS = -Wall -Werror -Wextra
+LDFLAGS = -lreadline
 
-all : $(NAME)
 
-$(NAME) : $(OBJ)
-	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@$(CC) $(CFLAGS) $(OBJ) $(LDFLAGS) -o $(NAME)
+	@echo "$(GREEN)$(NAME) is ready!$(NC)"
 
 clean:
 	@$(RM) $(OBJ)
+	@echo "$(RED)Cleaned object files.$(NC)"
 
 fclean: clean
 	@$(RM) $(NAME)
+	@echo "$(RED)Removed $(NAME) executable.$(NC)"
 
-re : fclean all
+re: fclean all
 
-.PHONY: all fclean re 
+.PHONY: all clean fclean re
+
+
+
