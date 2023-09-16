@@ -1,10 +1,89 @@
 #include "minishell.h"
 
+int **pipe_create(int pipe_count)
+{
+    int i;
+    int *pipes[2];
+
+    i = -1;
+
+    pipes = (int **)malloc(sizeof(int *) * pipe_count);
+
+    while (++i < pipe_count)
+    {
+        pipes[i] = (int *)malloc(sizeof(int) * 2);
+        pipe(pipes[i]);
+    }
+    return (pipes);
+}
+
+void router(t_data data, int i, int **pipes)
+{
+    if (data.tokens[i][0] == '|')
+    {
+            printf("wtd1\n");
+        close(pipes[i][0]);
+        dup2(pipes[i][1], STDOUT_FILENO);
+        printf("wtd1\n");
+    }
+    if(i > 1)
+    {
+            printf("wtd2\n");
+        close(pipes[i][1]);
+        dup2(pipes[i][0], STDIN_FILENO);
+    }
+    if (data.tokens[i][0] == '<')
+    {
+        int fd;
+        fd = open("asdasdsad", O_RDONLY, 0644);
+        dup2(fd, STDIN_FILENO);
+    }
+    if (data.tokens[i][0] == '>')
+    {
+        int fd;
+        fd = open("asdasdsad", O_RDONLY, 0644);
+        dup2(fd, STDOUT_FILENO);
+    }
+    // else if (data.tokens[i] == "<<")
+    // {
+
+    // }
+    // else if(data.tokens[i] == ">>")
+    // {
+
+    // }
+    printf("wtd\n");
+}
+
 int executor(t_data data)
 {
     if((find_env(data)) == -1)
         return -1;
-    execve(data.nodes->args[0], data.nodes->args, NULL);
+        
+    int **pipes;
+    pipes = pipe_create(data.pipe_count);
+
+    int i = -1;
+
+    pid_t pid;
+    int pid2;
+    int execerror;
+
+    while (++i < data.pipe_count)
+    {
+        pid = fork();
+        if (pid == 0)
+        {
+            printf("OMG\n");
+            router(data, i, pipes);
+            close(pipes[i][0]);
+            close(pipes[i][1]);
+            printf("TAT\n");
+            execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
+            printf("TA\n");
+        }
+        waitpid(pid, NULL, WUNTRACED);
+    }    
     return 0;
 }
 
@@ -21,14 +100,20 @@ int main(int argc, char const *argv[])
     data.nodes[0].args[1] = "-la";
     data.nodes[0].args[2] = NULL;
 
-    data.pipe_count = 2;
+    data.pipe_count = 1;
     
     data.nodes[1].cmd = (char *)malloc(sizeof(char) * 3);
     data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);
     data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 4);
-    data.nodes[1].cmd = "ls";
-    data.nodes[1].args[1] = "-la";
+    data.nodes[1].cmd = "wc";
+    data.nodes[1].args[1] = "-l";
     data.nodes[1].args[2] = NULL;
+
+    data.tokens = (char **)malloc(sizeof(char *) * 2);
+    data.tokens[0] = (char *)malloc(sizeof(char) * 2);
+
+    data.tokens[0][1] = '\0';
+    data.tokens[0][0] = '|';
 
     int i = 0;
     // while (i < data.pipe_count)

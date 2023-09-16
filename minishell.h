@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:18:23 by alakin            #+#    #+#             */
-/*   Updated: 2023/09/15 18:50:59 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/09/16 17:42:34 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,6 @@ int     find_env(t_data data);
 void    free_array(char **array);
 
 int    executor(t_data data);
+void router(t_data data, int i,int **pipes);
+
 #endif
