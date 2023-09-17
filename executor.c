@@ -3,7 +3,7 @@
 int **pipe_create(int pipe_count)
 {
     int i;
-    int *pipes[2];
+    int **pipes;
 
     i = -1;
 
@@ -17,32 +17,34 @@ int **pipe_create(int pipe_count)
     return (pipes);
 }
 
-void router(t_data data, int i, int **pipes)
+void router(t_data data, int i, int pipe[])
 {
+    printf("%i", i);
     if (data.tokens[i][0] == '|')
-    {
-            printf("wtd1\n");
-        close(pipes[i][0]);
-        dup2(pipes[i][1], STDOUT_FILENO);
+    {    
         printf("wtd1\n");
+        close(pipe[0]);
+        dup2(pipe[1], STDOUT_FILENO);
     }
-    if(i > 1)
-    {
-            printf("wtd2\n");
-        close(pipes[i][1]);
-        dup2(pipes[i][0], STDIN_FILENO);
-    }
-    if (data.tokens[i][0] == '<')
+    else if(data.tokens[i][0] == '<')
     {
         int fd;
         fd = open("asdasdsad", O_RDONLY, 0644);
         dup2(fd, STDIN_FILENO);
     }
-    if (data.tokens[i][0] == '>')
+    else if (data.tokens[i][0] == '>')
     {
         int fd;
         fd = open("asdasdsad", O_RDONLY, 0644);
         dup2(fd, STDOUT_FILENO);
+    }
+    if(i >= 1)
+    {
+        close(pipe[1]);
+        char *test;
+        printf("wtd2\n");
+        read(pipe[0], test, 10);
+        dup2(pipe[0], STDIN_FILENO);
     }
     // else if (data.tokens[i] == "<<")
     // {
@@ -52,6 +54,7 @@ void router(t_data data, int i, int **pipes)
     // {
 
     // }
+    execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
     printf("wtd\n");
 }
 
@@ -62,6 +65,10 @@ int executor(t_data data)
         
     int **pipes;
     pipes = pipe_create(data.pipe_count);
+    int fd[2];
+    int fd2[2];
+    pipe(fd);
+    pipe(fd2);
 
     int i = -1;
 
@@ -69,20 +76,23 @@ int executor(t_data data)
     int pid2;
     int execerror;
 
-    while (++i < data.pipe_count)
+    void *asd;
+    while (++i < (data.pipe_count + 1))
     {
         pid = fork();
+        
         if (pid == 0)
         {
-            printf("OMG\n");
-            router(data, i, pipes);
-            close(pipes[i][0]);
-            close(pipes[i][1]);
-            printf("TAT\n");
-            execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
-            printf("TA\n");
+            printf("in child process\n");
+            router(data, i, fd);
+            exit(0);
         }
-        waitpid(pid, NULL, WUNTRACED);
+        else
+        {
+            close(fd[1]);
+            close(fd[0]);
+            waitpid(pid, NULL, WUNTRACED);
+        }
     }    
     return 0;
 }
@@ -100,7 +110,7 @@ int main(int argc, char const *argv[])
     data.nodes[0].args[1] = "-la";
     data.nodes[0].args[2] = NULL;
 
-    data.pipe_count = 1;
+    data.pipe_count = 0;
     
     data.nodes[1].cmd = (char *)malloc(sizeof(char) * 3);
     data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);

@@ -55,6 +55,6 @@ int     find_env(t_data data);
 void    free_array(char **array);
 
 int    executor(t_data data);
-void router(t_data data, int i,int **pipes);
+void router(t_data data, int i,int pipe[]);
 
 #endif
