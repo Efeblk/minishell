@@ -18,11 +18,15 @@ int **pipe_create(int pipe_count)
     return (pipes);
 }
 
-void router(t_data data, int i, int *fd, int *f2)
+void router(t_data data, int i, int *fd, int *fd2)
 {
     if(i >= 1)
     {
         dup2(fd[0], STDIN_FILENO);
+        if (fd2 != NULL)
+        {
+            dup2(fd2[1], STDOUT_FILENO);
+        }
     }
     if (data.tokens[i][0] == '|')
     {    
@@ -62,10 +66,6 @@ int executor(t_data data)
         pid = fork();
         if (pid == 0)
         {
-            if (data.pipe_count >= 2 && i > 0)
-            {
-                
-            } 
             router(data, i, pipes[i / 2], pipes[(i / 2) + 1]);
             exit(0);
         }
@@ -81,7 +81,7 @@ int main(int argc, char const *argv[])
 {
     t_data data;
 
-    data.nodes =(t_node *)malloc(sizeof(t_node) * 2);
+    data.nodes =(t_node *)malloc(sizeof(t_node) * 3);
     data.nodes[0].cmd = (char *)malloc(sizeof(char) * 3);
     data.nodes[0].args = (char **)malloc(sizeof(char *) * 3);
     data.nodes[0].args[1] = (char *)malloc(sizeof(char) * 4);
@@ -90,17 +90,27 @@ int main(int argc, char const *argv[])
     data.nodes[0].args[1] = "-la\0";
     data.nodes[0].args[2] = NULL;
 
-    data.pipe_count = 1;
+    data.pipe_count = 2;
     
     //printf("size of %lu \n", ft_strlen(data.nodes[0].cmd));
-    data.nodes[1].cmd = (char *)malloc(sizeof(char) * 3);
+    data.nodes[1].cmd = (char *)malloc(sizeof(char) * 5);
     data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);
-    data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 3);
+    data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 4);
 
-    data.nodes[1].cmd = "wc\0";
-    data.nodes[1].args[1] = "-l\0";
+    data.nodes[1].cmd = "grep\0";
+    data.nodes[1].args[1] = "git\0";
     data.nodes[1].args[2] = NULL;
 
+    /////////////////////////////////////////////////////////
+    data.nodes[2].cmd = (char *)malloc(sizeof(char) * 3);
+    data.nodes[2].args = (char **)malloc(sizeof(char *) * 3);
+    data.nodes[2].args[1] = (char *)malloc(sizeof(char) * 2);
+
+    data.nodes[2].cmd = "wc\0";
+    data.nodes[2].args[1] = "-l\0";
+    data.nodes[2].args[2] = NULL;
+
+    ////////////////////////////////////////////////////////////
     data.tokens = (char **)malloc(sizeof(char *) * 2);
     data.tokens[0] = (char *)malloc(sizeof(char) * 2);
     data.tokens[1] = (char *)malloc(sizeof(char) * 2);
@@ -109,6 +119,11 @@ int main(int argc, char const *argv[])
     data.tokens[1][1] = '\0';
     data.tokens[0][1] = '\0';
     data.tokens[0][0] = '|';
+
+
+
+
+
 
     executor(data);
     //system("leaks main");
