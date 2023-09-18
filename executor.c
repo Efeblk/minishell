@@ -61,13 +61,12 @@ int executor(t_data data)
         
     int **pipes;
     pipes = pipe_create(data.pipe_count);
+
     int fd[2];
     pipe(fd);
+    
     int i = -1;
     pid_t pid;
-    int pid2;
-    int execerror;
-    void *asd;
     while (++i < (data.pipe_count + 1))
     {
         pid = fork();
@@ -77,10 +76,10 @@ int executor(t_data data)
             router(data, i, fd);
             exit(0);
         }
+        waitpid(pid, NULL, WNOHANG | WUNTRACED);
     }
     close(fd[1]);
     close(fd[0]);
-    waitpid(pid, NULL, WUNTRACED);
     return 0;
 }
 
