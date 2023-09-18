@@ -23,17 +23,12 @@ void router(t_data data, int i, int *fd)
 {
     if(i >= 1)
     {
-        printf("wc wc wc w\n");
         dup2(fd[0], STDIN_FILENO);
-        close(fd[0]);
-        close(fd[1]);
+       
     }
     if (data.tokens[i][0] == '|')
     {    
-        printf("pipe\n");
         dup2(fd[1], STDOUT_FILENO);
-        close(fd[0]);
-        close(fd[1]);
     }
     // else if(data.tokens[i][0] == '<')
     // {
@@ -49,8 +44,8 @@ void router(t_data data, int i, int *fd)
     //     fd = open("asdasdsad", O_RDONLY, 0644);
     //     dup2(fd, STDOUT_FILENO);
     // }
-
-    // printf("asdasd");
+    close(fd[0]);
+    close(fd[1]);
     execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
 }
 
@@ -64,7 +59,7 @@ int executor(t_data data)
 
     int fd[2];
     pipe(fd);
-    
+
     int i = -1;
     pid_t pid;
     while (++i < (data.pipe_count + 1))
@@ -72,7 +67,6 @@ int executor(t_data data)
         pid = fork();
         if (pid == 0)
         {
-            printf("in child %i process\n", i);
             router(data, i, fd);
             exit(0);
         }
