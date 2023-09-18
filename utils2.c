@@ -1,11 +1,11 @@
 #include "minishell.h"
 
-void free_array(char **array)
+void free_array(void **array)
 {
     int i;
 
     i = 0;
-    while (array[i])
+    while (array[i] != NULL)
     {
         free(array[i]);
         i++;

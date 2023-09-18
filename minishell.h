@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:18:23 by alakin            #+#    #+#             */
-/*   Updated: 2023/09/18 17:41:04 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/09/18 19:34:56 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ char	*ft_strjoin(char const *s1, char const *s2);
 
 int     find_env(t_data data);
 
-void    free_array(char **array);
+void    free_array(void **array);
 
-int    executor(t_data data);
-void router(t_data data, int i, int *fd);
+int     executor(t_data data);
+void    router(t_data data, int i, int *fd, int *fd2);
 
 #endif

@@ -1,7 +1,5 @@
 #include "minishell.h"
 
-
-
 int **pipe_create(int pipe_count)
 {
     int i;
@@ -9,22 +7,22 @@ int **pipe_create(int pipe_count)
 
     i = -1;
 
-    pipes = (int **)malloc(sizeof(int *) * pipe_count);
+    pipes = (int **)malloc(sizeof(int *) * (pipe_count + 1));
 
     while (++i < pipe_count)
     {
         pipes[i] = (int *)malloc(sizeof(int) * 2);
         pipe(pipes[i]);
     }
+    pipes[i] = NULL;
     return (pipes);
 }
 
-void router(t_data data, int i, int *fd)
+void router(t_data data, int i, int *fd, int *f2)
 {
     if(i >= 1)
     {
         dup2(fd[0], STDIN_FILENO);
-       
     }
     if (data.tokens[i][0] == '|')
     {    
@@ -53,12 +51,9 @@ int executor(t_data data)
 {
     if((find_env(data)) == -1)
         return -1;
-        
+
     int **pipes;
     pipes = pipe_create(data.pipe_count);
-
-    int fd[2];
-    pipe(fd);
 
     int i = -1;
     pid_t pid;
@@ -67,13 +62,18 @@ int executor(t_data data)
         pid = fork();
         if (pid == 0)
         {
-            router(data, i, fd);
+            if (data.pipe_count >= 2 && i > 0)
+            {
+                
+            } 
+            router(data, i, pipes[i / 2], pipes[(i / 2) + 1]);
             exit(0);
         }
         waitpid(pid, NULL, WNOHANG | WUNTRACED);
     }
-    close(fd[1]);
-    close(fd[0]);
+    free_array((void **)pipes);
+    close(pipes[0][0]);
+    close(pipes[0][1]);
     return 0;
 }
 
@@ -92,13 +92,13 @@ int main(int argc, char const *argv[])
 
     data.pipe_count = 1;
     
-    printf("size of %lu \n", ft_strlen(data.nodes[0].cmd));
-    data.nodes[1].cmd = (char *)malloc(sizeof(char) * 5);
+    //printf("size of %lu \n", ft_strlen(data.nodes[0].cmd));
+    data.nodes[1].cmd = (char *)malloc(sizeof(char) * 3);
     data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);
-    data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 4);
+    data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 3);
 
-    data.nodes[1].cmd = "grep\0";
-    data.nodes[1].args[1] = "git\0";
+    data.nodes[1].cmd = "wc\0";
+    data.nodes[1].args[1] = "-l\0";
     data.nodes[1].args[2] = NULL;
 
     data.tokens = (char **)malloc(sizeof(char *) * 2);

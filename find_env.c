@@ -42,10 +42,10 @@ int find_env(t_data data)
 
     if((is_accessible(bin, data) < data.pipe_count))
     {
-        free_array(bin);
+        free_array((void **)bin);
         printf("command not found");
         return (-1);
     }
-    free_array(bin);
+    free_array((void **)bin);
     return (0);
 }
