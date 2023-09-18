@@ -10,12 +10,13 @@ static int is_accessible(char **bin, t_data data)
 
     valid = 0;
     j = -1;
-    while (++j < data.pipe_count)
+    while (++j < (data.pipe_count + 1))
     {
         i = -1;
         while (bin[++i])
         {
-            bin[i][ft_strlen(bin[i])] = '/';
+            if (bin[i][ft_strlen(bin[i]) - 1] != '/')
+                bin[i][ft_strlen(bin[i])] = '/';
             tmp = ft_strjoin(bin[i], data.nodes[j].cmd);
             //is accessible?
             if ((access(tmp, F_OK | X_OK)) == 0)
