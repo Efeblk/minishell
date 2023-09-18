@@ -20,16 +20,20 @@ int **pipe_create(int pipe_count)
 
 void router(t_data data, int i, int *fd, int *fd2)
 {
+    printf("proecss %i\n", i);
+    printf("proecss %c\n", data.tokens[i][0]);
     if(i >= 1)
     {
         dup2(fd[0], STDIN_FILENO);
         if (fd2 != NULL)
         {
+            printf("%i\n", i);
             dup2(fd2[1], STDOUT_FILENO);
         }
     }
     if (data.tokens[i][0] == '|')
     {    
+        write(1, "pipe\n", 6);
         dup2(fd[1], STDOUT_FILENO);
     }
     // else if(data.tokens[i][0] == '<')
@@ -115,14 +119,10 @@ int main(int argc, char const *argv[])
     data.tokens[0] = (char *)malloc(sizeof(char) * 2);
     data.tokens[1] = (char *)malloc(sizeof(char) * 2);
 
-    data.tokens[1][0] = 'a';
+    data.tokens[1][0] = '|';
     data.tokens[1][1] = '\0';
     data.tokens[0][1] = '\0';
     data.tokens[0][0] = '|';
-
-
-
-
 
 
     executor(data);
