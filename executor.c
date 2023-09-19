@@ -23,39 +23,27 @@ int **pipe_create(int pipe_count)
 
 void router(t_data data, int i, int *fd, int *fd2)
 {
-    // printf("%s ------ %s \n",data.nodes[i].args[0], data.nodes[i].args[1]);
-    printf("process %i\n", i);
-    // write(1, "\n",2);
-    // printf("token %c\n", data.tokens[i][0]);
-    printf("%s ------ %s \n",data.nodes[i].args[0], data.nodes[i].args[1]);
-    char *asd;
-    // if (i == 2)
+    // printf("process %i \n", i);
+    // if (i >= 1)
     // {
-    //     write(1, "abcd\n", 6);
-    //     read(fd[0], asd, 10);
-    //     printf("%s --- %i ,%i\n", asd, *fd2, i);
+    //     char asd[5];
+    //     ssize_t bytesRead = read(fd[0], asd, sizeof(asd) - 1);
+    //     asd[bytesRead] = '\0'; // Null-terminate the string
+    //     printf("Child Process Received: %s -- %i\n", asd, i);
     // }
-    
-    
     if(i >= 1)
     {
-        //write(1, "asd\n", 4);
-        // read(fd[0], asd, 400);
-        // printf("%s --- %i ,%i\n", asd, *fd2, i);
         dup2(fd[0], STDIN_FILENO);
-        
         if (fd2 != NULL && data.tokens[i][0] == '|')
         {
-            write(1, "fd2\n", 5);
+            close(fd2[0]);
             dup2(fd2[1], STDOUT_FILENO);
         }
     }
     else if (data.tokens[i][0] == '|')
     {    
-        write(1, "pipe\n", 6);
         dup2(fd[1], STDOUT_FILENO);
     }
-
     close(fd[0]);
     close(fd[1]);
     if (fd2 != NULL)
@@ -63,6 +51,8 @@ void router(t_data data, int i, int *fd, int *fd2)
         close(fd2[0]);
         close(fd2[1]);
     }
+    
+    
     execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
 }
 
@@ -75,28 +65,17 @@ int executor(t_data data)
     pipes = pipe_create(data.pipe_count);
     int i = -1;
     pid_t pid;
-    // write(pipes[0][1], "abcdef", 7);
-    // char *asd;
-    // read(pipes[0][0], asd, 7);
-    // printf(" ı ıı ı ı%s ad \n", asd);
-    //printf("%s ------ %s \n",data.nodes[2].args[0], data.nodes[2].args[1]);
+    int status;
     while (++i < (data.pipe_count + 1))
     {
         pid = fork();
         if (pid == 0)
         {
-            printf("qqq %i\n", (i) / 2);
             router(data, i, pipes[(i / 2)], pipes[(i / 2) + 1]);
             exit(0);
         }
-        waitpid(pid, NULL, WNOHANG | WUNTRACED);
-        if (i == 1)
-        {
-            char *asd;
-            read(pipes[0][0], asd, 10);
-            printf("%s --- %i\n", asd,i);
-        }
-        
+        close(pipes[(i / 2)][1]);
+        waitpid(pid, &status, WUNTRACED);
     }
     close_pipes(pipes, data.pipe_count);
     return 0;

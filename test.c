@@ -1,28 +1,30 @@
-#include <unistd.h>
-#include <sys/wait.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include  <fcntl.h>
+#include <unistd.h>
 
-int main(int ac, char **av, char **env)
-{
-    int     fd[2];
-    pid_t   pid;
-    pipe(fd);
+int main(int argc, char **argv, char **envp) {
+    int fd[2];
+    char asd[5]; // Allocate memory for asd, including space for the null terminator
 
-    pid = fork();
-    if (pid == 0)
-    {
-        int fd1 = open("test.txt", O_WRONLY | O_CREAT, 0777);
-        dup2(fd1, STDOUT_FILENO);
-        write(1, "-42\n", 4);
-        close(fd[0]);
-        close(fd[1]);
-        close(fd1);
-        exit(0);
+    if (pipe(fd) == -1) {
+        perror("pipe");
+        return 1;
     }
-    else
-    {
-        waitpid(pid, NULL, WUNTRACED);
+    write(fd[1], "abc\n", 5);
+    // Close the write end of the pipe in the parent
+    close(fd[1]);
+
+    
+    ssize_t bytesRead = read(fd[0], asd, sizeof(asd) - 1);
+    if (bytesRead == -1) {
+        perror("read");
+        return 1;
     }
+
+    asd[bytesRead] = '\0'; // Null-terminate the string
+    printf("%s\n", asd);
+
+    // Close the read end of the pipe in the parent
+    close(fd[0]);
+
+    return 0;
 }
