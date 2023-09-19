@@ -6,6 +6,7 @@ int **pipe_create(int pipe_count)
     int **pipes;
 
     i = -1;
+
     if (pipe_count == 0)
     {
         pipes = (int **)malloc(sizeof(int *) * 2);
@@ -13,9 +14,16 @@ int **pipe_create(int pipe_count)
         pipes[1] = NULL;
         return pipes;
     }
+
     pipes = (int **)malloc(sizeof(int *) * (pipe_count + 1));
     while (++i < pipe_count)
+    {
         pipes[i] = (int *)malloc(sizeof(int) * 2);
+        if(pipe(pipes[i]) == -1)
+        {
+            printf("pipe error \n");
+        }
+    }
     pipes[i] = NULL;
     return (pipes);
 }
@@ -68,6 +76,7 @@ int executor(t_data data)
         }
         if (data.pipe_count > 0)
             close(pipes[(i / 2)][1]);
+        
         waitpid(pid, NULL, WUNTRACED);
     }
     close_pipes(pipes, data.pipe_count);
