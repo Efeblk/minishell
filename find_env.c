@@ -40,7 +40,7 @@ int find_env(t_data data)
     env = getenv("PATH");
     bin = ft_split(env, ':');
 
-    if((is_accessible(bin, data) < data.pipe_count))
+    if((is_accessible(bin, data) < data.pipe_count + 1))
     {
         free_array((void **)bin);
         printf("command not found");

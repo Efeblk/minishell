@@ -96,7 +96,7 @@ int main(int argc, char const *argv[])
     data.nodes[0].args[1] = "-la\0";
     data.nodes[0].args[2] = NULL;
 
-    //printf("size of %lu \n", ft_strlen(data.nodes[0].cmd));
+    //////////////////////////////////////////////////////////
     data.nodes[1].cmd = (char *)malloc(sizeof(char) * 5);
     data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);
     data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 4);
