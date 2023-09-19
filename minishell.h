@@ -53,6 +53,7 @@ char	*ft_strjoin(char const *s1, char const *s2);
 int     find_env(t_data data);
 
 void    free_array(void **array);
+void close_pipes(int **pipes, int pipe_size);
 
 int     executor(t_data data);
 void    router(t_data data, int i, int *fd, int *fd2);
