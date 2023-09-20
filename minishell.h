@@ -17,19 +17,21 @@ typedef struct s_env
 typedef struct s_node
 {
     char    *cmd;
+
     char    **args;
     char    **outfile;
     char    **infile;
     int     arg_count;
 }t_node;
 
+
 typedef struct s_data
 {
     int     pipe_count;
     t_env   *env;
     t_node  *nodes;
-    char    **tokens;
-} t_data;
+}t_data;
+
 
 
 int     env_count(char **envp);
@@ -39,7 +41,11 @@ char	*ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
+char	*ft_strchr(const char *s, int c);
 void    ft_readline(t_data *data);
-int pipe_count(char *input, t_data *data);
+void    space_separator(char *input);
+char   *quote_separator(char *str);
+int     quote_counter(char *str);
+
 #endif
 
