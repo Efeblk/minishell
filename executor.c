@@ -120,7 +120,8 @@ int executor(t_data data)
             pid3 = pid;
         }
     }
-    waitpid(pid2, NULL, WUNTRACED);
+    //if cat or wc waitpid
+    waitpid(pid, NULL, WUNTRACED);
     close_pipes(pipes, data.pipe_count);
     return 0;
 }
