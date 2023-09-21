@@ -28,6 +28,7 @@ static int is_accessible(char **bin, t_data data)
             }
             free(tmp);
         }
+        
     }
     return (valid);
 }
