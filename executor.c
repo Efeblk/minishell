@@ -48,7 +48,6 @@ void router(t_data data, int i, int *fd, int *fd2)
         {
             if (data.tokens[i][0] == '|')
             {
-                
                 close(fd2[0]);
                 dup2(fd2[1], STDOUT_FILENO);
             }
@@ -64,8 +63,13 @@ void router(t_data data, int i, int *fd, int *fd2)
         }
     }
     else if (data.tokens[i][0] == '|')
-    {   
-        printf("here %i\n", i);
+    {
+        char buffer[1024]; // Buffer to store each line of text
+        // Loop to read lines from stdin and write to stdout
+        if(fgets(STDIN_FILENO, sizeof(buffer), stdin) != NULL) {
+            printf("%s", buffer);
+        }
+        printf("its readen\n");
         dup2(fd[1], STDOUT_FILENO);
     }
     else if (data.tokens[i][0] == '>')
@@ -85,6 +89,13 @@ void router(t_data data, int i, int *fd, int *fd2)
         close(fd2[0]);
         close(fd2[1]);
     }
+    // if (data.nodes[i].cmd == NULL)
+    // {
+    //     char buffer2[1024];
+    //     read(STDIN_FILENO, buffer2, sizeof(buffer2));
+    //     printf("%s \n", buffer2);
+    //     //execve();
+    // }
     printf("ended *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
     execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
 }
@@ -115,13 +126,10 @@ int executor(t_data data)
         {
             pid2 = pid;
         }
-        if (i == 1)
-        {
-            pid3 = pid;
-        }
+        
     }
-    //if cat or wc waitpid
-    waitpid(pid, NULL, WUNTRACED);
+    waitpid(pid2, NULL, WUNTRACED);
+    //wait(NULL);
     close_pipes(pipes, data.pipe_count);
     return 0;
 }
@@ -132,59 +140,59 @@ int main(int argc, char const *argv[])
 
     data.nodes =(t_node *)malloc(sizeof(t_node) * 3);
 
-    data.nodes[0].cmd = (char *)malloc(sizeof(char) * 3);
-    data.nodes[0].args = (char **)malloc(sizeof(char *) * 3);
-    data.nodes[0].args[1] = (char *)malloc(sizeof(char) * 3);
+    data.nodes[0].cmd = (char *)malloc(sizeof(char) * 4);
+    data.nodes[0].args = (char **)malloc(sizeof(char *) * 2);
+    data.nodes[0].args[1] = (char *)malloc(sizeof(char) * 1);
 
-    data.nodes[0].cmd = "ls\0";
-    data.nodes[0].args[1] = "-l\0";
+    data.nodes[0].cmd = "cat\0";
+    data.nodes[0].args[1] = NULL;
     data.nodes[0].args[2] = NULL;
 
     //////////////////////////////////////////////////////////
-    data.nodes[1].cmd = (char *)malloc(sizeof(char) * 5);
-    data.nodes[1].args = (char **)malloc(sizeof(char *) * 3);
-    data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 4);
+    // data.nodes[1].cmd = (char *)malloc(sizeof(char) * 4);
+    // data.nodes[1].args = (char **)malloc(sizeof(char *) * 2);
+    // data.nodes[1].args[1] = (char *)malloc(sizeof(char) * 1);
 
-    data.nodes[1].cmd = "grep\0";
-    data.nodes[1].args[1] = "git\0";
-    data.nodes[1].args[2] = NULL;
+    // data.nodes[1].cmd = NULL;
+    // data.nodes[1].args[1] = NULL;
+    // data.nodes[1].args[2] = NULL;
 
-    /////////////////////////////////////////////////////////
-    data.nodes[2].cmd = (char *)malloc(sizeof(char) * 3);
-    data.nodes[2].args = (char **)malloc(sizeof(char *) * 3);
-    data.nodes[2].args[1] = (char *)malloc(sizeof(char) * 4);
+    // /////////////////////////////////////////////////////////
+    // data.nodes[2].cmd = (char *)malloc(sizeof(char) * 3);
+    // data.nodes[2].args = (char **)malloc(sizeof(char *) * 3);
+    // data.nodes[2].args[1] = (char *)malloc(sizeof(char) * 4);
 
-    data.nodes[2].cmd = "ls\0";
-    data.nodes[2].args[1] = "-la\0";
-    data.nodes[2].args[2] = NULL;
+    // data.nodes[2].cmd = "ls\0";
+    // data.nodes[2].args[1] = "-la\0";
+    // data.nodes[2].args[2] = NULL;
 
-    ////////////////////////////////////////////////////////////
-    data.tokens = (char **)malloc(sizeof(char *) * 4);
+    // ////////////////////////////////////////////////////////////
+    data.tokens = (char **)malloc(sizeof(char *) * 1);
     data.tokens[0] = (char *)malloc(sizeof(char) * 2);
-    data.tokens[1] = (char *)malloc(sizeof(char) * 3);
-    data.tokens[2] = (char *)malloc(sizeof(char) * 3);
-    data.tokens[3] = (char *)malloc(sizeof(char) * 1);
+    // data.tokens[1] = (char *)malloc(sizeof(char) * 3);
+    // data.tokens[2] = (char *)malloc(sizeof(char) * 3);
+    // data.tokens[3] = (char *)malloc(sizeof(char) * 1);
 
-    data.pipe_count = 2;
+    data.pipe_count = 1;
 
     data.tokens[0][0] = '|';
     data.tokens[0][1] = '\0';
 
-    data.tokens[1][0] = '|';
-    data.tokens[1][1] = '\0';
+    // data.tokens[1][0] = '|';
+    // data.tokens[1][1] = '\0';
 
-    data.tokens[2][0] = '>';
-    data.tokens[2][1] = '>';
-    data.tokens[2][2] = '\0';
+    // data.tokens[2][0] = '>';
+    // data.tokens[2][1] = '>';
+    // data.tokens[2][2] = '\0';
 
-    data.tokens[3][0]= '\0';
+    // data.tokens[3][0]= '\0';
 
-    data.nodes[2].outfile = malloc(sizeof(char *) * 2);
-    data.nodes[2].outfile[0] = malloc(sizeof(char) * 2);
-    data.nodes[2].outfile[1] = malloc(sizeof(char) * 2);
+    // data.nodes[2].outfile = malloc(sizeof(char *) * 2);
+    // data.nodes[2].outfile[0] = malloc(sizeof(char) * 2);
+    // data.nodes[2].outfile[1] = malloc(sizeof(char) * 2);
 
-    data.nodes[2].outfile[0] = "a\0";
-    data.nodes[2].outfile[1] = "b\0";
+    // data.nodes[2].outfile[0] = "a\0";
+    // data.nodes[2].outfile[1] = "b\0";
 
     //char *a[] = { "/bin/cat", NULL};
     // execve(a[0], a, NULL);

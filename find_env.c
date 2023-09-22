@@ -10,7 +10,7 @@ static int is_accessible(char **bin, t_data data)
 
     valid = 0;
     j = -1;
-    while (++j < (data.pipe_count + 1))
+    while ((++j < (data.pipe_count + 1)))
     {
         i = -1;
         while (bin[++i])
@@ -26,9 +26,14 @@ static int is_accessible(char **bin, t_data data)
                 data.nodes[j].args[0] = path;
                 valid += 1;
             }
+            
             free(tmp);
         }
-        
+        if (data.nodes[j].cmd == NULL)
+        {
+            printf("sadas\n");
+            valid += 1;
+        }
     }
     return (valid);
 }
