@@ -20,7 +20,7 @@ char *quote_separator(char *str)
     }
     if (!ft_strchr(str, '|'))
     {
-        temp = (char *)malloc(ft_strlen(str) + 1); 
+        temp = (char *) malloc(ft_strlen(str) + 1); 
         if (temp == NULL)
         {
             printf("Memory allocation error!");
@@ -53,20 +53,19 @@ void    space_separator(char *input)
     char    **str;
     int         i;
 
+
     i = 0;
     str = ft_split(input, ' ');
     while (str[i])
     {
         if (ft_strchr(str[i], '"') || ft_strchr(str[i], '\''))
             str[i] = quote_separator(str[i]);
-        else if ((ft_strchr(str[i], '<')) || (ft_strchr(str[i], '>'))
-            str[i] = redirection_separator(str[i]);
         i++;
     }
     i = 0;
     while (str[i])
     {
-        printf("str[%d]:%s\n", i, str[i]);
+        printf("Token[%d]:%s\n", i, str[i]);
         i++;
     }
 }
@@ -85,13 +84,10 @@ void    ft_readline(t_data *data)
     free(input);
 }
 
-int main() 
+/*int main() 
 {
     t_data data;
 
-    while (1)
-    {
-        ft_readline(&data);
-    }
+    
     return (0);
-}
+}*/

@@ -1,3 +1,5 @@
+#include "minishell.h"
+
 int quote_counter(char *str)
 {
     int i;
