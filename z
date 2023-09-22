@@ -1,0 +1,26 @@
+total 256
+drwxr-xr-x@ 25 efe  staff    800 22 Eyl 19:27 .
+drwx------@ 16 efe  staff    512 22 Eyl 19:27 ..
+drwxr-xr-x@ 13 efe  staff    416 22 Eyl 21:13 .git
+-rw-r--r--@  1 efe  staff     29 22 Eyl 13:02 .gitignore
+-rw-r--r--@  1 efe  staff     87 22 Eyl 13:02 Makefile
+-rwxr-xr-x@  1 efe  staff      0 22 Eyl 21:23 a
+-rwxr-xr-x@  1 efe  staff  33842 22 Eyl 13:04 a.out
+-rw-r--r--@  1 efe  staff      0 22 Eyl 13:02 asdasdsad
+-rwxr-xr-x@  1 efe  staff   1342 22 Eyl 21:23 b
+-rw-r--r--@  1 efe  staff   4756 22 Eyl 21:23 executor.c
+-rw-r--r--@  1 efe  staff   1139 22 Eyl 21:04 find_env.c
+-rw-r--r--@  1 efe  staff    806 22 Eyl 13:02 ft_split.c
+-rw-r--r--@  1 efe  staff    187 22 Eyl 13:02 input_commands.c
+-rw-r--r--@  1 efe  staff    161 22 Eyl 21:22 l
+-rwxr-xr-x@  1 efe  staff  37185 22 Eyl 21:23 main
+drwxr-xr-x@  3 efe  staff     96 22 Eyl 13:03 main.dSYM
+-rw-r--r--@  1 efe  staff   1924 22 Eyl 13:02 minishell.h
+-rw-r--r--@  1 efe  staff      0 22 Eyl 21:24 q
+-rw-r--r--@  1 efe  staff      0 22 Eyl 13:02 readme.txt
+-rw-r--r--@  1 efe  staff    673 22 Eyl 21:04 test.c
+-rwxr-xr-x@  1 efe  staff      0 22 Eyl 13:02 testing.txt
+-rw-r--r--@  1 efe  staff   1439 22 Eyl 13:02 utils.c
+-rw-r--r--@  1 efe  staff    318 22 Eyl 13:02 utils2.c
+-rw-r--r--@  1 efe  staff      0 22 Eyl 21:24 x
+-rw-r--r--@  1 efe  staff      0 22 Eyl 21:24 z

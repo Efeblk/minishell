@@ -28,6 +28,11 @@ static int is_accessible(char **bin, t_data data)
             }
             free(tmp);
         }
+        if (data.nodes[j].cmd == NULL)
+        {
+            valid += 1;
+        }
+        
         
     }
     return (valid);
