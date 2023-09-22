@@ -39,6 +39,35 @@ int outfiler(char **outfiles, char *tokens)
     return(fd);
 }
 
+void first_process(t_data data,char t, int *fd, int i)
+{
+    if (t == '|')
+    {
+        printf("here %i\n", i);
+        dup2(fd[1], STDOUT_FILENO);
+    }
+    else if (t == '>')
+    {
+        dup2(outfiler(data.nodes[i].outfile, data.tokens[i]), STDOUT_FILENO);
+    }
+}
+
+void close_fds(int *fd, int *fd2)
+{
+    if (fd != NULL)
+    {
+        printf("here3\n");
+        close(fd[0]);
+        close(fd[1]);
+    }
+    if (fd2 != NULL)
+    {
+        printf("here4\n");
+        close(fd2[0]);
+        close(fd2[1]);
+    }
+}
+
 void router(t_data data, int i, int *fd, int *fd2)
 {
     if(i >= 1)
@@ -63,28 +92,11 @@ void router(t_data data, int i, int *fd, int *fd2)
             dup2(outfiler(data.nodes[i].outfile, data.tokens[i]), STDOUT_FILENO);
         }
     }
-    else if (data.tokens[i][0] == '|')
-    {   
-        printf("here %i\n", i);
-        dup2(fd[1], STDOUT_FILENO);
-    }
-    else if (data.tokens[i][0] == '>')
+    else 
     {
-        printf("here2\n");
-        dup2(outfiler(data.nodes[i].outfile, data.tokens[i]), STDOUT_FILENO);
+        first_process(data, data.tokens[i][0], fd, i);
     }
-    if (fd != NULL)
-    {
-        printf("here3\n");
-        close(fd[0]);
-        close(fd[1]);
-    }
-    if (fd2 != NULL)
-    {
-        printf("here4\n");
-        close(fd2[0]);
-        close(fd2[1]);
-    }
+    close_fds(fd, fd2);
     printf("ended *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
     execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
 }
