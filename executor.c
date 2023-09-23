@@ -96,7 +96,9 @@ void router(t_data data, int i, int *fd, int *fd2)
 {
     if(i >= 1)
     {
+        close(fd[1]);
         dup2(fd[0], STDIN_FILENO);
+        close(fd[0]);
         if (fd2 != NULL)
         {
             close(fd2[0]);
@@ -106,10 +108,13 @@ void router(t_data data, int i, int *fd, int *fd2)
     }
     else 
     {
-        //write(STDIN_FILENO, "q", 2);
+        if (fd != NULL)
+        {
+            close(fd[0]);
+        }
         first_process(data, data.tokens[i], fd, i);
     }
-    close_fds(fd, fd2);
+    //close_fds(fd, fd2);
     printf("ended *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
     execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
 }
@@ -140,15 +145,15 @@ int executor(t_data data)
             router(data, i, pipes[(i / 2)], pipes[(i / 2) + 1]);
             exit(0);
         }
-        if (data.pipe_count > 0)
-            close(pipes[(i / 2)][1]);
+        // if (data.pipe_count > 0)
+        //     close(pipes[(i / 2)][1]);
     }
+    close_pipes(pipes, data.pipe_count);
     i = -1;
     while (++i < data.pipe_count + 1)
     {
         waitpid(pids[i], NULL, WUNTRACED);
     }
-    close_pipes(pipes, data.pipe_count);
     free(pids);
     return 0;
 }
