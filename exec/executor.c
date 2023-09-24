@@ -47,27 +47,25 @@ int outfiler(char **outfiles, char *tokens, int flags)
 
 void first_process(t_data data,char *t, int *fd, int i)
 {
+    printf("ansdkasbndjkasbdjkl %s \n", t);
     //printf("first process *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
-    if (!t)
+    if (data.nodes[i].is_pipe == 0)
     {
-        return;
+        printf("hadi bej kacar \n");
     }
-    if (t[0] == '|')
-    {
-        //printf("   1   \n");
+    else if(data.nodes[i].is_pipe == 1)
         dup2(fd[1], STDOUT_FILENO);
-    }
-    else if (t[0] == '>' && t[1] == '\0')
+    if (t && t[0] == '>' && t[1] == '\0')
     {
-        //printf("   2   \n");w
+        printf("   2   \n");
         dup2(outfiler(data.nodes[i].outfile, data.operators[i], O_WRONLY | O_CREAT), STDOUT_FILENO);
     }
-    else if (t[0] == '>' && t[1] == '>')
+    else if (t && t[0] == '>' && t[1] == '>')
     {
         //printf("   3   \n");
         dup2(outfiler(data.nodes[i].outfile, data.operators[i], O_WRONLY | O_CREAT | O_APPEND), STDOUT_FILENO);
     }
-    else if (t[0] == '<' && t [1] == '<')
+    else if (t && t[0] == '<' && t [1] == '<')
     {
         //printf("   4   \n");
         char buffer[256];
@@ -84,7 +82,7 @@ void first_process(t_data data,char *t, int *fd, int i)
     }
     else
     {
-        //printf("iiiiibdjabjds\n");
+        printf("input bekliyom\n");
     }
     //printf("first_process end \n");
 }

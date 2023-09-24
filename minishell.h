@@ -42,6 +42,8 @@ typedef struct s_node
     char    **args;
     char    **outfile;
     char    **infile;
+    int     is_pipe;
+    char    **operators;
     int     arg_count;
 }t_node;
 
@@ -51,7 +53,6 @@ typedef struct s_data
     int     pipe_count;
     t_env   *env;
     t_node  *nodes;
-    char    **operators;
 }t_data;
 
 
