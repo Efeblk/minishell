@@ -4,7 +4,7 @@ RED = \033[0;31m
 NC = \033[0m
 
 NAME = minishell
-SRC = ft_split.c ft_strdup.c parser.c ft_substr.c ft_strlen.c ft_strchr.c quote_counter.c main.c lexer.c ft_realloc.c
+SRC = ft_split.c ft_strdup.c ft_substr.c ft_strlen.c ft_strchr.c main.c lexer.c ft_memcpy.c pipe_counter.c error.c free_tokens.c parser.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

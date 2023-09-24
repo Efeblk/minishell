@@ -3,9 +3,7 @@
 t_token *get_next_token(const char **input)
 {
     while (isspace(**input))
-	{
 		(*input)++;
-	}
 	if (**input == '\0')
 		return (create_token(TOKEN_EOF, input, *input));
 	if (**input == '<' || **input == '>' || **input == '|')
@@ -40,11 +38,6 @@ t_token	*generate_pr_token(const char **input)
 	if (**input == '|')
 	{
 		(*input)++;
-		if (**input == '|')
-		{
-			printf("syntax error near unexpected token `|'\n");
-			exit(1);
-		}
 		return (create_token(TOKEN_PIPE, input, (*input) - 1));
 	}
 	if (**input == '<')
@@ -52,12 +45,7 @@ t_token	*generate_pr_token(const char **input)
 		(*input)++;
 		if (**input == '<')
 		{
-		 	(*input)++;
-			if (**input == '<')
-			{
-				printf("syntax error near unexpected token `<'\n");
-				exit(1);
-			}
+			(*input)++;
 			return (create_token(TOKEN_I_I, input, (*input) - 2));
 		}
 		return (create_token(TOKEN_I, input, (*input) - 1));
@@ -68,11 +56,6 @@ t_token	*generate_pr_token(const char **input)
 		if (**input == '>')
 		{
 			(*input)++;
-			if (**input == '>')
-			{
-				printf("syntax error near unexpected token `>'\n");
-				exit(1);
-			}
 			return (create_token(TOKEN_O_O, input, (*input) - 2));
 		}
 		return (create_token(TOKEN_O, input, (*input) - 1));
@@ -86,7 +69,7 @@ char	*create_word(const char **input, const char *start)
 	char	*word;
 
 	len = *input - start;
-	word = (char *)malloc(len + 1);
+	word = (char *) malloc(len + 1);
 	strncpy(word, start, len);
 	word[len] = '\0';
 	return (word);
