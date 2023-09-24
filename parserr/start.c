@@ -88,15 +88,3 @@ void    ft_readline(t_data *data)
         fill_operators(tokens, data);
         print_operators(data);
 }
-int main() 
-{
-    t_data data;
-    //char *a[] = { "/bin/ls", "la |", NULL};
-    //execve(a[0], a, NULL);
-    while (1) 
-    {
-        ft_readline(&data);
-    }
-    
-    return 0;
-}

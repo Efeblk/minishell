@@ -3,7 +3,7 @@ RED = \033[0;31m
 NC = \033[0m
 
 NAME = libparser.a
-SRC = ft_split.c ft_strdup.c ft_substr.c ft_strlen.c ft_strchr.c main.c lexer.c ft_memcpy.c pipe_counter.c error.c free_tokens.c parser.c
+SRC = error.c free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counter.c start.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
