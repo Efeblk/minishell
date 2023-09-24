@@ -179,6 +179,7 @@ void fill_nodes(t_data *data, t_token **tokens)
         data->nodes[j].args = calloc(200, sizeof(char *));
         data->nodes[j].outfile = calloc(200, sizeof(char *));
         data->nodes[j].infile = calloc(200, sizeof(char *));
+        data->nodes[j].operators = calloc(200, sizeof(char *));
     }
 
 
