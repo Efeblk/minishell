@@ -186,6 +186,7 @@ void fill_nodes(t_data *data, t_token **tokens)
     int x = 0;
     while (tokens[i]->type != TOKEN_EOF) 
     {
+       
         printf("HELLO! i: %d\n", i);
         if (tokens[i]->type == TOKEN_WORD)
         {
@@ -229,6 +230,8 @@ void fill_nodes(t_data *data, t_token **tokens)
         i++;
         printf("asfdasdasf\n");
     }
+    printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i - 1]->value);
+    printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i]->value);
     printf("ÜST\n");
     data->nodes[node_index].args[arg_index + 1] = NULL;
     printf("ALT\n");
@@ -248,9 +251,9 @@ void print_node(t_data *data)
         printf("NODE[1].OUTFILE %s\n", data->nodes[1].outfile[0]);
         printf("CMD 3: %s\n", data->nodes[2].cmd);
         printf("NODE[2].ARGS: %s\n", data->nodes[2].args[1]);
-        printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[0]);
-        printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[1]);
-        printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[2]);
+        //printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[0]);
+        //printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[1]);
+        //printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[2]);
 }
 
 void    fill_operators(t_token **tokens, t_data *data)
@@ -264,10 +267,12 @@ void    fill_operators(t_token **tokens, t_data *data)
     {
         if (tokens[i]->type != TOKEN_WORD)
         {
-            data->operators[i] = tokens[i]->value;
+            data->operators[j] = ft_strdup(tokens[i]->value);
+            j++;
         }
         i++;
     }
+    data->operators[j] = 0;
 }
 
 void print_operators(t_data *data)
@@ -277,7 +282,7 @@ void print_operators(t_data *data)
     i = 0;
     while (data->operators[i])
     {
-        printf("%s\n", data->operators[i]);
+        printf(" WHEEEEEE Y  %s\n", data->operators[i]);
         i++;
     }
 }

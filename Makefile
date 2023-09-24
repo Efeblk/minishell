@@ -1,49 +1,33 @@
-# Name of the final executable
 NAME = minishell
+SRC = main.c
+OBJ = $(SRC:.c=.o)
 
-# Compiler and flags
 CC = gcc
+RM = rm -rf
 CFLAGS = -Wall -Wextra -Werror
-
-# Directories for components
-EXEC_DIR = exec
-PARSER_DIR = parserr
-UTILS_DIR = utils
-
-# Output directories for libraries
-EXEC_OUT = $(EXEC_DIR)/libexec.a
-PARSER_OUT = $(PARSER_DIR)/libparser.a
-UTILS_OUT = $(UTILS_DIR)/libutils.a
-
-# Source files and object files (add your source files here)
-SRCS = main.c
-OBJS = $(SRCS:.c=.o)
+EXEC = exec
+PARSER = parserr
+UTILS = utils
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(EXEC_OUT) $(PARSER_OUT) $(UTILS_OUT)
-	@$(CC) $(CFLAGS) -o $@ $(OBJS) $(EXEC_OUT) $(PARSER_OUT) $(UTILS_OUT) -lreadline
-
-$(EXEC_OUT):
-	@make -s -C $(EXEC_DIR)
-
-$(PARSER_OUT):
-	@make -s -C $(PARSER_DIR)
-
-$(UTILS_OUT):
-	@make -s -C $(UTILS_DIR)
+$(NAME): $(OBJ)
+	@make -s -C $(UTILS)
+	@make -s -C $(EXEC)
+	@make -s -C $(PARSER)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(UTILS)/libutils.a $(EXEC)/libexec.a $(PARSER)/libparser.a -lreadline
 
 clean:
-	@make clean -s -C $(EXEC_DIR)
-	@make clean -s -C $(PARSER_DIR)
-	@make clean -s -C $(UTILS_DIR)
-	@rm -f $(OBJS)
+	@$(RM) $(OBJ)
+	@make clean -s -C $(UTILS)
+	@make clean -s -C $(EXEC)
+	@make clean -s -C $(PARSER)
 
 fclean: clean
-	@make fclean -s -C $(EXEC_DIR)
-	@make fclean -s -C $(PARSER_DIR)
-	@make fclean -s -C $(UTILS_DIR)
-	@rm -f $(NAME)
+	@$(RM) $(NAME)
+	@make fclean -s -C $(UTILS)
+	@make fclean -s -C $(EXEC)
+	@make fclean -s -C $(PARSER)
 
 re: fclean all
 

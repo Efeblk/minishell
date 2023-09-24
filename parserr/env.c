@@ -48,7 +48,7 @@ char    **add_env_list(t_env *env, char *str)
 }
 
 
-int main(int ac, char **av, char **envp)
+/*int main(int ac, char **av, char **envp)
 {
    t_env env;
    (void)ac;
@@ -72,4 +72,4 @@ int main(int ac, char **av, char **envp)
         i++;
    }
    return (0);
-}
+}*/

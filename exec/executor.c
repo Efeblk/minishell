@@ -42,21 +42,25 @@ int outfiler(char **outfiles, char *tokens, int flags)
 
 void first_process(t_data data,char *t, int *fd, int i)
 {
-    printf("%s\n", t);
+    printf("first process *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
     if (t[0] == '|')
     {
+        printf("   1   \n");
         dup2(fd[1], STDOUT_FILENO);
     }
     else if (t[0] == '>' && t[1] == '\0')
     {
+        printf("   2   \n");
         dup2(outfiler(data.nodes[i].outfile, data.operators[i], O_WRONLY | O_CREAT), STDOUT_FILENO);
     }
     else if (t[0] == '>' && t[1] == '>')
     {
+        printf("   3   \n");
         dup2(outfiler(data.nodes[i].outfile, data.operators[i], O_WRONLY | O_CREAT | O_APPEND), STDOUT_FILENO);
     }
     else if (t[0] == '<' && t [1] == '<')
     {
+        printf("   4   \n");
         char buffer[256];
         ssize_t bytes_read;
         while (1)
@@ -69,11 +73,7 @@ void first_process(t_data data,char *t, int *fd, int i)
             }
         }    
     }
-    else
-    {
-        printf("im waiting\n");
-        //waitpid(pid, NULL, WUNTRACED);
-    }
+    printf("first_process end \n");
 }
 
 void close_fds(int *fd, int *fd2)
@@ -94,6 +94,7 @@ void close_fds(int *fd, int *fd2)
 
 void router(t_data data, int i, int *fd, int *fd2)
 {
+    printf("start *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
     if(i >= 1)
     {
         close(fd[1]);
@@ -108,11 +109,15 @@ void router(t_data data, int i, int *fd, int *fd2)
     }
     else 
     {
+       
         if (fd != NULL)
         {
+            printf("asbjdja\n");
             close(fd[0]);
         }
+        printf("q \n");
         first_process(data, data.operators[i], fd, i);
+        
     }
     //close_fds(fd, fd2);
     printf("ended *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
@@ -128,8 +133,14 @@ pid_t *pid_create(int size)
 
 int executor(t_data data)
 {
+    printf("EXECCCC %s\n", data.nodes[0].cmd);
+    printf("EXECCCC %s\n", data.nodes[0].args[1]);
+
     if((find_env(data)) == -1)
         return -1;
+
+    printf("EXECCCC %s\n", data.nodes[0].args[0]);
+    printf("EXEC pipe count %i \n", data.pipe_count);
 
     int **pipes;
     pipes = pipe_create(data.pipe_count);

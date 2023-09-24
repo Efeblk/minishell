@@ -1,30 +1,20 @@
-GREEN = \033[0;32m
-RED = \033[0;31m
-NC = \033[0m
-
-NAME = libparser.a
+NOM = libparser.a
 SRC = error.c free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counter.c start.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
-AR = ar rc
-RM = rm -rf
-CFLAGS = -Wall -Werror -Wextra -I..
-LDFLAGS = -lreadline
+CFLAGS = -Wall -Wextra -Werror -I..
 
-all: $(NAME)
+all: $(NOM)
 
-$(NAME): $(OBJ)
-	@$(AR) $(NAME) $(OBJ)
-	@echo "$(GREEN)$(NAME) is ready!$(NC)"
+$(NOM): $(OBJ)
+	$(AR) -rcs $(NOM) $(OBJ)
 
 clean:
-	@$(RM) $(OBJ)
-	@echo "$(RED)Cleaned object files.$(NC)"
+	$(RM) $(OBJ) *~
 
 fclean: clean
-	@$(RM) $(NAME)
-	@echo "$(RED)Removed $(NAME) static library.$(NC)"
+	$(RM) $(NOM)
 
 re: fclean all
 
