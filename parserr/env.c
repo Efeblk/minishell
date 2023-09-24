@@ -44,6 +44,7 @@ char    **add_env_list(t_env *env, char *str)
         j++;
     }
     env->env_list = new_list;
+    free(new_list);
     return (new_list);
 }
 

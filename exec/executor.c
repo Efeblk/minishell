@@ -43,6 +43,8 @@ int outfiler(char **outfiles, char *tokens, int flags)
 void first_process(t_data data,char *t, int *fd, int i)
 {
     printf("first process *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
+    if (!t)
+        return ;
     if (t[0] == '|')
     {
         printf("   1   \n");
