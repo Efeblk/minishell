@@ -187,21 +187,21 @@ void fill_nodes(t_data *data, t_token **tokens)
     while (tokens[i]->type != TOKEN_EOF) 
     {
        
-        printf("HELLO! i: %d\n", i);
+        //printf("HELLO! i: %d\n", i);
         if (tokens[i]->type == TOKEN_WORD)
         {
             if (arg_index == 0)
             {
-                printf("cmd:\n");
-                data->nodes[node_index].cmd = ft_strdup(tokens[i]->value);
+                //printf("cmd:\n");
+                data->nodes[node_index].cmd = tokens[i]->value;
                 arg_index++;
-                printf("başaramadık abi\n");
+                //printf("başaramadık abi\n");
             }
             else
             {
-                printf("-li args\n");
-                data->nodes[node_index].args[arg_index] = ft_strdup(tokens[i]->value);
-                printf("bastırması lazım %s\n", data->nodes[node_index].args[arg_index]);
+                //printf("-li args\n");
+                data->nodes[node_index].args[arg_index] = tokens[i]->value;
+                //printf("bastırması lazım %s\n", data->nodes[node_index].args[arg_index]);
                 arg_index++;
             }
           
@@ -220,7 +220,7 @@ void fill_nodes(t_data *data, t_token **tokens)
         }
         else if (tokens[i]->type == TOKEN_PIPE)
         {
-            printf("PIPE\n");
+            //printf("PIPE\n");
             data->nodes[node_index].args[arg_index + 1] = NULL;
             data->nodes[node_index].infile[x] = NULL;
             data->nodes[node_index].outfile[y] = NULL;
@@ -230,15 +230,13 @@ void fill_nodes(t_data *data, t_token **tokens)
             y = 0;
         }
         i++;
-        printf("asfdasdasf\n");
-    } 
-    printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i - 1]->value);
-    printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i]->value);
-    printf("ÜST\n");
+        //printf("asfdasdasf\n");
+    }
+    //printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i - 1]->value);
+    //printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i]->value);
+    //printf("ÜST\n");
     data->nodes[node_index].args[arg_index + 1] = NULL;
-    data->nodes[node_index].infile[x] = NULL;
-    data->nodes[node_index].outfile[y] = NULL;
-    printf("ALT\n");
+    //printf("ALT\n");
     
 }
 
@@ -286,7 +284,7 @@ void print_operators(t_data *data)
     i = 0;
     while (data->operators[i])
     {
-        printf(" WHEEEEEE Y  %s\n", data->operators[i]);
+        //printf(" WHEEEEEE Y  %s\n", data->operators[i]);
         i++;
     }
 }

@@ -31,9 +31,7 @@ static int is_accessible(char **bin, t_data data)
         if (data.nodes[j].cmd == NULL)
         {
             valid += 1;
-        }
-        
-        
+        }        
     }
     return (valid);
 }
@@ -49,7 +47,7 @@ int find_env(t_data data)
     if((is_accessible(bin, data) < data.pipe_count + 1))
     {
         free_array((void **)bin);
-        printf("command not found");
+        printf("command not found\n");
         return (-1);
     }
     free_array((void **)bin);
