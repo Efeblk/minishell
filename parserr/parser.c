@@ -245,6 +245,7 @@ void fill_nodes(t_data *data, t_token **tokens)
     //printf("VALUE VALUE VALUE VALUE:   %s\n", tokens[i]->value);
     //printf("ÜST\n");
     data->nodes[node_index].args[arg_index + 1] = NULL;
+    data->nodes[node_index].operators[current_index] = NULL;
     //printf("ALT\n");
     
 }
