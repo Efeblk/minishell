@@ -1,4 +1,4 @@
 first_process end 
+here3
 ended */usr/bin/wc* *-l*
-       4 a
-       4 total
+       4 b

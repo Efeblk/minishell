@@ -1,0 +1,15 @@
+total 264
+-rw-r--r--   1 ibalik  2022_istanbul    618 Sep 24 23:39 Makefile
+-rwxr-xr-x   1 ibalik  2022_istanbul     70 Sep 24 23:44 a
+-rwxr-xr-x   1 ibalik  2022_istanbul     61 Sep 25 00:13 b
+drwxr-xr-x  12 ibalik  2022_istanbul    408 Sep 25 00:21 exec
+-rwxr-xr-x   1 ibalik  2022_istanbul  53344 Sep 24 00:21 main
+-rw-r--r--   1 ibalik  2022_istanbul    224 Sep 24 22:24 main.c
+drwxr-xr-x   2 ibalik  2022_istanbul     68 Sep 24 22:24 main.dSYM
+-rw-r--r--   1 ibalik  2022_istanbul    752 Sep 25 00:21 main.o
+-rwxr-xr-x   1 ibalik  2022_istanbul  52152 Sep 25 00:21 minishell
+-rw-r--r--   1 ibalik  2022_istanbul   2550 Sep 24 22:24 minishell.h
+drwxr-xr-x  22 ibalik  2022_istanbul    748 Sep 25 00:21 parserr
+-rw-r--r--   1 ibalik  2022_istanbul      0 Sep 23 18:04 readme.txt
+drwxr-xr-x  10 ibalik  2022_istanbul    340 Sep 25 00:21 utils
+-rwxr-xr-x   1 ibalik  2022_istanbul      0 Sep 25 00:21 z
