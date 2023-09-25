@@ -270,26 +270,13 @@ void print_node(t_data *data)
 
 void    fill_operators(t_token **tokens, t_data *data)
 {
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    while (tokens[i]->type != TOKEN_EOF)
-    {
-        if ((tokens[i]->type != TOKEN_WORD) && (tokens[i]->type == ))   
-    }
-    data->operators[j] = NULL;
+    (void)tokens;
+    (void)data;
+    return ;
 }
 
 void print_operators(t_data *data)
 {
-    int i;
-
-    i = 0;
-    while (data->operators[i])
-    {
-        //printf(" WHEEEEEE Y  %s\n", data->operators[i]);
-        i++;
-    }
+    (void)data;
+    return ;
 }
