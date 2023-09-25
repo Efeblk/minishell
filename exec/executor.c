@@ -39,28 +39,33 @@ int outfiler(char **outfiles, char **operators, int *j)
     {
         if ((ft_strncmp(operators[i], ">", 2)) == 0)
         {
-            printf("here > : %s\n", operators[i]);
+            //printf("here > : %s\n", operators[i]);
             fd = open(outfiles[i], O_WRONLY | O_CREAT | O_TRUNC , 0777);
         }
         else if ((ft_strncmp(operators[i], ">>", 2)) == 0)
         {
-            printf("here >> : %s\n", operators[i]);
+            //printf("here >> : %s\n", operators[i]);
             fd = open(outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
         }
-        j++;
+        printf("q %s\n", operators[*j]);
+        (*j)++;
+        printf("qq %s\n", operators[*j]);
     }
+    (*j)--;
+    printf("while %i \n", *j);
+    printf("qqq %s\n", operators[*j]);
     return(fd);
 }
 
-void first_process(t_data data,int *fd, int i)
+void first_process(t_data data, int i)
 {
     //printf("ansdkasbndjkasbdjkl %s \n", t);
     //printf("first process *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
-    if(data.nodes[i].is_pipe == 1)
-        dup2(fd[1], STDOUT_FILENO); printf("uc degisti \n");
+    //if(data.nodes[i].is_pipe == 1)
     int j = -1;
     while (data.nodes[i].operators[++j] != NULL)
     {
+        printf("TTTTT %i \n", j);
         if (ft_strncmp(data.nodes[i].operators[j], ">", 1) == 0)
         {
             //printf("   2   \n");
@@ -73,17 +78,16 @@ void first_process(t_data data,int *fd, int i)
         }
         else if (ft_strncmp(data.nodes[i].operators[j], "<<", 2) == 0)
         {
-            //printf("   4   \n");
-            char buffer[256];
-            ssize_t bytes_read;
             while (1)
             {
-                bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer));
-                buffer[bytes_read] = '\0';
-                if (ft_strncmp(buffer, data.nodes[i].infile[0], ft_strlen(data.nodes[i].infile[0])) == 0) 
+                char *buffer;
+                buffer = readline(">");
+                if (buffer && ft_strncmp(buffer, data.nodes[i].infile[0], ft_strlen(buffer)) == 0) 
                 {
+                    printf("break\n");
                     break;
                 }
+                free(buffer);
             }    
         }
     }
@@ -111,27 +115,23 @@ void router(t_data data, int i, int *fd, int *fd2)
     //printf("start %s %s \n", data.nodes[i].args[0], data.nodes[i].args[1]);
     if(i >= 1)
     {
-        //printf("hahahahaha\n");
         close(fd[1]);
         dup2(fd[0], STDIN_FILENO);
-        close(fd[0]);
-        if (fd2 != NULL)
+        if (data.nodes[i].is_pipe == 1)
         {
             close(fd2[0]);
-            dup2(fd2[1], STDOUT_FILENO);
+            dup2(fd2[1], STDOUT_FILENO); printf("uc degisti \n");
         }
-        first_process(data,fd ,i);
+        first_process(data, i);
     }
     else 
     {
         if (fd != NULL)
         {
-            //printf("asbjdja\n");
             close(fd[0]);
+            dup2(fd[1], STDOUT_FILENO); printf("uc degisti \n");
         }
-        //printf("q \n");
-        first_process(data,fd, i);
-        
+        first_process(data, i);
     }
     //close_fds(fd, fd2);
     //printf("ended *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
@@ -150,7 +150,7 @@ int executor(t_data data)
 
     //printf("EXECCCC %s\n", data2.nodes[0].cmd);
     //printf("EXECCCC %s\n", data.nodes[0].args[1]);
-    data.nodes[0].args[2] = NULL;
+    //data.nodes[0].args[2] = NULL;
     //printf("EXECCCC %s\n", data.nodes[0].args[2]);
     find_env(data);
         //return -1;

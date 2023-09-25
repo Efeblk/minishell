@@ -42,6 +42,7 @@ typedef struct s_node
     char    **args;
     char    **outfile;
     char    **infile;
+    int     std_in;
     int     is_pipe;
     char    **operators;
     int     arg_count;
