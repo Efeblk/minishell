@@ -256,17 +256,17 @@ void fill_nodes(t_data *data, t_token **tokens)
 void print_node(t_data *data) 
 {
     (void)data;
-        //printf("CMD 1: %s\n", data->nodes[0].cmd);
-        //printf("NODE[0].ARGS[1]: %s\n", data->nodes[0].args[1]);
-        //printf("OUTFILE:%s\n", data->nodes[0].outfile[0]);
-        //printf("CMD 2:%s\n", data->nodes[1].cmd);
-        //printf("OUTFILE[0]:%s\n", data->nodes[1].outfile[0]);
-        //printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[1]);
-        //printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[2]);
-        //printf("NODE[1].ARGS[1]:%s\n", data->nodes[1].args[1]);
-        //printf("NODE[1].ARGS[2]:%s\n", data->nodes[1].args[2]);
-        //printf("NODE[1].ARGS[3]:%s\n", data->nodes[1].args[3]);
-        //printf("NODE[1].ARGS[4]:%s\n", data->nodes[1].args[4]);
+        printf("CMD 1: %s\n", data->nodes[0].cmd);
+        printf("NODE[0].ARGS[1]: %s\n", data->nodes[0].args[1]);
+        printf("OUTFILE:%s\n", data->nodes[0].outfile[0]);
+        printf("CMD 2:%s\n", data->nodes[1].cmd);
+        printf("OUTFILE[0]:%s\n", data->nodes[1].outfile[0]);
+        printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[1]);
+        printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[2]);
+        printf("NODE[1].ARGS[1]:%s\n", data->nodes[1].args[1]);
+        printf("NODE[1].ARGS[2]:%s\n", data->nodes[1].args[2]);
+        printf("NODE[1].ARGS[3]:%s\n", data->nodes[1].args[3]);
+        printf("NODE[1].INFILE:%s\n", data->nodes[1].infile[0]);
         //printf("NODE[1].ARGS[1]: %s\n", data->nodes[1].args[1]);
         //printf("NODE[1].OUTFILE %s\n", data->nodes[1].outfile[0]);
         //printf("CMD 3: %s\n", data->nodes[2].cmd);

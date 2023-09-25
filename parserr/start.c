@@ -84,7 +84,7 @@ void    ft_readline(t_data *data)
         data->pipe_count = pipe_counter(data, tokens);
         //printf("PIPE COUNT:%d\n",data->pipe_count);
         fill_nodes(data, tokens);
-        print_node(data);
+        //print_node(data);
         //fill_operators(tokens, data);
         //print_operators(data);
 }
