@@ -28,61 +28,64 @@ int **pipe_create(int pipe_count)
     return (pipes);
 }
 
-int outfiler(char **outfiles, char *tokens, int flags)
+int outfiler(char **outfiles, char **operators, int *j)
 {
     int i;
     int fd;
 
     i = -1;
-    
-    printf("outfile: %s\n", outfiles[0]);
-    printf("outfile %s\n", outfiles[1]);
-    printf("op %c \n",tokens[0]);
-    printf("op %c \n",tokens[1]);
 
-    while (tokens[++i] == '>' && outfiles[i] != NULL)
-        fd = open(outfiles[i], flags, 0777);
+    while (outfiles[++i] && (((ft_strncmp(operators[i], ">", 1)) == 0) || ((ft_strncmp(operators[i], ">>", 2)) == 0)))
+    {
+        if ((ft_strncmp(operators[i], ">", 2)) == 0)
+        {
+            printf("here > : %s\n", operators[i]);
+            fd = open(outfiles[i], O_WRONLY | O_CREAT | O_TRUNC , 0777);
+        }
+        else if ((ft_strncmp(operators[i], ">>", 2)) == 0)
+        {
+            printf("here >> : %s\n", operators[i]);
+            fd = open(outfiles[i], O_WRONLY | O_CREAT | O_APPEND, 0777);
+        }
+        j++;
+    }
     return(fd);
 }
 
-void first_process(t_data data,char *t, int *fd, int i)
+void first_process(t_data data,int *fd, int i)
 {
-    printf("ansdkasbndjkasbdjkl %s \n", t);
+    //printf("ansdkasbndjkasbdjkl %s \n", t);
     //printf("first process *%s* *%s*\n", data.nodes[i].args[0], data.nodes[i].args[1]);
-    if (data.nodes[i].is_pipe == 0)
+    if(data.nodes[i].is_pipe == 1)
+        dup2(fd[1], STDOUT_FILENO); printf("uc degisti \n");
+    int j = -1;
+    while (data.nodes[i].operators[++j] != NULL)
     {
-        printf("hadi bej kacar \n");
-    }
-    else if(data.nodes[i].is_pipe == 1)
-        dup2(fd[1], STDOUT_FILENO);
-    if (t && t[0] == '>' && t[1] == '\0')
-    {
-        printf("   2   \n");
-        dup2(outfiler(data.nodes[i].outfile, data.operators[i], O_WRONLY | O_CREAT), STDOUT_FILENO);
-    }
-    else if (t && t[0] == '>' && t[1] == '>')
-    {
-        //printf("   3   \n");
-        dup2(outfiler(data.nodes[i].outfile, data.operators[i], O_WRONLY | O_CREAT | O_APPEND), STDOUT_FILENO);
-    }
-    else if (t && t[0] == '<' && t [1] == '<')
-    {
-        //printf("   4   \n");
-        char buffer[256];
-        ssize_t bytes_read;
-        while (1)
+        if (ft_strncmp(data.nodes[i].operators[j], ">", 1) == 0)
         {
-            bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer));
-            buffer[bytes_read] = '\0';
-            if (ft_strncmp(buffer, data.nodes[i].infile[0], ft_strlen(data.nodes[i].infile[0])) == 0) 
+            //printf("   2   \n");
+            dup2(outfiler(data.nodes[i].outfile, data.nodes[i].operators, &j), STDOUT_FILENO);
+        }
+        else if (ft_strncmp(data.nodes[i].operators[j], ">>", 2) == 0)
+        {
+            //printf("   3   \n");
+            dup2(outfiler(data.nodes[i].outfile, data.nodes[i].operators, &j), STDOUT_FILENO);
+        }
+        else if (ft_strncmp(data.nodes[i].operators[j], "<<", 2) == 0)
+        {
+            //printf("   4   \n");
+            char buffer[256];
+            ssize_t bytes_read;
+            while (1)
             {
-                break;
-            }
-        }    
-    }
-    else
-    {
-        printf("input bekliyom\n");
+                bytes_read = read(STDIN_FILENO, buffer, sizeof(buffer));
+                buffer[bytes_read] = '\0';
+                if (ft_strncmp(buffer, data.nodes[i].infile[0], ft_strlen(data.nodes[i].infile[0])) == 0) 
+                {
+                    break;
+                }
+            }    
+        }
     }
     //printf("first_process end \n");
 }
@@ -117,7 +120,7 @@ void router(t_data data, int i, int *fd, int *fd2)
             close(fd2[0]);
             dup2(fd2[1], STDOUT_FILENO);
         }
-        first_process(data,data.operators[i],fd ,i);
+        first_process(data,fd ,i);
     }
     else 
     {
@@ -127,7 +130,7 @@ void router(t_data data, int i, int *fd, int *fd2)
             close(fd[0]);
         }
         //printf("q \n");
-        first_process(data, data.operators[i], fd, i);
+        first_process(data,fd, i);
         
     }
     //close_fds(fd, fd2);

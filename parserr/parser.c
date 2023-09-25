@@ -255,12 +255,18 @@ void fill_nodes(t_data *data, t_token **tokens)
 
 void print_node(t_data *data) 
 {
-        printf("CMD 1: %s\n", data->nodes[0].cmd);
-        printf("NODE[0].ARGS[1]: %s\n", data->nodes[0].args[1]);
-        printf("OUTFILE:%s\n", data->nodes[0].outfile[0]);
-        printf("CMD 2:%s\n", data->nodes[1].cmd);
-        printf("NODE[1].ARGS[1]:%s\n", data->nodes[1].args[1]);
-        printf("NODE[1].ARGS[2]:%s\n", data->nodes[1].args[2]);
+    (void)data;
+        //printf("CMD 1: %s\n", data->nodes[0].cmd);
+        //printf("NODE[0].ARGS[1]: %s\n", data->nodes[0].args[1]);
+        //printf("OUTFILE:%s\n", data->nodes[0].outfile[0]);
+        //printf("CMD 2:%s\n", data->nodes[1].cmd);
+        //printf("OUTFILE[0]:%s\n", data->nodes[1].outfile[0]);
+        //printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[1]);
+        //printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[2]);
+        //printf("NODE[1].ARGS[1]:%s\n", data->nodes[1].args[1]);
+        //printf("NODE[1].ARGS[2]:%s\n", data->nodes[1].args[2]);
+        //printf("NODE[1].ARGS[3]:%s\n", data->nodes[1].args[3]);
+        //printf("NODE[1].ARGS[4]:%s\n", data->nodes[1].args[4]);
         //printf("NODE[1].ARGS[1]: %s\n", data->nodes[1].args[1]);
         //printf("NODE[1].OUTFILE %s\n", data->nodes[1].outfile[0]);
         //printf("CMD 3: %s\n", data->nodes[2].cmd);
@@ -273,26 +279,13 @@ void print_node(t_data *data)
 
 /*void    fill_operators(t_token **tokens, t_data *data)
 {
-    int i;
-    int j;
-
-    i = 0;
-    j = 0;
-    while (tokens[i]->type != TOKEN_EOF)
-    {
-        if ((tokens[i]->type != TOKEN_WORD) && (tokens[i]->type == ))   
-    }
-    data->operators[j] = NULL;
+    (void)tokens;
+    (void)data;
+    return ;
 }*/
 
 /*void print_operators(t_data *data)
 {
-    int i;
-
-    i = 0;
-    while (data->operators[i])
-    {
-        //printf(" WHEEEEEE Y  %s\n", data->operators[i]);
-        i++;
-    }
+    (void)data;
+    return ;
 }*/
