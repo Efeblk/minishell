@@ -215,6 +215,7 @@ void fill_nodes(t_data *data, t_token **tokens)
             data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
             current_index++;
             x++;
+            i++;
         }
         else if (tokens[i]->type == TOKEN_O || tokens[i]->type == TOKEN_O_O)
         {
@@ -223,6 +224,7 @@ void fill_nodes(t_data *data, t_token **tokens)
             data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
             current_index++;
             y++;
+            i++;
         }
         else if (tokens[i]->type == TOKEN_PIPE)
         {
@@ -257,18 +259,19 @@ void print_node(t_data *data)
         printf("NODE[0].ARGS[1]: %s\n", data->nodes[0].args[1]);
         printf("OUTFILE:%s\n", data->nodes[0].outfile[0]);
         printf("CMD 2:%s\n", data->nodes[1].cmd);
-        printf("NODE[1].ARGS:%s\n", data->nodes[1].args[1]);
-        printf("CMD 2: %s\n", data->nodes[1].cmd);
-        printf("NODE[1].ARGS[1]: %s\n", data->nodes[1].args[1]);
-        printf("NODE[1].OUTFILE %s\n", data->nodes[1].outfile[0]);
-        printf("CMD 3: %s\n", data->nodes[2].cmd);
-        printf("NODE[2].ARGS: %s\n", data->nodes[2].args[1]);
+        printf("NODE[1].ARGS[1]:%s\n", data->nodes[1].args[1]);
+        printf("NODE[1].ARGS[2]:%s\n", data->nodes[1].args[2]);
+        //printf("NODE[1].ARGS[1]: %s\n", data->nodes[1].args[1]);
+        //printf("NODE[1].OUTFILE %s\n", data->nodes[1].outfile[0]);
+        //printf("CMD 3: %s\n", data->nodes[2].cmd);
+        //printf("NODE[2].ARGS[1]: %s\n", data->nodes[2].args[1]);
+        //printf("NODE[2].ARGS[2]: %s\n", data->nodes[2].args[2]);
         //printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[0]);
         //printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[1]);
         //printf("NODE[2].OUTFILE: %s\n", data->nodes[2].outfile[2]);
 }
 
-void    fill_operators(t_token **tokens, t_data *data)
+/*void    fill_operators(t_token **tokens, t_data *data)
 {
     int i;
     int j;
@@ -280,9 +283,9 @@ void    fill_operators(t_token **tokens, t_data *data)
         if ((tokens[i]->type != TOKEN_WORD) && (tokens[i]->type == ))   
     }
     data->operators[j] = NULL;
-}
+}*/
 
-void print_operators(t_data *data)
+/*void print_operators(t_data *data)
 {
     int i;
 
@@ -292,4 +295,4 @@ void print_operators(t_data *data)
         //printf(" WHEEEEEE Y  %s\n", data->operators[i]);
         i++;
     }
-}
+}*/
