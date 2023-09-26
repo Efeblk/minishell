@@ -100,7 +100,7 @@ void    close_pipes(int **pipes, int pipe_size);
 int     is_input(char *cmd);
 
 int     executor(t_data data);
-void    router(t_data data, int i, int *fd, int *fd2);
+void    router(t_data data, int i, int *left_pipe, int *right_pipe);
 
 #endif
 
