@@ -30,8 +30,11 @@ t_token	*generate_word_token(const char **input)
 			sf = !sf;
 		(*input)++;
 	}
+	if (sf != 0 || df != 0)
+		printf("Error: Unbalanced quotes\n");
 	return (create_token(TOKEN_WORD, input, start));
 }
+
 
 t_token	*generate_pr_token(const char **input)
 {
@@ -69,11 +72,20 @@ char	*create_word(const char **input, const char *start)
 	char	*word;
 
 	len = *input - start;
+	if (len == 0)
+		return strdup("");
 	word = (char *) malloc(len + 1);
 	strncpy(word, start, len);
 	word[len] = '\0';
+	if ((word[0] == '"' && word[len - 1] == '"')) 
+	{
+		memmove(word, word + 1, len - 2);
+		word[len - 2] = '\0';
+	}
 	return (word);
 }
+
+
 
 t_token	*create_token(TokenType type, const char **input, const char *start)
 {
