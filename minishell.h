@@ -67,16 +67,15 @@ char	**ft_split(const char *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
-void    space_separator(char *input);
-t_token *get_next_token(const char **input);
-t_token	*generate_word_token(const char **input);
-t_token	*generate_pr_token(const char **input);
-char	*create_word(const char **input, const char *start);
-t_token	*create_token(TokenType type, const char **input, const char *start);
+t_token *get_next_token(char **input);
+t_token	*generate_word_token(char **input);
+t_token	*generate_pr_token(char **input);
+char	*create_word(char **input, char *start);
+t_token	*create_token(TokenType type, char **input, char *start);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 t_token **allocate_tokens(int size);
 t_token **resize_tokens(t_token **tokens, int size);
-t_token **tokenize_input(const char *input, int *count);
+t_token **tokenize_input(char *input, int *count);
 void    print_and_free_tokens(t_token **tokens, int count);
 int     pipe_counter(t_data *data, t_token **tokens);
 void    first_token_controller(t_token **tokens);
@@ -84,10 +83,12 @@ void    token_controller(t_token **tokens);
 void    free_tokens(t_token **tokens);
 void    fill_nodes(t_data *data, t_token **tokens); 
 void    print_node(t_data *data);
-char    *remove_quotes(const char *word);
-int     count_quotes(const char *start, const char *end);
 void    fill_operators(t_token **tokens, t_data *data);
 void    print_operators(t_data *data);
+int     outfile_counter(t_token **tokens);
+int     infile_counter(t_token **tokens);
+int     operator_counter(t_token **tokens);
+int     arg_counter(t_token **tokens);
 
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -100,7 +101,7 @@ void    close_pipes(int **pipes, int pipe_size);
 int     is_input(char *cmd);
 
 int     executor(t_data data);
-void    router(t_data data, int i, int *fd, int *fd2);
+void    router(t_data data, int i, int *left_pipe, int *right_pipe);
 
 #endif
 

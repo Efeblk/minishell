@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-t_token *get_next_token(const char **input)
+t_token *get_next_token(char **input)
 {
     while (isspace(**input))
 		(*input)++;
@@ -11,9 +11,9 @@ t_token *get_next_token(const char **input)
 	return (generate_word_token(input));
 }
 
-t_token	*generate_word_token(const char **input)
+t_token	*generate_word_token(char **input)
 {
-	const char	*start;
+	char	*start;
 	int				sf;
 	int				df;
 
@@ -31,12 +31,15 @@ t_token	*generate_word_token(const char **input)
 		(*input)++;
 	}
 	if (sf != 0 || df != 0)
+	{	
 		printf("Error: Unbalanced quotes\n");
+		exit(1);
+	}
 	return (create_token(TOKEN_WORD, input, start));
 }
 
 
-t_token	*generate_pr_token(const char **input)
+t_token	*generate_pr_token(char **input)
 {
 	if (**input == '|')
 	{
@@ -66,7 +69,7 @@ t_token	*generate_pr_token(const char **input)
 	return (NULL);
 }
 
-char	*create_word(const char **input, const char *start)
+char	*create_word(char **input, char *start)
 {
 	size_t	len;
 	char	*word;
@@ -77,17 +80,11 @@ char	*create_word(const char **input, const char *start)
 	word = (char *) malloc(len + 1);
 	strncpy(word, start, len);
 	word[len] = '\0';
-	if ((word[0] == '"' && word[len - 1] == '"')) 
-	{
-		memmove(word, word + 1, len - 2);
-		word[len - 2] = '\0';
-	}
 	return (word);
 }
 
 
-
-t_token	*create_token(TokenType type, const char **input, const char *start)
+t_token	*create_token(TokenType type, char **input, char *start)
 {
 	t_token	*token;
 

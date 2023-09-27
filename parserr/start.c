@@ -34,7 +34,7 @@ t_token **resize_tokens(t_token **tokens, int size)
     return (new_tokens);
 }
 
-t_token **tokenize_input(const char *input, int *count) 
+t_token **tokenize_input(char *input, int *count) 
 {
     int size;
     t_token **tokens;
@@ -72,17 +72,17 @@ void print_and_free_tokens(t_token **tokens, int count)
 
 void    ft_readline(t_data *data)
 {
-        const char *input;
+        char *input;
         int count;
+        //int count1;
         t_token **tokens;
 
         input = readline("Enter a command: ");
         add_history(input);
         tokens = tokenize_input(input, &count);
-        first_token_controller(tokens);
         //print_and_free_tokens(tokens, count);
+        free(input);
         data->pipe_count = pipe_counter(data, tokens);
-        //printf("PIPE COUNT:%d\n",data->pipe_count);
         fill_nodes(data, tokens);
         //print_node(data);
         //fill_operators(tokens, data);
