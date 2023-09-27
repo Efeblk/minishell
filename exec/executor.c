@@ -69,34 +69,37 @@ int outfiler(char **outfiles, char **operators, int *j)
     return(fd);
 }
 
-void first_process(t_data data, int i)
+void first_process(t_data *data, int i)
 {
     int j = -1;
-    while (data.nodes[i].operators[++j] != NULL)
+    while (data->nodes[i].operators[++j] != NULL)
     {
-        if (ft_strncmp(data.nodes[i].operators[j], ">", 1) == 0)
+        if (ft_strncmp(data->nodes[i].operators[j], ">", 1) == 0)
         {
-            dup2(outfiler(data.nodes[i].outfile, data.nodes[i].operators, &j), STDOUT_FILENO);
+            dup2(outfiler(data->nodes[i].outfile, data->nodes[i].operators, &j), STDOUT_FILENO);
         }
-        else if (ft_strncmp(data.nodes[i].operators[j], ">>", 2) == 0)
+        else if (ft_strncmp(data->nodes[i].operators[j], ">>", 2) == 0)
         {
-            dup2(outfiler(data.nodes[i].outfile, data.nodes[i].operators, &j), STDOUT_FILENO);
+            dup2(outfiler(data->nodes[i].outfile, data->nodes[i].operators, &j), STDOUT_FILENO);
         }
-        else if (ft_strncmp(data.nodes[i].operators[j], "<<", 2) == 0)
+        else if (ft_strncmp(data->nodes[i].operators[j], "<<", 2) == 0)
         {
+            int fd[2];
+            pipe(fd);
             char *buffer;
+            //read fd[0];
+            
             while (1) {
                 buffer = readline(">");
-                if (buffer && ft_strncmp(buffer, data.nodes[i].infile[0], ft_strlen(buffer)) == 0) {
+                if (buffer && ft_strncmp(buffer, data->nodes[i].infile[0], ft_strlen(buffer)) == 0) {
                     break;
                 }
+                write(fd[1], buffer, ft_strlen(buffer));
                 free(buffer);
             }
-
         }
     }
 }
-
 
 void close_pipes(int **pipes, int pipe_count)
 {
@@ -111,41 +114,6 @@ void close_pipes(int **pipes, int pipe_count)
     free(pipes);
 }
 
-void router(t_data data, int i, int *left_pipe, int *right_pipe)
-{
-    if(i >= 1)
-    {
-        close(left_pipe[1]);
-        dup2(left_pipe[0], STDIN_FILENO);
-        close(left_pipe[0]);
-        if (data.nodes[i].is_pipe == 1)
-        {
-            //printf("test1 %i\n", i);
-            close(right_pipe[0]);
-            dup2(right_pipe[1], STDOUT_FILENO);
-            close(right_pipe[1]);
-        }
-        first_process(data, i);
-    }
-    else 
-    {
-        if (left_pipe != NULL)
-        {
-            close(left_pipe[0]);
-            dup2(left_pipe[1], STDOUT_FILENO);
-            close(left_pipe[1]);
-        }
-        else if (right_pipe != NULL)
-        {
-            close(right_pipe[0]);
-            close(right_pipe[1]);
-        }
-        first_process(data, i);
-    }
-    //close_fds(fd, fd2);
-    execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
-}
-
 pid_t *pid_create(int size)
 {
     pid_t *tmp;
@@ -153,25 +121,25 @@ pid_t *pid_create(int size)
     return(tmp);
 }
 
-int executor(t_data data)
+int executor(t_data *data)
 {
     find_env(data);
   
     int **pipes;
-    pipes = pipe_create(data.pipe_count);
+    pipes = pipe_create(data->pipe_count);
     if (pipes == NULL)
     {
         return -1;
     }
     int i = -1;
     pid_t *pids;
-    pids = pid_create(data.pipe_count + 1);
+    pids = pid_create(data->pipe_count + 1);
     if (pids == NULL)
     {
         return -1;
     }
 
-    while (++i < (data.pipe_count + 1))
+    while (++i < (data->pipe_count + 1))
     {
         pids[i] = fork();
         if (pids[i] == -1)
@@ -184,18 +152,18 @@ int executor(t_data data)
             if (i == 0)
             {
                 // First command
-                if (data.pipe_count > 0)
+                if (data->pipe_count > 0)
                 {
                     dup2(pipes[0][1], STDOUT_FILENO);
                 }
-                close_pipes(pipes, data.pipe_count);
+                close_pipes(pipes, data->pipe_count);
                 first_process(data, i);
             }
-            else if (i == data.pipe_count)
+            else if (i == data->pipe_count)
             {
                 // Last command
                 dup2(pipes[i - 1][0], STDIN_FILENO);
-                close_pipes(pipes, data.pipe_count);
+                close_pipes(pipes, data->pipe_count);
                 first_process(data, i);
             }
             else
@@ -203,17 +171,17 @@ int executor(t_data data)
                 // Middle commands
                 dup2(pipes[i - 1][0], STDIN_FILENO);
                 dup2(pipes[i][1], STDOUT_FILENO);
-                close_pipes(pipes, data.pipe_count);
+                close_pipes(pipes, data->pipe_count);
                 first_process(data, i);
             }
-            execve(data.nodes[i].args[0], data.nodes[i].args, NULL);
+            execve(data->nodes[i].args[0], data->nodes[i].args, NULL);
             exit(0);
         }
     }
 
-    close_pipes(pipes, data.pipe_count);
+    close_pipes(pipes, data->pipe_count);
     i = -1;
-    while (++i < data.pipe_count + 1)
+    while (++i < data->pipe_count + 1)
     {
         if (waitpid(pids[i], NULL, 0) == -1)
         {

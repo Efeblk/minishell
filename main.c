@@ -7,7 +7,8 @@ int main()
     while (1) 
     {
         ft_readline(&data);
-        executor(data);
+        executor(&data);
+        data_free(&data);
     }
     return 0;
 }

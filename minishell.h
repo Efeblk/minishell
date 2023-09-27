@@ -92,14 +92,14 @@ void    print_operators(t_data *data);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
-int     find_env(t_data data);
+int     find_env(t_data *data);
 
 void    free_array(void **array);
-void    close_pipes(int **pipes, int pipe_size);
+void    data_free(t_data *data);
 
 int     is_input(char *cmd);
 
-int     executor(t_data data);
+int     executor(t_data *data);
 void    router(t_data data, int i, int *left_pipe, int *right_pipe);
 
 #endif
