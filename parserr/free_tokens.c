@@ -1,11 +1,19 @@
 #include "minishell.h"
 
-void    free_tokens(t_token **tokens)
+void free_tokens(t_token **tokens)
 {
-    int i;
+    int i = 0;
 
-    i = -1;
-    while (tokens[++i])
-        free(tokens[i]->value);
+    while (tokens[i])
+    {
+        if (tokens[i]->value)
+        {
+            free(tokens[i]->value);
+        }
+        free(tokens[i]);
+        i++;
+    }
+    
+    // Free the array of pointers
     free(tokens);
 }

@@ -19,12 +19,13 @@ static int is_accessible(char **bin, t_data *data)
             valid += 1;
         }
         else
+        {
             i = -1;
             while (bin[++i])
             {
                 if (bin[i][ft_strlen(bin[i]) - 1] != '/')
                     bin[i][ft_strlen(bin[i])] = '/';
-                tmp = ft_strjoin(bin[i], data->nodes[j].cmd);
+                tmp = ft_strjoin(bin[i], data->nodes[j].cmd); 
                 //is accessible?
                 if ((access(tmp, F_OK | X_OK)) == 0)
                 {
@@ -35,6 +36,9 @@ static int is_accessible(char **bin, t_data *data)
                 }
                 free(tmp);
             }
+
+        }
+            
         if (data->nodes[j].cmd == NULL)
         {
             valid += 1;

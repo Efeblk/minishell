@@ -30,7 +30,7 @@ t_token **resize_tokens(t_token **tokens, int size)
         exit(1);
     }
     ft_memcpy(new_tokens, tokens, (size / 2) * sizeof(t_token *));
-    free(tokens);
+    //free(tokens);
     return (new_tokens);
 }
 
@@ -84,6 +84,11 @@ void    ft_readline(t_data *data)
         data->pipe_count = pipe_counter(data, tokens);
         fill_nodes(data, tokens);
         free(input);
+        if (tokens)
+        {
+            //free_tokens(tokens);
+        }
+    
         //print_node(data);
         //fill_operators(tokens, data);
         //print_operators(data);

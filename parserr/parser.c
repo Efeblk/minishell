@@ -129,7 +129,9 @@ void    fill_nodes(t_data *data, t_token **tokens)
     }
     data->nodes[node_index].args[arg_index + 1] = NULL;
     data->nodes[node_index].operators[current_index] = NULL;
-    free_tokens(tokens);
+    //data->nodes = NULL;
+   
+    
 }
 
 

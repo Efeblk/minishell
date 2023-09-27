@@ -129,7 +129,7 @@ pid_t *pid_create(int size)
 int executor(t_data *data)
 {
     find_env(data);
-  
+    
     int **pipes;
     pipes = pipe_create(data->pipe_count);
     if (pipes == NULL)
