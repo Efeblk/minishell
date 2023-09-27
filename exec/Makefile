@@ -1,5 +1,5 @@
 NOM = libexec.a
-SRC = exec_utils.c executor.c find_env.c input_commands.c
+SRC = executor.c find_env.c input_commands.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

@@ -81,9 +81,9 @@ void    ft_readline(t_data *data)
         add_history(input);
         tokens = tokenize_input(input, &count);
         //print_and_free_tokens(tokens, count);
-        free(input);
         data->pipe_count = pipe_counter(data, tokens);
         fill_nodes(data, tokens);
+        free(input);
         //print_node(data);
         //fill_operators(tokens, data);
         //print_operators(data);
