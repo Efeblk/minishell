@@ -15,10 +15,21 @@ void free_array(void **array)
 
 void data_free(t_data *data)
 {
-	free(data->nodes->cmd);
-	free_array((void **)data->nodes->args);
-	free_array((void **)data->nodes->outfile);
-	free_array((void **)data->nodes->infile);
-	free_array((void **)data->nodes->operators);
-	free(data->nodes);
+	if (data)
+	{
+		if (data->nodes)
+		{
+			if (data->nodes->cmd)
+				free(data->nodes->cmd);
+			if (data->nodes->args)
+				free_array((void **)data->nodes->args);
+			if (data->nodes->outfile)
+				free_array((void **)data->nodes->outfile);
+			if (data->nodes->infile)
+				free_array((void **)data->nodes->infile);
+			if (data->nodes->operators)
+				free_array((void **)data->nodes->operators);
+			free(data->nodes);
+		}
+	}
 }

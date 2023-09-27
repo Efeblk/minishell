@@ -88,13 +88,18 @@ void first_process(t_data *data, int i)
             pipe(fd);
             char *buffer;
             //read fd[0];
-            
-            while (1) {
+            char tmp[256];
+
+            while (1) 
+            {
                 buffer = readline(">");
+                write(fd[1], buffer, ft_strlen(buffer));
+                
+                read(fd[0], tmp, ft_strlen(buffer));
                 if (buffer && ft_strncmp(buffer, data->nodes[i].infile[0], ft_strlen(buffer)) == 0) {
                     break;
                 }
-                write(fd[1], buffer, ft_strlen(buffer));
+                
                 free(buffer);
             }
         }
