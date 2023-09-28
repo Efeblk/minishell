@@ -38,7 +38,6 @@ static int is_accessible(char **bin, t_data *data)
             }
 
         }
-            
         if (data->nodes[j].cmd == NULL)
         {
             valid += 1;
@@ -50,7 +49,7 @@ static int is_accessible(char **bin, t_data *data)
 int find_env(t_data *data)
 {
     char *env;
-    char **bin;
+    char **bin; 
     
     env = getenv("PATH");
     bin = ft_split(env, ':');

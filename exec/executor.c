@@ -85,24 +85,41 @@ void first_process(t_data *data, int i)
         else if (ft_strncmp(data->nodes[i].operators[j], "<<", 2) == 0)
         {
             int fd[2];
-            pipe(fd);
-            char *buffer;
-            //read fd[0];
-            char tmp[256];
-
-            while (1) 
+            if (pipe(fd) == -1) {
+                perror("pipe");
+                exit(EXIT_FAILURE);
+            }
+            
+            char *buffer = NULL;
+            char tmp[256]; // You can consider dynamic allocation here as well
+            
+            while (1)
             {
+                printf("readline üst\n");
                 buffer = readline(">");
-                write(fd[1], buffer, ft_strlen(buffer));
-                
-                read(fd[0], tmp, ft_strlen(buffer));
-                if (buffer && ft_strncmp(buffer, data->nodes[i].infile[0], ft_strlen(buffer)) == 0) {
+                printf("readline üalt\n");
+                printf("write üst\n");
+                if (buffer != NULL)
+                {
+                    printf("asdas\n");
+                    write(fd[1], buffer, ft_strlen(buffer));
+                    int bytes_read = read(fd[0], tmp, sizeof(tmp) - 1);
+                    tmp[bytes_read] = '\0';
+        
+                }
+                printf("asdas\n");
+                if (ft_strncmp(tmp, data->nodes[i].infile[0], ft_strlen(buffer)) == 0) {
+                    printf("brreak  \n");
+                    free(buffer);
                     break;
                 }
-                
                 free(buffer);
             }
+            
+            close(fd[1]);
+            close(fd[0]);   
         }
+
     }
 }
 

@@ -2,15 +2,18 @@
 
 void free_array(void **array)
 {
-	int i;
+    if (array)
+    {
+        int i;
 
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+        i = 0;
+        while (array[i] != NULL)
+        {
+            free(array[i]);
+            i++;
+        }
+        free(array);
+    }   
 }
 
 void data_free(t_data *data)

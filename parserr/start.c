@@ -30,7 +30,6 @@ t_token **resize_tokens(t_token **tokens, int size)
         exit(1);
     }
     ft_memcpy(new_tokens, tokens, (size / 2) * sizeof(t_token *));
-    //free(tokens);
     return (new_tokens);
 }
 
@@ -70,7 +69,7 @@ void print_and_free_tokens(t_token **tokens, int count)
     }
 }
 
-void    ft_readline(t_data *data)
+int    ft_readline(t_data *data)
 {
         char *input;
         int count;
@@ -78,6 +77,13 @@ void    ft_readline(t_data *data)
         t_token **tokens;
 
         input = readline("Enter a command: ");
+
+        if (input[0] == '\0')
+        {
+            free(input);
+            return 0;
+        }
+        
         add_history(input);
         tokens = tokenize_input(input, &count);
         //print_and_free_tokens(tokens, count);
@@ -86,9 +92,9 @@ void    ft_readline(t_data *data)
         free(input);
         if (tokens)
         {
-            //free_tokens(tokens);
+            free_tokens(tokens);
         }
-    
+        return 1;
         //print_node(data);
         //fill_operators(tokens, data);
         //print_operators(data);

@@ -4,7 +4,6 @@ OBJ = $(SRC:.c=.o)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I..
-
 all: $(NOM)
 
 $(NOM): $(OBJ)

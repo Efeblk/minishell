@@ -61,7 +61,7 @@ typedef struct s_data
 int     env_count(char **envp);
 char    **env_list(char **envp, t_env *env);
 char    **add_env_list(t_env *env, char *str);
-void    ft_readline(t_data *data);
+int     ft_readline(t_data *data);
 char	*ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
