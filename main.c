@@ -8,8 +8,9 @@ int main()
     {
         if (ft_readline(&data))
         {
+            built_in(&data);
             executor(&data);
-            data_free(&data);
+            //data_free(&data);
         }    
     }
     return 0;

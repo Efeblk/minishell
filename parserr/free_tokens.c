@@ -3,8 +3,7 @@
 void free_tokens(t_token **tokens)
 {
     int i = 0;
-
-  
+    
     while (tokens[i]->type != TOKEN_EOF)
     {
         printf("qqq\n");
@@ -17,6 +16,5 @@ void free_tokens(t_token **tokens)
     }
     printf("TOKENS\n");
     // Free the array of pointers
-    free(tokens);
-  
+    free(tokens); 
 }

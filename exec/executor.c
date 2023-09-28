@@ -84,41 +84,28 @@ void first_process(t_data *data, int i)
         }
         else if (ft_strncmp(data->nodes[i].operators[j], "<<", 2) == 0)
         {
-            int fd[2];
-            if (pipe(fd) == -1) {
-                perror("pipe");
-                exit(EXIT_FAILURE);
-            }
-            
-            char *buffer = NULL;
-            char tmp[256]; // You can consider dynamic allocation here as well
-            
-            while (1)
+            // Create a temporary file
+            FILE *tmp = tmpfile();
+            char buffer[1024];
+            char *delimiter = data->nodes[i].infile[0];
+
+            // Read from stdin until the delimiter is found
+            while (fgets(buffer, sizeof(buffer), stdin) != NULL)
             {
-                printf("readline üst\n");
-                buffer = readline(">");
-                printf("readline üalt\n");
-                printf("write üst\n");
-                if (buffer != NULL)
-                {
-                    printf("asdas\n");
-                    write(fd[1], buffer, ft_strlen(buffer));
-                    int bytes_read = read(fd[0], tmp, sizeof(tmp) - 1);
-                    tmp[bytes_read] = '\0';
-        
-                }
-                printf("asdas\n");
-                if (ft_strncmp(tmp, data->nodes[i].infile[0], ft_strlen(buffer)) == 0) {
-                    printf("brreak  \n");
-                    free(buffer);
+                if (strncmp(buffer, delimiter, strlen(delimiter)) == 0)
                     break;
-                }
-                free(buffer);
+                fputs(buffer, tmp);
             }
-            
-            close(fd[1]);
-            close(fd[0]);   
+
+            // Redirect stdin to the temporary file
+            fflush(tmp);
+            rewind(tmp);
+            dup2(fileno(tmp), STDIN_FILENO);
+
+            // Execute the command
+            execve(data->nodes[i].args[0], data->nodes[i].args, NULL);
         }
+
 
     }
 }

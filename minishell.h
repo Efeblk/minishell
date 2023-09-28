@@ -100,8 +100,11 @@ void    data_free(t_data *data);
 
 int     is_input(char *cmd);
 
+
 int     executor(t_data *data);
 void    router(t_data data, int i, int *left_pipe, int *right_pipe);
+
+void built_in(t_data *data);
 
 #endif
 

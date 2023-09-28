@@ -8,6 +8,7 @@ CFLAGS = -Wall -Wextra -Werror
 EXEC = exec
 PARSER = parserr
 UTILS = utils
+BUILTIN = builtin
 
 all: $(NAME)
 
@@ -15,19 +16,22 @@ $(NAME): $(OBJ)
 	@make -s -C $(UTILS)
 	@make -s -C $(EXEC)
 	@make -s -C $(PARSER)
-	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(UTILS)/libutils.a $(EXEC)/libexec.a $(PARSER)/libparser.a -lreadline
+	@make -s -C $(BUILTIN)
+	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(UTILS)/libutils.a $(EXEC)/libexec.a $(PARSER)/libparser.a $(BUILTIN)/libbuiltin.a -lreadline
 
 clean:
 	@$(RM) $(OBJ)
 	@make clean -s -C $(UTILS)
 	@make clean -s -C $(EXEC)
 	@make clean -s -C $(PARSER)
+	@make clean -s -C $(BUILTIN)
 
 fclean: clean
 	@$(RM) $(NAME)
 	@make fclean -s -C $(UTILS)
 	@make fclean -s -C $(EXEC)
 	@make fclean -s -C $(PARSER)
+	@make fclean -s -C $(BUILTIN)
 
 re: fclean all
 

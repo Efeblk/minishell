@@ -16,39 +16,37 @@ void free_array(void **array)
     }   
 }
 
-void data_free(t_data *data)
-{
-    int i;
+void free_node(t_node *node) {
+    if (node == NULL) {
+        return;
+    }
 
-    if (data)
-    {
-        if (data->nodes)
-        {
-            i = 0;
-            while (i < data->pipe_count + 1)
-            {
-                if (data->nodes[i].cmd)
-                    free(data->nodes[i].cmd);
-                if (data->nodes[i].args)
-                    free_array((void **)data->nodes[i].args);
-                if (data->nodes[i].outfile)
-                    free_array((void **)data->nodes[i].outfile);
-                if (data->nodes[i].infile)
-                    free_array((void **)data->nodes[i].infile);
-                if (data->nodes[i].operators)
-                    free_array((void **)data->nodes[i].operators);
+    // Free individual fields of the t_node structure
+    free(node->cmd);
+    free_array((void **)node->args); // doğru free değik args 0 boş olabilr
+    free_array((void **)node->outfile);
+    free_array((void **)node->infile);
+    free_array((void **)node->operators);
+}
 
-                i++;
-            }
-            free(data->nodes);
+void data_free(t_data *data) {
+    if (data == NULL) {
+        return;
+    }
+
+    // Free the nodes array
+    if (data->nodes) {
+        int i = 0;
+        while (i < data->pipe_count + 1) {
+            free_node(&data->nodes[i]);
+            i++;
         }
+        free(data->nodes);
+    }
 
-        // Free the env structure
-        if (data->env)
-        {
-            if (data->env->env_list)
-                free_array((void **)data->env->env_list);
-            free(data->env);
-        }
+    // Free the env structure
+    if (data->env) {
+        free_array((void **)data->env->env_list);
+        free(data->env);
     }
 }

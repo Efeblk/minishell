@@ -60,11 +60,19 @@ void    fill_nodes(t_data *data, t_token **tokens)
     data->nodes = malloc(sizeof(t_node) * (data->pipe_count + 1));
     while (j < (data->pipe_count + 1))
     {
+        data->nodes[j].cmd = NULL;
+        data->nodes[j].args = NULL;
+        data->nodes[j].outfile = NULL;
+        data->nodes[j].infile = NULL;
+        data->nodes[j].operators = NULL;
+
         data->nodes[j].cmd = calloc(((data->pipe_count) + 1), sizeof(char));
         data->nodes[j].args = calloc(200, sizeof(char *));
         data->nodes[j].outfile = calloc((outfile_counter(tokens) + 1), sizeof(char *));
         data->nodes[j].infile = calloc((infile_counter(tokens) + 1), sizeof(char *));
         data->nodes[j].operators = calloc((operator_counter(tokens) + 1), sizeof(char *));
+
+       
         j++;
     }
 
@@ -115,6 +123,8 @@ void    fill_nodes(t_data *data, t_token **tokens)
         {
             //printf("PIPE\n");
             data->nodes[node_index].is_pipe = 1;
+            if (data->nodes[node_index + 1].cmd && (data->nodes[node_index + 1].cmd) != NULL)
+                data->nodes[node_index + 1].cmd = NULL;
             data->nodes[node_index].args[arg_index + 1] = NULL;
             data->nodes[node_index].infile[x] = NULL;
             data->nodes[node_index].outfile[y] = NULL;
