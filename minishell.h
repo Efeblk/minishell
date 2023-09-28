@@ -11,7 +11,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-#define NUM 1
+
 
 typedef enum
 {
@@ -54,6 +54,7 @@ typedef struct s_data
     int     pipe_count;
     t_env   *env;
     t_node  *nodes;
+    int     count;
 }t_data;
 
 
@@ -74,14 +75,15 @@ char	*create_word(char **input, char *start);
 t_token	*create_token(TokenType type, char **input, char *start);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 t_token **allocate_tokens(int size);
-t_token **resize_tokens(t_token **tokens, int size);
-t_token **tokenize_input(char *input, int *count);
+t_token **resize_tokens(t_token **tokens, int old_size, int new_size);
+t_token **tokenize_input(char *input);
+int count_tokens(char *input);
 void    print_and_free_tokens(t_token **tokens, int count);
 int     pipe_counter(t_data *data, t_token **tokens);
 void    first_token_controller(t_token **tokens);
 void    token_controller(t_token **tokens);
 void    free_tokens(t_token **tokens);
-void    fill_nodes(t_data *data, t_token **tokens); 
+void    fill_nodes(t_data *data, t_token **tokens, char *input);
 void    print_node(t_data *data);
 void    fill_operators(t_token **tokens, t_data *data);
 void    print_operators(t_data *data);

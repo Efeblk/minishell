@@ -76,7 +76,7 @@ char	*create_word(char **input, char *start)
 
 	len = *input - start;
 	if (len == 0)
-		return strdup("");
+		return (ft_strdup(""));
 	word = (char *) malloc(len + 1);
 	strncpy(word, start, len);
 	word[len] = '\0';
@@ -87,8 +87,8 @@ char	*create_word(char **input, char *start)
 t_token	*create_token(TokenType type, char **input, char *start)
 {
 	t_token	*token;
-
-	token = (t_token *)malloc(sizeof(t_token));
+	
+	token = (t_token *) malloc(sizeof(t_token));
 	token->type = type;
 	token->value = create_word(input, start);
 	return (token);

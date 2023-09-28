@@ -8,8 +8,8 @@ int main()
     {
         if (ft_readline(&data))
         {
-            executor(&data);
-            data_free(&data);
+            //executor(&data);
+            //data_free(&data);
         }    
     }
     return 0;

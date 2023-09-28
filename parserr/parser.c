@@ -50,7 +50,7 @@ int operator_counter(t_token **tokens)
 
 
 // int return etsin 
-void    fill_nodes(t_data *data, t_token **tokens) 
+void    fill_nodes(t_data *data, t_token **tokens, char *input) 
 {
     int i = 0;
     int node_index = 0;
@@ -61,7 +61,7 @@ void    fill_nodes(t_data *data, t_token **tokens)
     while (j < (data->pipe_count + 1))
     {
         data->nodes[j].cmd = calloc(((data->pipe_count) + 1), sizeof(char));
-        data->nodes[j].args = calloc(200, sizeof(char *));
+        data->nodes[j].args = calloc(sizeof(input), sizeof(char *));
         data->nodes[j].outfile = calloc((outfile_counter(tokens) + 1), sizeof(char *));
         data->nodes[j].infile = calloc((infile_counter(tokens) + 1), sizeof(char *));
         data->nodes[j].operators = calloc((operator_counter(tokens) + 1), sizeof(char *));
