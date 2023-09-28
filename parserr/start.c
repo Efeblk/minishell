@@ -16,46 +16,78 @@ t_token **allocate_tokens(int size)
         printf("Memory allocation failed\n");
         exit(1);
     }
-    return tokens;
+    return (tokens);
 }
 
-t_token **resize_tokens(t_token **tokens, int size) 
+t_token **resize_tokens(t_token **tokens, int old_size, int new_size) 
 {
     t_token **new_tokens;
+    int i;
 
-    new_tokens  = malloc(sizeof(t_token *) * size);
-    if (new_tokens == NULL) 
+    i = 0;
+    new_tokens  = malloc(sizeof(t_token *) * new_size);
+    if (new_tokens == NULL)
     {
         printf("Memory allocation failed\n");
         exit(1);
     }
-    ft_memcpy(new_tokens, tokens, (size / 2) * sizeof(t_token *));
+    while (i < old_size)
+    {
+        new_tokens[i] = tokens[i];
+        i++;
+    }
+    free(tokens);
     return (new_tokens);
 }
 
-t_token **tokenize_input(char *input, int *count) 
+
+int count_tokens(char *input) 
+{
+    int count;
+    t_token *token;
+
+    count = 0;
+    while (1) 
+    {
+        token = get_next_token(&input);
+        count++;
+        if (token->type == TOKEN_EOF)
+            break;
+        free(token->value);
+        free(token);
+    }
+    return (count);
+}
+
+t_token **tokenize_input(char *input) 
 {
     int size;
     t_token **tokens;
     t_token *token; 
+    int i;
 
-    size = NUM;
-    *count = 0; 
+    size = 0;
+    i = 0;
+
+    size = count_tokens(input);
+    printf("%d\n",size);
     tokens = allocate_tokens(size);
     while (1)
     {
         token = get_next_token(&input);
-        if (*count >= size) 
-        {
-            size *= 2;
-            tokens = resize_tokens(tokens, size);
-        }
-        tokens[(*count)++] = token;
+        tokens[i] = malloc(sizeof(t_token));
+        tokens[i]->type = token->type;
+        tokens[i]->value = ft_strdup(token->value);
+        i++;
         if (token->type == TOKEN_EOF)
             break;
+        free(token->value);
+        free(token);
     }
     return (tokens);
 }
+
+
 
 void print_and_free_tokens(t_token **tokens, int count) 
 {
@@ -72,7 +104,6 @@ void print_and_free_tokens(t_token **tokens, int count)
 int    ft_readline(t_data *data)
 {
         char *input;
-        int count;
         //int count1;
         t_token **tokens;
 
@@ -81,21 +112,13 @@ int    ft_readline(t_data *data)
         if (input[0] == '\0')
         {
             free(input);
-            return 0;
+            return (0);
         }
-        
         add_history(input);
-        tokens = tokenize_input(input, &count);
+        tokens = tokenize_input(input);
         //print_and_free_tokens(tokens, count);
         data->pipe_count = pipe_counter(data, tokens);
-        fill_nodes(data, tokens);
+        fill_nodes(data, tokens, input);
         free(input);
-        if (tokens)
-        {
-            free_tokens(tokens);
-        }
-        return 1;
-        //print_node(data);
-        //fill_operators(tokens, data);
-        //print_operators(data);
+        return (1);
 }
