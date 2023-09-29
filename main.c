@@ -8,14 +8,15 @@ int main()
         data = malloc(sizeof(t_data));
         if (ft_readline(data))
         {
+            //built_in(data);
             //free(data->nodes[0].cmd);
             //free(data->nodes[1].cmd);
-            data_free(data);
-            free(data);
-            break;
-            //executor(&data);
+            executor(data);
+            //data_free(data);
+            free(data);     
+            //system("leaks minishell");       //
         }    
     }
-    system("leaks minishell");
+    
     return 0;
 }

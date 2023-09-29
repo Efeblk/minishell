@@ -70,7 +70,6 @@ t_token **tokenize_input(char *input)
     i = 0;
 
     size = count_tokens(input);
-    printf("%d\n",size);
     tokens = allocate_tokens(size);
     while (1)
     {
@@ -92,11 +91,10 @@ t_token **tokenize_input(char *input)
 void print_and_free_tokens(t_token **tokens, int count) 
 {
     int i;
-
+    (void)tokens;
     i = 0;
     while (i < count - 1)
     {
-        printf("Token %d: Type:%d, Value:%s\n", i, tokens[i]->type, tokens[i]->value);
         i++;
     }
 }
@@ -109,7 +107,7 @@ int    ft_readline(t_data *data)
 
         input = readline("Enter a command: ");
 
-        if (input[0] == '\0')
+        if (input[0] == '\0' )
         {
             free(input);
             return (0);
