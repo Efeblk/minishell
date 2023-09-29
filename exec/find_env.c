@@ -26,13 +26,14 @@ static int is_accessible(char **bin, t_data *data)
                 if (bin[i][ft_strlen(bin[i]) - 1] != '/')
                     bin[i][ft_strlen(bin[i])] = '/';
                 tmp = ft_strjoin(bin[i], data->nodes[j].cmd); 
+                
                 //is accessible?
                 if ((access(tmp, F_OK | X_OK)) == 0)
                 {
-                    data->nodes[j].args[0] = (char *)malloc(sizeof(char) * ft_strlen(tmp) + 1);
                     path = ft_strdup(tmp);
                     data->nodes[j].args[0] = path;
                     valid += 1;
+                    free(path);
                 }
                 free(tmp);
             }
@@ -61,6 +62,7 @@ int find_env(t_data *data)
         printf("command not found\n");
         return (-1);
     }
+    
     free_array((void **)bin);
     return (0);
 }

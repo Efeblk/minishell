@@ -71,6 +71,7 @@ int outfiler(char **outfiles, char **operators, int *j)
 
 void first_process(t_data *data, int i)
 {
+
     int j = -1;
     while (data->nodes[i].operators[++j] != NULL)
     {
@@ -105,8 +106,6 @@ void first_process(t_data *data, int i)
             // Execute the command
             execve(data->nodes[i].args[0], data->nodes[i].args, NULL);
         }
-
-
     }
 }
 
@@ -133,7 +132,7 @@ pid_t *pid_create(int size)
 int executor(t_data *data)
 {
     find_env(data);
-    
+
     int **pipes;
     pipes = pipe_create(data->pipe_count);
     if (pipes == NULL)
