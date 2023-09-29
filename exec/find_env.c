@@ -34,11 +34,6 @@ static int is_accessible(char **bin, t_data *data)
                     data->nodes[j].args[0] = path;
                     valid += 1;
                 }
-                else
-                {
-                    data->nodes[j].args[0] = (char *)malloc(sizeof(char) * 1);
-                    data->nodes[j].args[0] = "\0";
-                }
                 free(tmp);
             }
         }
