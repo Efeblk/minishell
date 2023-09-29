@@ -15,8 +15,9 @@ int main()
             // //free(data->nodes[1].cmd);
             //data_free(data);
             free(data->nodes[0].cmd);
-            free(data->nodes[0].args);
+            free(data->nodes[0].args[0]);
             free(data->nodes[0].args[1]);
+            free(data->nodes[0].args);
             free(data->nodes[0].infile);
             free(data->nodes[0].outfile);
             free(data->nodes[0].operators);
@@ -24,6 +25,7 @@ int main()
             free(data->nodes);
             free(data);
             system("leaks minishell");
+
 
             //break;
             

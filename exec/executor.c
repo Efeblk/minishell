@@ -182,6 +182,7 @@ int executor(t_data *data)
                 close_pipes(pipes, data->pipe_count);
                 first_process(data, i);
             }
+            
             execve(data->nodes[i].args[0], data->nodes[i].args, NULL);
             exit(0);
         }
