@@ -36,7 +36,7 @@ t_token **resize_tokens(t_token **tokens, int old_size, int new_size)
         new_tokens[i] = tokens[i];
         i++;
     }
-    free(tokens);
+    free_tokens(tokens);
     return (new_tokens);
 }
 
@@ -52,7 +52,11 @@ int count_tokens(char *input)
         token = get_next_token(&input);
         count++;
         if (token->type == TOKEN_EOF)
+        {
+            free(token->value);
+            free(token);
             break;
+        }
         free(token->value);
         free(token);
     }
@@ -68,8 +72,11 @@ t_token **tokenize_input(char *input)
 
     size = 0;
     i = 0;
-
     size = count_tokens(input);
+<<<<<<< HEAD
+=======
+    //printf("%d\n",size);
+>>>>>>> ed1ead81774cabb62e559dd07ec1e66fa56d7861
     tokens = allocate_tokens(size);
     while (1)
     {
@@ -79,7 +86,11 @@ t_token **tokenize_input(char *input)
         tokens[i]->value = ft_strdup(token->value);
         i++;
         if (token->type == TOKEN_EOF)
+        {
+            free(token->value);
+            free(token);
             break;
+        }
         free(token->value);
         free(token);
     }
@@ -118,5 +129,6 @@ int    ft_readline(t_data *data)
         data->pipe_count = pipe_counter(data, tokens);
         fill_nodes(data, tokens, input);
         free(input);
+         
         return (1);
 }
