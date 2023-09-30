@@ -198,8 +198,7 @@ int executor(t_data *data)
         if(i != data->pipe_count)
             close(pipes[i][1]);
     }
-    //close_pipes(pipes, data->pipe_count);
-
+    close_pipes(pipes, data->pipe_count);
     free(pids);
     return 0;
 }

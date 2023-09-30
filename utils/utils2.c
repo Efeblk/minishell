@@ -1,19 +1,16 @@
 #include "minishell.h"
 
-void free_array(void **array)
+void free_array(void **array) 
 {
-    if (array)
-    {
-        int i;
-
-        i = 0;
-        while (array[i] != NULL)
-        {
+    if (array) {
+        int i = 0;
+        while (array[i] != NULL) {
             free(array[i]);
+            array[i] = NULL; // Set the freed pointer to NULL to avoid double-free
             i++;
         }
         free(array);
-    }   
+    }
 }
 
 void free_node(t_node *node) {
@@ -22,8 +19,11 @@ void free_node(t_node *node) {
     }
 
     // Free individual fields of the t_node structure
-    free(node->cmd);
-    free_array((void **)node->args); // doğru free değik args 0 boş olabilr
+    if (node->cmd) {
+        free(node->cmd);
+        node->cmd = NULL;
+    }
+    free_array((void **)node->args);
     free_array((void **)node->outfile);
     free_array((void **)node->infile);
     free_array((void **)node->operators);
@@ -42,11 +42,13 @@ void data_free(t_data *data) {
             i++;
         }
         free(data->nodes);
+        data->nodes = NULL;
     }
 
     // Free the env structure
     if (data->env) {
         free_array((void **)data->env->env_list);
         free(data->env);
+        data->env = NULL;
     }
 }

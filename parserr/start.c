@@ -73,10 +73,7 @@ t_token **tokenize_input(char *input)
     size = 0;
     i = 0;
     size = count_tokens(input);
-<<<<<<< HEAD
-=======
     //printf("%d\n",size);
->>>>>>> ed1ead81774cabb62e559dd07ec1e66fa56d7861
     tokens = allocate_tokens(size);
     while (1)
     {

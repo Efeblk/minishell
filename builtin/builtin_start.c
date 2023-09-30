@@ -1,18 +1,18 @@
 #include "minishell.h"
 
-static void is_builtin(char *cmd)
+static void is_builtin(char *cmd, t_data *data)
 {
     if (ft_strncmp(cmd, "clear", 5) == 0)
     {
         printf("\033[2J\033[H");
-        
     }   
-    if (ft_strncmp(cmd, "exit", 4) == 0)
+    else if (ft_strncmp(cmd, "exit", 4) == 0)
     {
+        data_free(data);
         printf("exit");
         exit(0);
     }
-    if (ft_strncmp(cmd, "pwd", 3) == 0)
+    else if (ft_strncmp(cmd, "pwd", 3) == 0)
     {
         char	*s;
         s = getcwd(NULL, 0);
@@ -26,6 +26,9 @@ static void is_builtin(char *cmd)
         free(s);
         exit(0);
     }
+    else
+        printf("no builtin \n"); //burası önemli else olmayınca TERM error basıyor?
+
 }
 
 void built_in(t_data *data)
@@ -36,8 +39,7 @@ void built_in(t_data *data)
 
     while (data->nodes[++i].cmd != NULL)
     {
-        printf("CMD %s\n", data->nodes[i].cmd);
-        is_builtin(data->nodes->cmd);
+        is_builtin(data->nodes[i].cmd, data);
     }
 }
 
