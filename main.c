@@ -8,11 +8,12 @@ int main()
         data = malloc(sizeof(t_data));
         if (ft_readline(data))
         {
-            built_in(data);
+            //built_in(data);
             //free(data->nodes[0].cmd);
             //free(data->nodes[1].cmd);
+            printf("executing \n");
             executor(data);
-            data_free(data);
+            //data_free(data);
             free(data);     
             //system("leaks minishell");       //
         }    

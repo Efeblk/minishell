@@ -35,11 +35,8 @@ static int is_accessible(char **bin, t_data *data)
             }
         }
         if (data->nodes[j].cmd == NULL)
-        {
             valid += 1;
-        }        
     }
-    tmp = NULL;
     return (valid);
 }
 
@@ -55,6 +52,7 @@ int find_env(t_data *data)
     {
         free_array((void **)bin);
         printf("command not found\n");
+        data->status = 127;
         return (-1);
     }
     
