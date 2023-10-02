@@ -1,15 +1,14 @@
 {
-    "files.associations": {
-        "__bit_reference": "c",
-        "algorithm": "c",
-        "bitset": "c",
-        "chrono": "c",
-        "unordered_map": "c",
-        "array": "c",
-        "iterator": "c",
-        "string": "c",
-        "string_view": "c",
-        "vector": "c",
-        "minishell.h": "c"
-    }
+	"files.associations": {
+		"stdlib.h": "c",
+		"time.h": "c",
+		"__bit_reference": "c",
+		"algorithm": "c",
+		"bitset": "c",
+		"chrono": "c",
+		"unordered_map": "c",
+		"stdio.h": "c",
+		"cub3d.h": "c",
+		"iterator": "c"
+	}
 }

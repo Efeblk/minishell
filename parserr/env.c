@@ -1,76 +1,211 @@
 #include "minishell.h"
 
-int env_count(char **envp)
+t_node	*create_env_node(const char *key, const char *value)
 {
-    int i;
+	t_env *node;
 
-    i = 0;
-    while (envp[i] != NULL)
-        i++;
-    return (i);
+	node = (t_node *) malloc(sizeof(t_node));
+	node->key = ft_strdup(key);
+	node->value = ft_strdup(value);
+	node->next = NULL;
+	return (node);
 }
 
-char **env_list(char **envp, t_env *env)
+void	add_env_node(t_env **head, const char *key, const char *value)
 {
-    int       i;
-    char    **list;
+	t_env	*new_node;
 
-    i = 0;
-    list = (char **) malloc(sizeof(char *) * (env_count(envp)) + 1);
-    while (envp[i])
-    {
-        list[i] = envp[i];
-        i++;
-    }
-    list[i] = 0;
-    env->env_list = list;
-    return (env->env_list);
+	new_node = create_env_node(key, value);
+	if (*head == NULL)
+	{
+		*head = new_node;
+		return ;
+	}
+	new_node->next = *head;
+	*head = new_node;
 }
 
-char    **add_env_list(t_env *env, char *str)
+t_node	*find_env_node(t_env *head, const char *key)
 {
-    int i;
-    int j;
-    char **new_list;
+	t_env	*current;
 
-    i = 0;
-    j = 0;
-    new_list = (char **) malloc(sizeof(char *) * env_count(env->env_list) + 1);
-    while (env->env_list[i])
-        i++;
-    while (str[j])
-    {
-        env->env_list[i] = &str[j];
-        j++;
-    }
-    env->env_list = new_list;
-   //free(new_list);
-    return (new_list);
+	current = head;
+	while (current != NULL)
+	{
+		if (strcmp(current->key, key) == 0)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
 }
 
-
-/*int main(int ac, char **av, char **envp)
+void	free_env_list(t_env *head)
 {
-   t_env env;
-   (void)ac;
-   (void)av;
-   int i;
-   char **a;
-   char **b;
+	t_env	*current;
+	t_env	*next;
 
-   i = 0;
-   a = env_list(envp, &env);
-   while (i < env_count(envp))
-   {
-        printf("%s\n", a[i]);
-        i++;
-   }
-   i = 0;
-   b = add_env_list(&env, "a=5");
-   while (env.env_list[i])
-   {
-        printf("**%s**\n", env.env_list[i]);
-        i++;
-   }
-   return (0);
-}*/
+	current = head;
+	while (current != NULL)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+}
+
+char	*join_env(const char *key, const char *value)
+{
+	size_t	klen;
+	size_t	vlen;
+	size_t	result_length;
+	char	*result;
+
+	klen = strlen(key);
+	vlen = strlen(value);
+	result_length = klen + vlen + 2;
+	result = (char *)malloc(result_length * sizeof(char));
+	if (!result)
+	{
+		printf("Memory allocation failed\n");
+		return (NULL);
+	}
+	memcpy(result, key, klen);
+	result[klen] = '=';
+	memcpy(result + klen + 1, value, vlen + 1);
+	return (result);
+}
+
+t_env	*load_environment(char *envp[])
+{
+	t_env	*head;
+	char	*key;
+	char	*value;
+	char	*full;
+	int		i;
+
+	head = NULL;
+	i = 0;
+	while (envp[i] != NULL)
+	{
+		key = strtok(envp[i], "=");
+		value = strtok(NULL, "=");
+		full = envp[i];
+		add_env_node(&head, key, value);
+		i++;
+	}
+	return (head);
+}
+
+char	*get_env_val(const char *key)
+{
+	t_env	*current;
+
+	current = find_env_node(env_list, key);
+	if (!current)
+	{
+		printf("ENV VALUE DOESNT EXIST FOR KEY: %s", key);
+		return (NULL);
+	}
+	return (current->value);
+}
+
+char	**get_env_arr(t_env *head)
+{
+	char	**rt;
+	int		size;
+	int		i;
+	t_env	*current;
+
+	current = head;
+	size = 0;
+	i = 0;
+	while (current != NULL)
+	{
+		size++;
+		current = current->next;
+	}
+	rt = (char **)malloc(sizeof(char *) * (size + 1));
+	current = head;
+	while (current != NULL)
+	{
+		rt[i] = join_env(current->key, current->value);
+		i++;
+		current = current->next;
+	}
+	rt[i] = 0;
+	return (rt);
+}
+
+void	update_env_node(t_env *head, const char *key, const char *new_value)
+{
+	t_env	*current;
+
+	current = head;
+	while (current != NULL)
+	{
+		if (strcmp(current->key, key) == 0)
+		{
+			free(current->value);
+			current->value = strdup(new_value);
+			return ;
+		}
+		current = current->next;
+	}
+}
+
+void	delete_env_node(t_env **head, const char *key)
+{
+	t_env	*current;
+	t_env	*prev;
+
+	current = *head;
+	prev = NULL;
+	while (current != NULL)
+	{
+		if (strcmp(current->key, key) == 0)
+		{
+			if (prev == NULL)
+			{
+				*head = current->next;
+			}
+			else
+			{
+				prev->next = current->next;
+			}
+			free(current->key);
+			free(current->value);
+			free(current);
+			return ;
+		}
+		prev = current;
+		current = current->next;
+	}
+}
+
+int main(int argc, char *argv[], char *envp[])
+{
+	t_env *env_list = load_environment(envp);
+
+	printf("Original environment variables:\n");
+	print_list(env_list);
+
+	// Add a new variable
+	add_env_node(&env_list, "NEW_VARIABLE", "new_value");
+	printf("\nAfter adding NEW_VARIABLE:\n");
+	print_list(env_list);
+
+	// Update an existing variable
+	update_env_node(env_list, "PATH", "/new/path");
+	printf("\nAfter updating PATH:\n");
+	print_list(env_list);
+
+	// Delete a variable
+	delete_env_node (&env_list, "NEW_VARIABLE");
+	printf("\nAfter deleting NEW_VARIABLE:\n");
+	print_list(env_list);
+
+	free_list(env_list);
+	return 0;
+}

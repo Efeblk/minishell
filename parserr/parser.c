@@ -48,44 +48,51 @@ int operator_counter(t_token **tokens)
     return (count);
 }
 
+void    fill_structs(t_data *data, t_token **tokens, char *input)
+{
+    int i;
 
+    i = 0;
+    data->nodes = malloc(sizeof(t_node) * (data->pipe_count + 1));
+    while (i < (data->pipe_count + 1))
+    {
+        data->nodes[i].args = calloc(sizeof(input), sizeof(char *));
+        data->nodes[i].outfile = calloc((outfile_counter(tokens) + 1), sizeof(char *));
+        data->nodes[i].infile = calloc((infile_counter(tokens) + 1), sizeof(char *));
+        data->nodes[i].operators = calloc((operator_counter(tokens) + 1), sizeof(char *));       
+        i++;
+    }
+}
 // int return etsin 
 void    fill_nodes(t_data *data, t_token **tokens, char *input) 
 {
-    int i = 0;
-    int node_index = 0;
-    int arg_index = 0;
-    int j = 0;
+    int i;
+    int node_index;
+    int arg_index;
+    int y;
+    int x;
 
-    data->nodes = malloc(sizeof(t_node) * (data->pipe_count + 1));
-    while (j < (data->pipe_count + 1))
-    {
-        //data->nodes = NULL;
-        data->nodes[j].args = calloc(sizeof(input), sizeof(char *));
-        data->nodes[j].outfile = calloc((outfile_counter(tokens) + 1), sizeof(char *));
-        data->nodes[j].infile = calloc((infile_counter(tokens) + 1), sizeof(char *));
-        data->nodes[j].operators = calloc((operator_counter(tokens) + 1), sizeof(char *));       
-        j++;
-    }
-
-    int y = 0;
-    int x = 0;
+    i = 0;
+    node_index = 0;
+    arg_index = 0;
+    y = 0;
+    x = 0;
     int current_index = 0;
+    fill_structs(data, tokens, input);
     while (tokens[i]->type != TOKEN_EOF) 
     {
-        printf("%d\n", i);
         data->nodes[node_index].is_pipe = 0;
         if (tokens[i]->type == TOKEN_WORD)
         {
             if (arg_index == 0)
             {
                 data->nodes[node_index].cmd = ft_strdup(tokens[i]->value);
-                arg_index++;
+                arg_index++;  
             }
             else
             {
                 data->nodes[node_index].args[arg_index] = ft_strdup(tokens[i]->value);
-                arg_index++;
+                arg_index++; 
             }
         }
         else if ((tokens[i]->type == TOKEN_I || tokens[i]->type == TOKEN_I_I))
@@ -127,7 +134,7 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
         }
         i++;
     }
-    data->nodes[node_index].args[arg_index + 1] = NULL;
+    data->nodes[node_index].args[arg_index] = NULL;
     data->nodes[node_index].operators[current_index] = NULL;
     free_tokens(tokens);
 }
@@ -141,13 +148,13 @@ void print_node(t_data *data)
         printf("NODE[0].ARGS[1]: %s\n", data->nodes[0].args[1]);
         printf("OUTFILE:%s\n", data->nodes[0].outfile[0]);
         printf("CMD 2:%s\n", data->nodes[1].cmd);
-        printf("OUTFILE[0]:%s\n", data->nodes[1].outfile[0]);
-        printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[1]);
-        printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[2]);
+        //printf("OUTFILE[0]:%s\n", data->nodes[1].outfile[0]);
+        //printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[1]);
+        //printf("OUTFILE[1]:%s\n", data->nodes[1].outfile[2]);
         printf("NODE[1].ARGS[1]:%s\n", data->nodes[1].args[1]);
         printf("NODE[1].ARGS[2]:%s\n", data->nodes[1].args[2]);
         printf("NODE[1].ARGS[3]:%s\n", data->nodes[1].args[3]);
-        printf("NODE[1].INFILE:%s\n", data->nodes[1].infile[0]);
+        //printf("NODE[1].INFILE:%s\n", data->nodes[1].infile[0]);
         //printf("NODE[1].ARGS[1]: %s\n", data->nodes[1].args[1]);
         //printf("NODE[1].OUTFILE %s\n", data->nodes[1].outfile[0]);
         //printf("CMD 3: %s\n", data->nodes[2].cmd);

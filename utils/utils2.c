@@ -39,22 +39,70 @@ void free_node(t_node *node)
     printf("node 6\n");
 }
 
-void data_free(t_data *data) {
-    if (data == NULL) {
-        return;
-    }
 
+
+
+void data_free(t_data *data) 
+{
     int i = 0;
-    while (i < data->pipe_count + 1) 
+    int j = 0;
+    while (i < (data->pipe_count + 1))
     {
-        printf("trying to free \n");
-        free_node(&data->nodes[i]);
+        if (data->nodes[i].cmd != NULL)
+        {
+            free(data->nodes[i].cmd);
+            data->nodes[i].cmd = NULL;
+        }
+        if (data->nodes[i].args != NULL)
+        {
+            while (data->nodes[i].args[j] != NULL)
+            {
+                free(data->nodes[i].args[j]);
+                j++;
+            }
+            free(data->nodes[i].args);
+            data->nodes[i].args = NULL;
+            j = 0;
+        }
+
+        if (data->nodes[i].outfile != NULL)
+        {
+            while (data->nodes[i].outfile[j] != NULL)
+            {
+                free(data->nodes[i].outfile[j]);
+                j++;
+            }
+            free(data->nodes[i].outfile);
+            data->nodes[i].outfile = NULL;
+            j = 0;
+        }
+        if (data->nodes[i].infile != NULL)
+        {
+            while (data->nodes[i].infile[j] != NULL)
+            {
+                free(data->nodes[i].infile[j]);
+                j++;
+            }
+            free(data->nodes[i].infile);
+            data->nodes[i].infile = NULL;
+            j = 0;
+        }
+        if (data->nodes[i].operators != NULL)
+        {
+            while (data->nodes[i].operators[j] != NULL)
+            {
+                free(data->nodes[i].operators[j]);
+                j++;
+            }
+            free(data->nodes[i].operators);
+            data->nodes[i].operators = NULL;
+            j = 0;
+        }
         i++;
     }
-    printf("ENV \n");
-    // if (data->env) {
-    //     free_array((void **)data->env->env_list);
-    //     free(data->env);
-    //     data->env = NULL;
-    // }
+    if (data->nodes != NULL)
+        free(data->nodes);
+    if (data != NULL)
+        free(data);
 }
+
