@@ -187,7 +187,7 @@ int executor(t_data *data)
             exit(0);
         }
     }
-
+    close_pipes(pipes, data->pipe_count);
     i = -1;
     while (++i < data->pipe_count + 1)
     {
@@ -195,10 +195,8 @@ int executor(t_data *data)
         {
             perror("waitpid");
         }
-        if(i != data->pipe_count)
-            close(pipes[i][1]);
     }
-    close_pipes(pipes, data->pipe_count);
+    
     free(pids);
     return 0;
 }

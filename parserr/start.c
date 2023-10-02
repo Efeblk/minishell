@@ -19,27 +19,6 @@ t_token **allocate_tokens(int size)
     return (tokens);
 }
 
-t_token **resize_tokens(t_token **tokens, int old_size, int new_size) 
-{
-    t_token **new_tokens;
-    int i;
-
-    i = 0;
-    new_tokens  = malloc(sizeof(t_token *) * new_size);
-    if (new_tokens == NULL)
-    {
-        printf("Memory allocation failed\n");
-        exit(1);
-    }
-    while (i < old_size)
-    {
-        new_tokens[i] = tokens[i];
-        i++;
-    }
-    free_tokens(tokens);
-    return (new_tokens);
-}
-
 
 int count_tokens(char *input) 
 {
@@ -107,25 +86,45 @@ void print_and_free_tokens(t_token **tokens, int count)
     }
 }
 
-int    ft_readline(t_data *data)
+int    first_token_controller(t_token **tokens)
+{
+    if (tokens[0]->type == TOKEN_PIPE)
+    {
+        printf("syntax error near unexpected token `|'\n");
+        return (0);
+    }
+    else if ((tokens[0]->type == TOKEN_I || tokens[0]->type == TOKEN_I_I || tokens[0]->type == TOKEN_O || tokens[0]->type == TOKEN_O_O) && tokens[1]->type == TOKEN_EOF)
+    {
+        printf("syntax error near unexpected token `newline' \n");
+        return (0);
+    }
+    else
+        return (1);
+
+}
+int     ft_readline(t_data *data)
 {
         char *input;
-        //int count1;
         t_token **tokens;
 
         input = readline("Enter a command: ");
-
-        if (input[0] == '\0' )
+        add_history(input);
+        if (input[0] == '\0')
         {
+            free(data);
             free(input);
             return (0);
         }
-        add_history(input);
         tokens = tokenize_input(input);
-        //print_and_free_tokens(tokens, count);
+        if (!first_token_controller(tokens))
+        {
+            free_tokens(tokens);
+            free(input);
+            free(data);
+            return (0);
+        }
         data->pipe_count = pipe_counter(data, tokens);
         fill_nodes(data, tokens, input);
         free(input);
-         
         return (1);
 }
