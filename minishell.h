@@ -55,6 +55,7 @@ typedef struct s_data
     t_env   *env;
     t_node  *nodes;
     int     count;
+    int     status;
 }t_data;
 
 
@@ -106,5 +107,8 @@ void    router(t_data data, int i, int *left_pipe, int *right_pipe);
 
 void built_in(t_data *data);
 
+void	run_cd(t_data *data);
+void run_pwd(void);
+void run_exit(t_data *data);
 #endif
 

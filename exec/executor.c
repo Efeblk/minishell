@@ -6,7 +6,6 @@ int **pipe_create(int pipe_count)
     int **pipes;
 
     i = -1;
-
     if (pipe_count == 0)
     {
         pipes = (int **)malloc(sizeof(int *) * 2);
@@ -132,7 +131,6 @@ pid_t *pid_create(int size)
 int executor(t_data *data)
 {
     find_env(data);
-
     int **pipes;
     pipes = pipe_create(data->pipe_count);
     if (pipes == NULL)
@@ -189,14 +187,14 @@ int executor(t_data *data)
     }
     close_pipes(pipes, data->pipe_count);
     i = -1;
+    data->status = 0;
     while (++i < data->pipe_count + 1)
     {
-        if (waitpid(pids[i], NULL, 0) == -1)
+        if (waitpid(pids[i], &data->status, 0) == -1)
         {
             perror("waitpid");
         }
     }
-    
     free(pids);
     return 0;
 }
