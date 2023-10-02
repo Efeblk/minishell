@@ -3,3 +3,4 @@ main.dSYM
 a
 b
 c
+*.o
