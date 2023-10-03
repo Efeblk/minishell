@@ -102,15 +102,36 @@ int    first_token_controller(t_token **tokens)
         return (1);
 
 }
+char *full_pwd()
+{
+    char *pwd;
+    char *suffix;
+    char *user;
+    char *print;
+
+    pwd = return_pwd();
+    suffix = ft_strjoin(pwd, ":>");
+    user = ft_strjoin(getenv("USER"), "@");
+    print = ft_strjoin(user, suffix);
+    
+    free(pwd);
+    free(user);
+    free(suffix);
+    return(print);
+}
+
 int     ft_readline(t_data *data)
 {
         char *input;
         t_token **tokens;
         
-        input = readline("Enter a command: ");
+        
+        char *print = full_pwd();
+        input = readline(print);
         add_history(input);
         if (input[0] == '\0')
         {
+            free(print);
             free(data);
             free(input);
             return (0);
@@ -118,6 +139,7 @@ int     ft_readline(t_data *data)
         tokens = tokenize_input(input);
         if (!first_token_controller(tokens))
         {
+            free(print);
             free_tokens(tokens);
             free(input);
             free(data);
@@ -126,5 +148,6 @@ int     ft_readline(t_data *data)
         data->pipe_count = pipe_counter(data, tokens);
         fill_nodes(data, tokens, input);
         free(input);
+        free(print);
         return (1);
 }

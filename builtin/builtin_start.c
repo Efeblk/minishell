@@ -9,7 +9,7 @@ static void is_builtin(char *cmd, t_data *data, int i)
     else if (ft_strncmp(cmd, "pwd", 3) == 0)
         run_pwd();
     else if(ft_strncmp(cmd, "cd", 2) == 0)
-        run_cd(NULL);
+        run_cd(data, i);
     else if (ft_strncmp(cmd, "echo", 4) == 0)
         run_echo(data, i);
     else
