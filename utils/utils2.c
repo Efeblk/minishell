@@ -6,7 +6,6 @@ void free_array(void **array)
         int i = 0;
         while (array[i] != NULL)
         {
-            printf("array:    %i   \n", i);
             free(array[i]);
             array[i] = NULL; // Set the freed pointer to NULL to avoid double-free
             i++;

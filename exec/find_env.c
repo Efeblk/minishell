@@ -1,38 +1,60 @@
 #include "minishell.h"
 
-static int is_accessible(char **bin, t_data *data)
+static int is_executable(char **bin, t_data *data, int *valid, int *j)
 {
     int i;
+    char *tmp;
+
+    i = -1;
+    while (bin[++i])
+    {
+        if (bin[i][ft_strlen(bin[i]) - 1] != '/')
+            bin[i][ft_strlen(bin[i])] = '/';
+        tmp = ft_strjoin(bin[i], data->nodes[*j].cmd); 
+        
+        if ((access(tmp, F_OK | X_OK)) == 0)
+        {
+            data->nodes[*j].args[0] = ft_strdup(tmp);
+            *valid += 1;
+            free(tmp);
+            return (1);
+        }
+        free(tmp);
+    }
+    return (0);
+}
+
+static int is_path(t_data *data, int *valid, int *j)
+{
+    if (data->nodes[*j].cmd[0] == '/')
+    {
+        data->nodes[*j].args[0] = ft_strdup(data->nodes[*j].cmd);
+        *valid += 1;
+        return(1);
+    }
+    if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
+    {
+        printf("MINISHELL \n");
+        data->nodes[*j].args[0] = ft_strdup(data->nodes[*j].cmd);
+        *valid += 1;
+        return(1);
+    }
+    return(0);
+}
+
+static int is_accessible(char **bin, t_data *data)
+{
     int j;
     int valid;
-    char *tmp;
+    
     valid = 0;
     j = -1;
     while (++j < (data->pipe_count + 1))
     {
-        if (data->nodes[j].cmd && data->nodes[j].cmd[0] == '/')
+        if (data->nodes[j].cmd)
         {
-            data->nodes[j].args[0] = malloc(sizeof(char) * ft_strlen(data->nodes[j].cmd) + 1);
-            data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
-            valid += 1;
-        }
-        else
-        {
-            i = -1;
-            while (bin[++i])
-            {
-                if (bin[i][ft_strlen(bin[i]) - 1] != '/')
-                    bin[i][ft_strlen(bin[i])] = '/';
-                tmp = ft_strjoin(bin[i], data->nodes[j].cmd); 
-                
-                //is accessible?
-                if ((access(tmp, F_OK | X_OK)) == 0)
-                {
-                    data->nodes[j].args[0] = ft_strdup(tmp);
-                    valid += 1;
-                }
-                free(tmp);
-            }
+            if (!is_path(data, &valid, &j) && !is_executable(bin, data, &valid, &j))
+                data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
         }
         if (data->nodes[j].cmd == NULL)
             valid += 1;
@@ -53,9 +75,8 @@ int find_env(t_data *data)
         free_array((void **)bin);
         printf("command not found\n");
         data->status = 127;
-        return (-1);
+        return (127);
     }
-    
     free_array((void **)bin);
     return (0);
 }
