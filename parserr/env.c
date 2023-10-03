@@ -89,8 +89,7 @@ t_env	*load_environment(char *envp[])
 	i = 0;
 	while (envp[i] != NULL)
 	{
-		key = strtok(envp[i], "=");
-		value = strtok(NULL, "=");
+		;
 		full = envp[i];
 		add_env_node(&head, key, value);
 		i++;

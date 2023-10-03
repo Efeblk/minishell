@@ -26,7 +26,7 @@ static int is_executable(char **bin, t_data *data, int *valid, int *j)
 
 static int is_path(t_data *data, int *valid, int *j)
 {
-    if (data->nodes[*j].cmd[0] == '/')
+    if (data->nodes[*j].cmd != NULL)
     {
         data->nodes[*j].args[0] = ft_strdup(data->nodes[*j].cmd);
         *valid += 1;
@@ -39,7 +39,7 @@ static int is_path(t_data *data, int *valid, int *j)
         *valid += 1;
         return(1);
     }
-    return(0);
+        return (0);
 }
 
 static int is_accessible(char **bin, t_data *data)

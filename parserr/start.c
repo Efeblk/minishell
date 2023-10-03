@@ -106,7 +106,7 @@ int     ft_readline(t_data *data)
 {
         char *input;
         t_token **tokens;
-
+        
         input = readline("Enter a command: ");
         add_history(input);
         if (input[0] == '\0')
