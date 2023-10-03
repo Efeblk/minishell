@@ -125,7 +125,8 @@ pid_t   *pid_create(int size);
 
 void    built_in(t_data *data, char *envp[], t_env *env);
 
-void	run_cd(t_data *data);
+void	run_cd(t_data *data, int i);
+char    *return_pwd(void);
 void    run_pwd(void);
 void    run_exit(t_data *data);
 void    run_echo(t_data *data, int i);
