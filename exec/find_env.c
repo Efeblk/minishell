@@ -32,7 +32,7 @@ static int is_path(t_data *data, int *valid, int *j)
         *valid += 1;
         return(1);
     }
-    if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
+    else if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
     {
         printf("MINISHELL \n");
         data->nodes[*j].args[0] = ft_strdup(data->nodes[*j].cmd);
@@ -51,12 +51,12 @@ static int is_accessible(char **bin, t_data *data)
     j = -1;
     while (++j < (data->pipe_count + 1))
     {
-        if (data->nodes[j].cmd)
+        if (data->nodes[j].cmd != NULL)
         {
-            if (!is_path(data, &valid, &j) && !is_executable(bin, data, &valid, &j))
+            if (!is_executable(bin, data, &valid, &j) && !is_path(data, &valid, &j))
                 data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
         }
-        if (data->nodes[j].cmd == NULL)
+        else if (data->nodes[j].cmd == NULL)
             valid += 1;
     }
     return (valid);

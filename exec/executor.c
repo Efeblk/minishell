@@ -2,6 +2,7 @@
 
 static void first_process(t_data *data, int **pipes, int i)
 {
+    
     if (data->pipe_count > 0)
     {
         dup2(pipes[0][1], STDOUT_FILENO);

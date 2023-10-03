@@ -50,9 +50,10 @@ static void here_doc(t_data *data, int i)
 void op_router(t_data *data, int i)
 {
     int j = -1;
+
     while (data->nodes[i].operators[++j] != NULL)
     {
-        if (ft_strncmp(data->nodes[i].operators[j], ">", 1) == 0)
+        if (ft_strncmp(data->nodes[i].operators[j], ">", 2) == 0)
         {
             dup2(outfiler(data->nodes[i].outfile, data->nodes[i].operators, &j), STDOUT_FILENO);
         }
@@ -60,12 +61,12 @@ void op_router(t_data *data, int i)
         {
             dup2(outfiler(data->nodes[i].outfile, data->nodes[i].operators, &j), STDOUT_FILENO);
         }
-        else if (ft_strncmp(data->nodes[i].operators[j], "<", 1) == 0)
+        else if (ft_strncmp(data->nodes[i].operators[j], "<", 2) == 0)
         {
             dup2(open(data->nodes[i].infile[0], O_RDONLY, 0777), STDIN_FILENO);
         }
         else if (ft_strncmp(data->nodes[i].operators[j], "<<", 2) == 0)
-        {
+        {   
             here_doc(data, i);
         }
     }
