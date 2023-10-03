@@ -1,9 +1,9 @@
 NOM = libparser.a
-SRC = error.c free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counter.c start.c
+SRC = error.c free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counter.c start.c env.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I..
+CFLAGS = -Wall -Wextra -Werror -I.. -g
 all: $(NOM)
 
 $(NOM): $(OBJ)

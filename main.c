@@ -4,14 +4,22 @@ int main(int argc, char *argv[], char *envp[])
 {
     (void)argc;
     (void)argv;
-    (void)envp;
+    t_env *env;
+    
     printf("ilk min, \n");
     t_globals globals;
     globals.status = 0;
-    globals.user = get_env_val("USER");
+    env = load_environment(envp);
+    if (!env)
+    {
+        printf("elmacık \n");
+    }
+    globals.user = get_env_val("USER", env);
+    
+    printf(" \n HEHEEEY %s \n", globals.user);
     while (1) 
     {
-        t_data *data;
+		t_data *data;
         data = malloc(sizeof(t_data));
         if (ft_readline(data, &globals))
         {

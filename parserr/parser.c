@@ -93,7 +93,6 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
             }
             else
             {
-
                 data->nodes[node_index].args[arg_index] = ft_strdup(tokens[i]->value);
                 arg_index++;
             }
@@ -114,9 +113,7 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
         }
         else if ((tokens[i]->type == TOKEN_O || tokens[i]->type == TOKEN_O_O) && (tokens[i + 1]->type != TOKEN_EOF))
         {
-            printf("OUTPUT FILE\n");
             data->nodes[node_index].outfile[y] = ft_strdup(tokens[i + 1]->value);
-            printf("asadasdas\n");
             data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
             current_index++;
             y++;
@@ -124,13 +121,13 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
         }
         else if (tokens[i]->type == TOKEN_PIPE)
         {
-            data->nodes[node_index + 1].cmd = NULL;
             data->nodes[node_index].is_pipe = 1;
             data->nodes[node_index].args[arg_index + 1] = NULL;
             data->nodes[node_index].infile[x] = NULL;
             data->nodes[node_index].outfile[y] = NULL;
             data->nodes[node_index].operators[current_index] = NULL;
             node_index++;
+            data->nodes[node_index].cmd = NULL;
             arg_index = 0;
             current_index = 0;
             x = 0;

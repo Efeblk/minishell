@@ -86,3 +86,20 @@ void run_echo(t_data *data, int i)
 			printf("%s\n", data->nodes[i].args[j]);
 	}
 }
+
+// void run_env(t_env *env_list)
+// {
+// 	print_list(env_list);
+// }
+
+// void run_export(t_env *exp_list, int i, t_data *data)
+// {
+// 	int	j;
+
+// 	j = -1;
+// 	while (data->nodes[i].args[1] != NULL && data->nodes[i].args[1][1] = '=')
+// 	{
+
+// 	}
+	
+// }

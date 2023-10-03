@@ -28,20 +28,25 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals)
     question_mark(data, globals);
     if (ft_strncmp(cmd, "clear", 5) == 0)
         printf("\033[2J\033[H");
-    else if (ft_strncmp(cmd, "exit", 4) == 0)
+    if (ft_strncmp(cmd, "exit", 4) == 0)
         run_exit(data);
     else if (ft_strncmp(cmd, "pwd", 3) == 0)
         run_pwd();
-    else if(ft_strncmp(cmd, "cd", 2) == 0)
-        run_cd(data, i);
+    //else if(ft_strncmp(cmd, "cd", 2) == 0)
+        //run_cd(NULL);
     else if (ft_strncmp(cmd, "echo", 4) == 0)
         run_echo(data, i);
+    // else if (ft_strncmp(cmd, "env", 3) == 0)
+    //     run_env(env);
+    // else if (ft_strncmp(cmd, "export", 6) == 0)
+    //     run_export(env, i, data);
     else
         printf("no builtin \n"); //burası önemli else olmayınca TERM error basıyor?
 }
 
 void built_in(t_data *data, t_globals *globals)
 {
+    //(void)envp;
     int i;
 
     i = -1;

@@ -122,7 +122,9 @@ void    run_pwd(void);
 void    run_exit(t_data *data);
 void    run_echo(t_data *data, int i);
 
-char	*get_env_val(const char *key);
+char	*get_env_val(const char *key, t_env *env_list);
+t_env	*load_environment(char *envp[]);
+
 
 #endif
 
