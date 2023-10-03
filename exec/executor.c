@@ -26,16 +26,16 @@ static void last_process(t_data *data, int **pipes, int i)
     op_router(data, i);
 }
 
-static void wait_close_free(t_data *data, int **pipes, int *pids)
+static void wait_close_free(t_data *data, int **pipes, int *pids, t_globals *globals)
 {
     int i;
 
     close_pipes(pipes, data->pipe_count);
     i = -1;
-    data->status = 0;
+    globals->status = 0;
     while (++i < data->pipe_count + 1)
     {
-        if (waitpid(pids[i], &data->status, 0) == -1)
+        if (waitpid(pids[i], &globals->status, 0) == -1)
         {
             perror("waitpid");
         }
@@ -43,13 +43,13 @@ static void wait_close_free(t_data *data, int **pipes, int *pids)
     free(pids);
 }
 
-int executor(t_data *data)
+int executor(t_data *data, t_globals *globals)
 {
     int **pipes;
     pid_t *pids;
     int i;
 
-    find_env(data);
+    find_env(data, globals);
     i = -1;
     pipes = pipe_create(data->pipe_count);
     pids = pid_create(data->pipe_count + 1);
@@ -68,6 +68,6 @@ int executor(t_data *data)
             exit(0);
         }
     }
-    wait_close_free(data, pipes, pids);
+    wait_close_free(data, pipes, pids, globals);
     return 0;
 }

@@ -55,15 +55,18 @@ typedef struct s_data
     t_env   *env;
     t_node  *nodes;
     int     count;
-    int     status;
 }t_data;
 
-
+typedef struct s_globals
+{
+    char *user;
+    int status;
+}t_globals;
 
 int     env_count(char **envp);
 char    **env_list(char **envp, t_env *env);
 char    **add_env_list(t_env *env, char *str);
-int     ft_readline(t_data *data);
+int     ft_readline(t_data *data, t_globals *globals);
 char    *ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -94,7 +97,7 @@ int     first_token_controller(t_token **tokens);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
-int     find_env(t_data *data);
+int     find_env(t_data *data, t_globals *globals);
 
 void    free_array(void **array);
 void    data_free(t_data *data);
@@ -102,7 +105,7 @@ void    data_free(t_data *data);
 int     is_input(char *cmd);
 
 
-int     executor(t_data *data);
+int     executor(t_data *data, t_globals *globals);
 
 void    op_router(t_data *data, int i);
 
@@ -111,13 +114,15 @@ void    close_pipes(int **pipes, int pipe_count);
 pid_t   *pid_create(int size);
 
 
-void    built_in(t_data *data);
+void    built_in(t_data *data, t_globals *globals);
 
 void	run_cd(t_data *data, int i);
 char    *return_pwd(void);
 void    run_pwd(void);
 void    run_exit(t_data *data);
 void    run_echo(t_data *data, int i);
+
+char	*get_env_val(const char *key);
 
 #endif
 

@@ -1,7 +1,31 @@
 #include "minishell.h"
 
-static void is_builtin(char *cmd, t_data *data, int i)
+static void question_mark(t_data *data, t_globals *globals)
 {
+    int i;
+    int j;
+
+    j = 1;
+    i = 0;
+    while (i < data->pipe_count + 1)
+    {
+        if (data->nodes[i].cmd[0] == '$' && data->nodes[i].cmd[1] == '?')
+            printf("%i", globals->status);
+        else
+        {
+            while (data->nodes[i].args[j] != NULL)
+            {
+                if (data->nodes[i].args[j][0] == '$' && data->nodes[i].args[j][1] == '?')
+                    printf("%i", globals->status);
+                j++;
+            }
+        }   
+        i++;  
+    }
+}
+static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals)
+{
+    question_mark(data, globals);
     if (ft_strncmp(cmd, "clear", 5) == 0)
         printf("\033[2J\033[H");
     else if (ft_strncmp(cmd, "exit", 4) == 0)
@@ -16,14 +40,14 @@ static void is_builtin(char *cmd, t_data *data, int i)
         printf("no builtin \n"); //burası önemli else olmayınca TERM error basıyor?
 }
 
-void built_in(t_data *data)
+void built_in(t_data *data, t_globals *globals)
 {
     int i;
 
     i = -1;
-    while (data->nodes[++i].cmd != NULL)
+    while (++i < data->pipe_count + 1)
     {
-        is_builtin(data->nodes[i].cmd, data, i);
+        is_builtin(data->nodes[i].cmd, data, i, globals);
     }
 }
 

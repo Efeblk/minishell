@@ -102,36 +102,48 @@ int    first_token_controller(t_token **tokens)
         return (1);
 
 }
-char *full_pwd()
+
+char *full_pwd(t_globals *globals)
 {
     char *pwd;
     char *suffix;
     char *user;
     char *print;
+    char *env;
 
+    env = globals->user;
+    printf("env %s \n", env);
     pwd = return_pwd();
+    printf("pwd %s \n", pwd);
     suffix = ft_strjoin(pwd, ":>");
-    user = ft_strjoin(getenv("USER"), "@");
+    printf("suffix %s \n", suffix);
+    user = ft_strjoin(env, "@");
+    printf("user %s \n", user);
     print = ft_strjoin(user, suffix);
+    printf("print %s \n", print);
     
     free(pwd);
     free(user);
     free(suffix);
+    pwd = NULL;
+    suffix = NULL;
+    user = NULL;
+    env = NULL;
     return(print);
 }
 
-int     ft_readline(t_data *data)
+int     ft_readline(t_data *data, t_globals *globals)
 {
         char *input;
         t_token **tokens;
         
-        
-        char *print = full_pwd();
-        input = readline(print);
+        char *print = full_pwd(globals);
+        input = readline("minishell");
         add_history(input);
         if (input[0] == '\0')
         {
             free(print);
+            print = NULL;
             free(data);
             free(input);
             return (0);
@@ -140,6 +152,7 @@ int     ft_readline(t_data *data)
         if (!first_token_controller(tokens))
         {
             free(print);
+            print = NULL;
             free_tokens(tokens);
             free(input);
             free(data);
@@ -149,5 +162,6 @@ int     ft_readline(t_data *data)
         fill_nodes(data, tokens, input);
         free(input);
         free(print);
+        print = NULL;
         return (1);
 }

@@ -34,12 +34,11 @@ static int is_path(t_data *data, int *valid, int *j)
     }
     else if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
     {
-        printf("MINISHELL \n");
         data->nodes[*j].args[0] = ft_strdup(data->nodes[*j].cmd);
         *valid += 1;
         return(1);
     }
-        return (0);
+    return (0);
 }
 
 static int is_accessible(char **bin, t_data *data)
@@ -54,7 +53,12 @@ static int is_accessible(char **bin, t_data *data)
         if (data->nodes[j].cmd != NULL)
         {
             if (!is_executable(bin, data, &valid, &j) && !is_path(data, &valid, &j))
+            {
+                printf("here\n");
                 data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
+            }   
+            printf("%s \n", data->nodes[j].args[0]);
+            printf("%s \n", data->nodes[j].args[1]);
         }
         else if (data->nodes[j].cmd == NULL)
             valid += 1;
@@ -62,7 +66,7 @@ static int is_accessible(char **bin, t_data *data)
     return (valid);
 }
 
-int find_env(t_data *data)
+int find_env(t_data *data, t_globals *globals)
 {
     char *env;
     char **bin; 
@@ -74,7 +78,7 @@ int find_env(t_data *data)
     {
         free_array((void **)bin);
         printf("command not found\n");
-        data->status = 127;
+        globals->status = 127;
         return (127);
     }
     free_array((void **)bin);
