@@ -60,9 +60,21 @@ typedef struct s_data
 
 
 
-int     env_count(char **envp);
-char    **env_list(char **envp, t_env *env);
-char    **add_env_list(t_env *env, char *str);
+t_env	*create_env_node(const char *key, const char *value);
+void	add_env_node(t_env **head, const char *key, const char *value);
+t_env	*find_env_node(t_env *head, const char *key);
+void	free_env_list(t_env *head);
+char	*join_env(const char *key, const char *value);
+t_env	*load_environment(char *envp[]);
+char	*get_env_val(const char *key, t_env *env_list);
+char	**get_env_arr(t_env *head);
+void	update_env_node(t_env *head, const char *key, const char *new_value);
+void	delete_env_node(t_env **head, const char *key);
+void	print_list(t_env *head);
+
+
+
+
 int     ft_readline(t_data *data);
 char    *ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
@@ -111,12 +123,13 @@ void    close_pipes(int **pipes, int pipe_count);
 pid_t   *pid_create(int size);
 
 
-void    built_in(t_data *data);
+void    built_in(t_data *data, char *envp[], t_env *env);
 
 void	run_cd(t_data *data);
 void    run_pwd(void);
 void    run_exit(t_data *data);
 void    run_echo(t_data *data, int i);
+void    run_env(t_env *env_list);
 
 #endif
 
