@@ -12,8 +12,9 @@ static int is_accessible(char **bin, t_data *data)
     {
         if (data->nodes[j].cmd && data->nodes[j].cmd[0] == '/')
         {
-            data->nodes[j].args[0] = malloc(sizeof(char) * ft_strlen(data->nodes[j].cmd) + 1);
             data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
+            free(data->nodes[j].cmd);
+            data->nodes[j].cmd = NULL;
             valid += 1;
         }
         else
