@@ -11,6 +11,7 @@ int main()
             //built_in(data);
             executor(data);
             data_free(data);   
+            //print_node(data);
             //system("leaks minishell");       //
         }     
     }

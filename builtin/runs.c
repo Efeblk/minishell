@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-void	run_cd(t_data *data)
+/*void	run_cd(t_data *data)
 {
-    /*char	*s;
+    char	*s;
 
 	if (node.arg_count != 1 && node.args[1][0] != '~')
 	{
@@ -24,7 +24,6 @@ void	run_cd(t_data *data)
 			}
 		}
 	}*/
-}
 
 void run_pwd(void)
 {
@@ -43,7 +42,7 @@ void run_pwd(void)
 
 void run_exit(t_data *data)
 {
-    //data_free(data);   
+    data_free(data); 
     printf("exit");
     exit(0);
 }

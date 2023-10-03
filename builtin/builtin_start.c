@@ -8,8 +8,8 @@ static void is_builtin(char *cmd, t_data *data)
         run_exit(data);
     else if (ft_strncmp(cmd, "pwd", 3) == 0)
         run_pwd();
-    else if(ft_strncmp(cmd, "cd", 2) == 0)
-        run_cd(NULL);
+    //else if(ft_strncmp(cmd, "cd", 2) == 0)
+        //run_cd(NULL);
     else
         printf("no builtin \n"); //burası önemli else olmayınca TERM error basıyor?
 }

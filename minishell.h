@@ -103,12 +103,18 @@ int     is_input(char *cmd);
 
 
 int     executor(t_data *data);
-void    router(t_data data, int i, int *left_pipe, int *right_pipe);
 
-void built_in(t_data *data);
+void    op_router(t_data *data, int i);
+
+int     **pipe_create(int pipe_count);
+void    close_pipes(int **pipes, int pipe_count);
+pid_t   *pid_create(int size);
+
+
+void    built_in(t_data *data);
 
 void	run_cd(t_data *data);
-void run_pwd(void);
-void run_exit(t_data *data);
+void    run_pwd(void);
+void    run_exit(t_data *data);
 #endif
 
