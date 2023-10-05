@@ -10,7 +10,6 @@ int main(int argc, char *argv[], char *envp[])
     t_globals globals;
 
     printf("new shell \n");
-    globals.status = 0;
     env = load_environment(envp);
     globals.user =  get_env_val("USER", env);
     exp_list = load_export(envp);
@@ -21,7 +20,7 @@ int main(int argc, char *argv[], char *envp[])
         if (ft_readline(data, &globals))
         {
             built_in(data, &globals, &env, &exp_list);
-            executor(data, &globals, envp);
+            executor(data, &globals, env);
             data_free(data);   
             //print_node(data);
         }    

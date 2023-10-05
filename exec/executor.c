@@ -33,18 +33,20 @@ static void wait_close_free(t_data *data, int **pipes, int *pids, t_globals *glo
     i = -1;
     while (++i < data->pipe_count + 1)
     {
-        if (data->nodes[i].is_builtin == 0 && data->nodes[i].is_valid_cmd == 1)
+        if (globals->status > 0)
         {
-            if (waitpid(pids[i], &globals->status, 0) == -1)
-            {
-                perror("waitpid");
-            }
+            waitpid(pids[i], NULL, 0);
         }
+        else
+        {
+            waitpid(pids[i], &globals->status, 0); //waitpid(pids[i], &globals->status, 0);
+        }
+            
     }
     free(pids);
 }
 
-int executor(t_data *data, t_globals *globals, char **env)
+int executor(t_data *data, t_globals *globals, t_env *env)
 {
     int **pipes;
     pid_t *pids;
@@ -67,9 +69,11 @@ int executor(t_data *data, t_globals *globals, char **env)
                     last_process(data, pipes, i);
                 else
                     middle_process(data, pipes, i);
-                //globals->status = 0;
-                //printf("exec \n");
-                execve(data->nodes[i].args[0], data->nodes[i].args, env);
+                if (data->nodes[i].is_valid_path == 1)
+                {
+                    char **envs = get_env_arr(env);
+                    execve(data->nodes[i].args[0], data->nodes[i].args, envs);
+                }
                 exit(0);
             }
         }

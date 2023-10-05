@@ -27,10 +27,19 @@ void run_pwd(void)
     free(s);
 }
 
-void run_exit(t_data *data)
+void run_exit(t_data *data, t_globals *globals, int i)
 {
+	if (data->nodes[i].args[1])
+	{
+		printf("args 1 %s \n", data->nodes[i].args[1]);
+		globals->status = atoi(data->nodes[i].args[1]);
+		printf("args 1 %i \n", globals->status);
+		printf("exit \n");
+		data_free(data); 
+		exit(globals->status);
+	}
     data_free(data); 
-    printf("exit");
+    printf("exit \n");
     exit(0);
 }
 

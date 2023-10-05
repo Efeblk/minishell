@@ -9,6 +9,12 @@ static int question_mark(t_data *data, t_globals *globals)
     flag = 0;
     j = 1;
     i = 0;
+    
+    if (globals->status > 255)
+    {
+        globals->status = globals->status % 256;
+    }
+    
     while (i < data->pipe_count + 1)
     {
         if (data->nodes[i].cmd != NULL)
@@ -53,7 +59,7 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
         else if (ft_strncmp(cmd, "clear", 5) == 0)
             printf("\033[2J\033[H");
         else if (ft_strncmp(cmd, "exit", 4) == 0)
-            run_exit(data);
+            run_exit(data, globals, i);
         else if (ft_strncmp(cmd, "pwd", 3) == 0)
             run_pwd();
         else if(ft_strncmp(cmd, "cd", 2) == 0)
@@ -68,7 +74,6 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
             run_unset(env, exp_list, i, data);
         else
         {
-            printf("asdas \n");
             data->nodes[i].is_builtin = 0;
         }
     }

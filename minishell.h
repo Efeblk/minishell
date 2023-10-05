@@ -68,6 +68,7 @@ typedef struct s_data
 typedef struct s_globals
 {
     char *user;
+    int shell_count;
     int status;
 }t_globals;
 
@@ -111,7 +112,7 @@ void    data_free(t_data *data);
 int     is_input(char *cmd);
 
 
-int     executor(t_data *data, t_globals *globals, char **envp);
+int     executor(t_data *data, t_globals *globals, t_env *env);
 
 void    op_router(t_data *data, int i);
 
@@ -125,7 +126,7 @@ void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list
 void	run_cd(t_data *data, int i);
 char    *return_pwd(void);
 void    run_pwd(void);
-void    run_exit(t_data *data);
+void run_exit(t_data *data, t_globals *globals, int i);
 void    run_echo(t_data *data, int i);
 void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data);
 
