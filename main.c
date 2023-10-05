@@ -4,7 +4,7 @@ int main(int argc, char *argv[], char *envp[])
 {
     (void)argc;
     (void)argv;
-    
+
     t_env *env;
     t_export *exp_list;
     t_globals globals;

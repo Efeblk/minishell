@@ -103,6 +103,67 @@ int    first_token_controller(t_token **tokens)
 
 }
 
+int     token_controller(t_token **tokens)
+{
+    int i;
+
+    i = 0;
+    while (tokens[i]->type != TOKEN_EOF)
+    {
+        if (tokens[i]->type == TOKEN_PIPE)
+        {
+            if (tokens[i + 1]->type == TOKEN_PIPE)
+            {
+                printf("syntax error near unexpected token `|'\n");
+                return (0);
+            }
+        }
+        else if (tokens[i]->type == TOKEN_I)
+        {
+            if (tokens[i + 1]->type == TOKEN_PIPE)
+            {
+                 printf("syntax error near unexpected token `|'\n");
+                 return (0);
+            }
+            else if (tokens[i + 1]->type == TOKEN_I)
+            {
+                printf("syntax error near unexpected token '<'\n");
+                return (0);
+            }
+            else if (tokens[i + 1]->type == TOKEN_I_I)
+            {
+                printf("syntax error near unexpected token '<<'\n");
+                return (0);
+            }
+            else if (tokens[i + 1]->type == TOKEN_O)
+            {
+                printf("syntax error near unexpected token '>'\n");
+                return (0);
+            }
+            else if (tokens[i + 1]->type == TOKEN_O_O)
+            {
+                printf("syntax error near unexpected token '>>'\n");
+                return (0);
+            }
+        }
+        else if (tokens[i]->type == TOKEN_I_I)
+        {
+            if (tokens[i + 1]->type == TOKEN_I)
+            {
+                printf("syntax error near unexpected token '<'\n");
+                return (0);   
+            }
+            else if (tokens[i + 1]->type == TOKEN_I_I)
+            {
+                printf("syntax error near unexpected token '<<'\n");
+                return (0);
+            }
+        }
+        i++;
+    }
+    return (1);
+}
+
 char *full_pwd(t_globals *globals)
 {
     char *pwd;
@@ -153,8 +214,24 @@ int     ft_readline(t_data *data, t_globals *globals)
             free(data);
             return (0);
         }
+        if (!token_controller(tokens))
+        {
+            free(print);
+            print = NULL;
+            free_tokens(tokens);
+            free(input);
+            free(data);
+            return (0);
+        }
         data->pipe_count = pipe_counter(data, tokens);
-        fill_nodes(data, tokens, input);
+        if (!fill_nodes(data, tokens, input))
+        {
+            free(print);
+            free_tokens(tokens);
+            free(input);
+            data_free(data);
+            return (0);
+        }
         free(input);
         free(print);
         print = NULL;

@@ -32,6 +32,7 @@ typedef struct s_env
 {
     char    *key;
     char    *value;
+    char    *full;
     struct  s_env *next;
 } t_env;
 
@@ -39,6 +40,7 @@ typedef struct s_export
 {
     char    *key;
     char    *value;
+    char    *full;
     struct  s_export *next;
 } t_export;
 
@@ -91,7 +93,7 @@ void    print_and_free_tokens(t_token **tokens, int count);
 int     pipe_counter(t_data *data, t_token **tokens);
 
 void    free_tokens(t_token **tokens);
-void    fill_nodes(t_data *data, t_token **tokens, char *input);
+int    fill_nodes(t_data *data, t_token **tokens, char *input);
 void    print_node(t_data *data);
 
 int     outfile_counter(t_token **tokens);
@@ -99,6 +101,7 @@ int     infile_counter(t_token **tokens);
 int     operator_counter(t_token **tokens);
 
 int     first_token_controller(t_token **tokens);
+int     token_controller(t_token **tokens);
 
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
@@ -160,6 +163,8 @@ char	    **get_export_arr(t_export *head);
 void	    update_export_node(t_export *head, const char *key, const char *new_value);
 void	    delete_export_node(t_export **head, const char *key);
 void	    print_export_list(t_export *head);
+
+char **linked_list_to_array(t_export *head);
 
 #endif
 

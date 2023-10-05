@@ -66,8 +66,8 @@ char	*join_export(const char *key, const char *value)
 	size_t	result_length;
 	char	*result;
 
-	klen = strlen(key);
-	vlen = strlen(value);
+	klen = ft_strlen(key);
+	vlen = ft_strlen(value);
 	result_length = klen + vlen + 2;
 	result = (char *) malloc(result_length * sizeof(char));
 	if (!result)

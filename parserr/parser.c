@@ -64,7 +64,7 @@ void    fill_structs(t_data *data, t_token **tokens, char *input)
     }
 }
 // int return etsin 
-void    fill_nodes(t_data *data, t_token **tokens, char *input) 
+int    fill_nodes(t_data *data, t_token **tokens, char *input) 
 {
     int i;
     int node_index;
@@ -96,12 +96,14 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
                 data->nodes[node_index].args[arg_index] = ft_strdup(tokens[i]->value);
                 arg_index++;
             }
-
         }
         else if ((tokens[i]->type == TOKEN_I || tokens[i]->type == TOKEN_I_I))
         {
             if (tokens[i + 1]->type == TOKEN_EOF)
+            {
                     printf("syntax error near unexpected token `newline\n'");
+                    return (0);
+            }
             else
             { 
                 data->nodes[node_index].infile[x] = ft_strdup(tokens[i + 1]->value);
@@ -124,25 +126,29 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
             if (tokens[i + 1]->type == TOKEN_PIPE)
             {
                 printf("syntax error near unexpected token `|'\n");
-                return ;
+                return (0);
             }
-            data->nodes[node_index].is_pipe = 1;
-            data->nodes[node_index].args[arg_index + 1] = NULL;
-            data->nodes[node_index].infile[x] = NULL;
-            data->nodes[node_index].outfile[y] = NULL;
-            data->nodes[node_index].operators[current_index] = NULL;
-            node_index++;
-            data->nodes[node_index].cmd = NULL;
-            arg_index = 0;
-            current_index = 0;
-            x = 0;
-            y = 0;
+            else
+            {
+                data->nodes[node_index].is_pipe = 1;
+                data->nodes[node_index].args[arg_index + 1] = NULL;
+                data->nodes[node_index].infile[x] = NULL;
+                data->nodes[node_index].outfile[y] = NULL;
+                data->nodes[node_index].operators[current_index] = NULL;
+                node_index++;
+                data->nodes[node_index].cmd = NULL;
+                arg_index = 0;
+                current_index = 0;
+                x = 0;
+                y = 0;
+            }
         }
         i++;
     }
     data->nodes[node_index].args[arg_index] = NULL;
     data->nodes[node_index].operators[current_index] = NULL;
     free_tokens(tokens);
+    return (1);
 }
 
 
