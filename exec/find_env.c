@@ -40,17 +40,14 @@ static int is_path(t_data *data, int *valid, int *j)
     else if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
     {
         data->nodes[*j].is_valid_cmd = 1;
-
         c = return_pwd();
         tmp = ft_strjoin(c, ++(data->nodes[*j].cmd));
         if ((access(tmp, F_OK | X_OK)) == -1)
-        {
             data->nodes[*j].is_valid_path = 0;
-        }
         data->nodes[*j].args[0] = tmp;
         --(data->nodes[*j].cmd);
         free(c);
-        *valid += 1; //prob leaks here
+        *valid += 1;
         return(1);
     }
     if (data->nodes[*j].is_builtin == 0)
@@ -105,6 +102,7 @@ int find_env(t_data *data, t_globals *globals)
         else if (data->nodes[i].is_valid_path == 0)
         {
             printf("%s : not a valid path \n", data->nodes[i].cmd);
+            globals->status = 127;
             break;
         }
     }
