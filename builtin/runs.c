@@ -65,26 +65,36 @@ void run_env(t_env *env_list)
 
 void run_export(t_export **exp_list, int i, t_data *data, t_env **env)
 {
-    if (data->nodes[i].args[1] && (ft_strchr(data->nodes[i].args[1], '=')))
-    {
-        add_export(i, data, exp_list);
-        add_env(i, data, env);
-    }
-    else if (data->nodes[i].args[1] && !(ft_strchr(data->nodes[i].args[1], '=')))
-        add_export(i, data, exp_list);
-    else
-        print_export_list(*exp_list);
+	int	j;
+
+	j = 0;
+	if (data->nodes[i].args[1] == NULL)
+		print_export_list(*exp_list);
+	else
+	{
+		while (data->nodes[i].args[++j])
+		{
+    		if ((ft_strchr(data->nodes[i].args[j], '=')))
+    		{
+        		add_export(i, data, exp_list, j);
+        		add_env(i, data, env, j);
+    		}
+    		else if (!(ft_strchr(data->nodes[i].args[j], '=')))
+        			add_export(i, data, exp_list, j);
+		}
+
+	}
 }
 
-void	add_export(int i, t_data *data, t_export **exp_list)
+void	add_export(int i, t_data *data, t_export **exp_list, int j)
 {
 	char 	**str;
 	char	*key;
 	char	*value;
-
-	if ((ft_strchr(data->nodes[i].args[1], '=')))
+	
+	if ((ft_strchr(data->nodes[i].args[j], '=')))
 	{
-		str = ft_split(data->nodes[i].args[1], '=');
+		str = ft_split(data->nodes[i].args[j], '=');
 		key = ft_strdup(str[0]);
 		value = ft_strdup(str[1]);
 		free_array((void **)str);
@@ -94,26 +104,24 @@ void	add_export(int i, t_data *data, t_export **exp_list)
 				update_export_node(*exp_list, key, value);
 		}
 		else
-		{
 			add_export_node(exp_list, key, value);
-		}
 		free(key);
 		free(value);
 	}
 	else
 	{
-		if (!find_export_node(*exp_list, data->nodes[i].args[1]))
-			add_export_node(exp_list, data->nodes[i].args[1], "");
+		if (!find_export_node(*exp_list, data->nodes[i].args[j]))
+			add_export_node(exp_list, data->nodes[i].args[j], "");
 	}
 }
 
-void 	add_env(int i, t_data *data, t_env **env_list)
+void 	add_env(int i, t_data *data, t_env **env_list, int j)
 {
 	char 	**str;
 	char	*key;
 	char	*value;
-
-	str = ft_split(data->nodes[i].args[1], '=');
+	
+	str = ft_split(data->nodes[i].args[j], '=');
 	key = ft_strdup(str[0]);
 	value = ft_strdup(str[1]);
 	free_array((void **)str);
@@ -123,4 +131,19 @@ void 	add_env(int i, t_data *data, t_env **env_list)
 		add_env_node(env_list, key, value);
 	free(key);
 	free(value);
+}
+
+void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data)
+{
+
+	int	j;
+
+	j = 0;
+	while (data->nodes[i].args[++j])
+	{
+		if (find_env_node(*env, data->nodes[i].args[j]))
+			delete_env_node(env, data->nodes[i].args[j]);
+		if (find_export_node(*exp_list, data->nodes[i].args[j]))
+			delete_export_node(exp_list, data->nodes[i].args[j]);
+	}
 }
