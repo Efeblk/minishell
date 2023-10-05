@@ -1,27 +1,40 @@
 #include "minishell.h"
 
-static void question_mark(t_data *data, t_globals *globals)
+static int question_mark(t_data *data, t_globals *globals)
 {
     int i;
     int j;
+    int flag;
 
+    flag = 0;
     j = 1;
     i = 0;
     while (i < data->pipe_count + 1)
     {
         if (data->nodes[i].cmd[0] == '$' && data->nodes[i].cmd[1] == '?')
-            printf("%i", globals->status);
+        {
+            flag = 1;
+            printf("%i: ", globals->status);
+            break;
+        }
         else
         {
             while (data->nodes[i].args[j] != NULL)
             {
                 if (data->nodes[i].args[j][0] == '$' && data->nodes[i].args[j][1] == '?')
-                    printf("%i", globals->status);
+                {
+                    flag = 1;
+                    printf("%i: ", globals->status);
+                    break;
+                }
+                if (flag)
+                    break;
                 j++;
             }
         }   
         i++;  
     }
+    return(flag);
 }
 static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
 {
@@ -43,10 +56,8 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
          run_export(exp_list, i, data, env);
     else
     {
-        printf("no builtin \n");
         data->nodes[i].is_builtin = 0;
     }
-         //burası önemli else olmayınca TERM error basıyor?
 }
 
 void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list)

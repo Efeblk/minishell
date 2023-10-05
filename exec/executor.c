@@ -31,10 +31,9 @@ static void wait_close_free(t_data *data, int **pipes, int *pids, t_globals *glo
 
     close_pipes(pipes, data->pipe_count);
     i = -1;
-    globals->status = 0;
     while (++i < data->pipe_count + 1)
     {
-        if (data->nodes[i].is_builtin == 0)
+        if (data->nodes[i].is_builtin == 0 && data->nodes[i].is_valid_cmd == 1)
         {
             if (waitpid(pids[i], &globals->status, 0) == -1)
             {

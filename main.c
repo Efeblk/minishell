@@ -9,7 +9,6 @@ int main(int argc, char *argv[], char *envp[])
     t_export *exp_list;
     t_globals globals;
 
-
     globals.status = 0;
     env = load_environment(envp);
     globals.user = getenv("USER"); //get_env_val("USER", env);
