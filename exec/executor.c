@@ -2,7 +2,6 @@
 
 static void first_process(t_data *data, int **pipes, int i)
 {
-    
     if (data->pipe_count > 0)
     {
         dup2(pipes[0][1], STDOUT_FILENO);
@@ -35,9 +34,12 @@ static void wait_close_free(t_data *data, int **pipes, int *pids, t_globals *glo
     globals->status = 0;
     while (++i < data->pipe_count + 1)
     {
-        if (waitpid(pids[i], &globals->status, 0) == -1)
+        if (data->nodes[i].is_builtin == 0)
         {
-            perror("waitpid");
+            if (waitpid(pids[i], &globals->status, 0) == -1)
+            {
+                perror("waitpid");
+            }
         }
     }
     free(pids);
@@ -55,17 +57,20 @@ int executor(t_data *data, t_globals *globals, char **env)
     pids = pid_create(data->pipe_count + 1);
     while (++i < (data->pipe_count + 1))
     {
-        pids[i] = fork();
-        if (pids[i] == 0)
+        if (data->nodes[i].is_builtin == 0)
         {
-            if (i == 0)
-                first_process(data, pipes, i);
-            else if (i == data->pipe_count)
-                last_process(data, pipes, i);
-            else
-                middle_process(data, pipes, i);
-            execve(data->nodes[i].args[0], data->nodes[i].args, env);
-            exit(0);
+            pids[i] = fork();
+            if (pids[i] == 0)
+            {
+                if (i == 0)
+                    first_process(data, pipes, i);
+                else if (i == data->pipe_count)
+                    last_process(data, pipes, i);
+                else
+                    middle_process(data, pipes, i);  
+                execve(data->nodes[i].args[0], data->nodes[i].args, env);
+                exit(0);
+            }
         }
     }
     wait_close_free(data, pipes, pids, globals);

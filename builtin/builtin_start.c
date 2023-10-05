@@ -25,10 +25,11 @@ static void question_mark(t_data *data, t_globals *globals)
 }
 static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
 {
+    data->nodes[i].is_builtin = 1;
     question_mark(data, globals);
     if (ft_strncmp(cmd, "clear", 5) == 0)
         printf("\033[2J\033[H");
-    if (ft_strncmp(cmd, "exit", 4) == 0)
+    else if (ft_strncmp(cmd, "exit", 4) == 0)
         run_exit(data);
     else if (ft_strncmp(cmd, "pwd", 3) == 0)
         run_pwd();
@@ -41,7 +42,11 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
     else if (ft_strncmp(cmd, "export", 6) == 0)
          run_export(exp_list, i, data, env);
     else
-        printf("no builtin \n"); //burası önemli else olmayınca TERM error basıyor?
+    {
+        printf("no builtin \n");
+        data->nodes[i].is_builtin = 0;
+    }
+         //burası önemli else olmayınca TERM error basıyor?
 }
 
 void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list)

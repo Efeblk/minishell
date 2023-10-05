@@ -21,7 +21,7 @@ int main(int argc, char *argv[], char *envp[])
         if (ft_readline(data, &globals))
         {
             built_in(data, &globals, &env, &exp_list);
-            //executor(data, &globals, envp);
+            executor(data, &globals, envp);
             data_free(data);   
             //print_node(data);
         }    

@@ -51,6 +51,7 @@ typedef struct s_node
     int     is_pipe;
     char    **operators;
     int     arg_count;
+    int     is_builtin;
 }t_node;
 
 

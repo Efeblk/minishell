@@ -57,8 +57,6 @@ static int is_accessible(char **bin, t_data *data)
                 printf("here\n");
                 data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
             }   
-            printf("%s \n", data->nodes[j].args[0]);
-            printf("%s \n", data->nodes[j].args[1]);
         }
         else if (data->nodes[j].cmd == NULL)
             valid += 1;
