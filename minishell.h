@@ -53,6 +53,7 @@ typedef struct s_node
     int     arg_count;
     int     is_builtin;
     int     is_valid_cmd;
+    int     is_valid_path;
 }t_node;
 
 
@@ -70,9 +71,7 @@ typedef struct s_globals
     int status;
 }t_globals;
 
-int     env_count(char **envp);
-char    **env_list(char **envp, t_env *env);
-char    **add_env_list(t_env *env, char *str);
+
 int     ft_readline(t_data *data, t_globals *globals);
 char    *ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
@@ -128,14 +127,15 @@ char    *return_pwd(void);
 void    run_pwd(void);
 void    run_exit(t_data *data);
 void    run_echo(t_data *data, int i);
+void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data);
 
 char	*get_env_val(const char *key, t_env *env_list);
 t_env	*load_environment(char *envp[]);
 
 void    run_env(t_env *env_list);
 void    run_export(t_export **exp_list, int i, t_data *data, t_env **env);
-void	add_export(int i, t_data *data, t_export **exp_list);
-void 	add_env(int i, t_data *data, t_env **env_list);
+void	add_export(int i, t_data *data, t_export **exp_list, int j);
+void 	add_env(int i, t_data *data, t_env **env_list, int j);
 
 t_env	*create_env_node(const char *key, const char *value);
 void	add_env_node(t_env **head, const char *key, const char *value);

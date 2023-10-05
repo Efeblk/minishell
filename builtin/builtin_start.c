@@ -1,14 +1,14 @@
 #include "minishell.h"
 
-static int question_mark(t_data *data, t_globals *globals)
+static void question_mark(t_data *data, t_globals *globals)
 {
     int i;
     int j;
     int flag;
 
-    flag = 0;
     j = 1;
     i = 0;
+    flag = 0;
 
     while (i < data->pipe_count + 1)
     {
@@ -26,19 +26,12 @@ static int question_mark(t_data *data, t_globals *globals)
             while (data->nodes[i].args[j] != NULL)
             {
                 if (data->nodes[i].args[j][0] == '$' && data->nodes[i].args[j][1] == '?')
-                {
-                    flag = 1;
-                    printf("%i: ", globals->status);
-                    break;
-                }
-                if (flag)
-                    break;
+                    printf("%i", globals->status);
                 j++;
             }
         }   
         i++;  
     }
-    return(flag);
 }
 
 static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
@@ -61,6 +54,8 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
             run_env(*env);
         else if (ft_strncmp(cmd, "export", 6) == 0)
             run_export(exp_list, i, data, env);
+        else if (ft_strncmp(cmd, "unset", 5) == 0)
+            run_unset(env, exp_list, i, data);
         else
         {
             data->nodes[i].is_builtin = 0;
