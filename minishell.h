@@ -53,6 +53,7 @@ typedef struct s_node
     int     arg_count;
     int     is_builtin;
     int     is_valid_cmd;
+    int     is_valid_path;
 }t_node;
 
 

@@ -33,8 +33,10 @@ static void question_mark(t_data *data, t_globals *globals)
         i++;  
     }
 }
+
 static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
 {
+    data->nodes[i].is_builtin = 1;
     question_mark(data, globals);
     if (cmd != NULL)
     {
@@ -52,6 +54,8 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
             run_env(*env);
         else if (ft_strncmp(cmd, "export", 6) == 0)
             run_export(exp_list, i, data, env);
+        else if (ft_strncmp(cmd, "unset", 5) == 0)
+            run_unset(env, exp_list, i, data);
         else
         {
             data->nodes[i].is_builtin = 0;
