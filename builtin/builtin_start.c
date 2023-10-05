@@ -1,15 +1,14 @@
 #include "minishell.h"
 
-static void question_mark(t_data *data, t_globals *globals)
+static int question_mark(t_data *data, t_globals *globals)
 {
     int i;
     int j;
     int flag;
 
+    flag = 0;
     j = 1;
     i = 0;
-    flag = 0;
-
     while (i < data->pipe_count + 1)
     {
         if (data->nodes[i].cmd != NULL)
@@ -20,27 +19,38 @@ static void question_mark(t_data *data, t_globals *globals)
                 printf("%i: ", globals->status);
                 break;
             }
-        }    
+        }
         else
         {
             while (data->nodes[i].args[j] != NULL)
             {
                 if (data->nodes[i].args[j][0] == '$' && data->nodes[i].args[j][1] == '?')
-                    printf("%i", globals->status);
+                {
+                    flag = 1;
+                    printf("%i: ", globals->status);
+                    break;
+                }
+                if (flag)
+                    break;
                 j++;
             }
-        }   
-        i++;  
+        }
+        i++;
     }
+    return(flag);
 }
 
 static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
 {
+    int flag;
+
     data->nodes[i].is_builtin = 1;
-    question_mark(data, globals);
+    flag = question_mark(data, globals);
     if (cmd != NULL)
     {
-        if (ft_strncmp(cmd, "clear", 5) == 0)
+        if (flag == 1)
+            ;
+        else if (ft_strncmp(cmd, "clear", 5) == 0)
             printf("\033[2J\033[H");
         else if (ft_strncmp(cmd, "exit", 4) == 0)
             run_exit(data);
@@ -58,6 +68,7 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
             run_unset(env, exp_list, i, data);
         else
         {
+            printf("asdas \n");
             data->nodes[i].is_builtin = 0;
         }
     }

@@ -40,14 +40,17 @@ static int is_path(t_data *data, int *valid, int *j)
     else if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
     {
         data->nodes[*j].is_valid_cmd = 1;
+
         c = return_pwd();
         tmp = ft_strjoin(c, ++(data->nodes[*j].cmd));
         if ((access(tmp, F_OK | X_OK)) == -1)
+        {
             data->nodes[*j].is_valid_path = 0;
+        }
         data->nodes[*j].args[0] = tmp;
         --(data->nodes[*j].cmd);
         free(c);
-        *valid += 1;
+        *valid += 1; //prob leaks here
         return(1);
     }
     if (data->nodes[*j].is_builtin == 0)

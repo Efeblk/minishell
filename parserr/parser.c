@@ -121,6 +121,11 @@ void    fill_nodes(t_data *data, t_token **tokens, char *input)
         }
         else if (tokens[i]->type == TOKEN_PIPE)
         {
+            if (tokens[i + 1]->type == TOKEN_PIPE)
+            {
+                printf("syntax error near unexpected token `|'\n");
+                return ;
+            }
             data->nodes[node_index].is_pipe = 1;
             data->nodes[node_index].args[arg_index + 1] = NULL;
             data->nodes[node_index].infile[x] = NULL;
