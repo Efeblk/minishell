@@ -40,6 +40,7 @@ static int question_mark(t_data *data, t_globals *globals)
     }
     return(flag);
 }
+
 static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
 {
     data->nodes[i].is_builtin = 1;
