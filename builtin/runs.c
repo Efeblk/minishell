@@ -98,15 +98,18 @@ void	add_export(int i, t_data *data, t_export **exp_list, int j)
 		key = ft_strdup(str[0]);
 		value = ft_strdup(str[1]);
 		free_array((void **)str);
-		if (find_export_node(*exp_list, key))
+		if (key)
 		{
-			if (value)
-				update_export_node(*exp_list, key, value);
+			if (find_export_node(*exp_list, key))
+			{
+				if (value)
+					update_export_node(*exp_list, key, value);
+			}
+			else
+				add_export_node(exp_list, key, value);
+			free(key);
+			free(value);
 		}
-		else
-			add_export_node(exp_list, key, value);
-		free(key);
-		free(value);
 	}
 	else
 	{
@@ -120,17 +123,20 @@ void 	add_env(int i, t_data *data, t_env **env_list, int j)
 	char 	**str;
 	char	*key;
 	char	*value;
-	
+
 	str = ft_split(data->nodes[i].args[j], '=');
 	key = ft_strdup(str[0]);
 	value = ft_strdup(str[1]);
 	free_array((void **)str);
-	if (find_env_node(*env_list, key))
-		update_env_node(*env_list, key, value);
-	else
-		add_env_node(env_list, key, value);
-	free(key);
-	free(value);
+	if (key)
+	{
+		if (find_env_node(*env_list, key))
+			update_env_node(*env_list, key, value);
+		else
+			add_env_node(env_list, key, value);
+		free(key);
+		free(value);
+	}
 }
 
 void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data)
