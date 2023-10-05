@@ -94,12 +94,14 @@ void	add_export(int i, t_data *data, t_export **exp_list, int j)
 	
 	if ((ft_strchr(data->nodes[i].args[j], '=')))
 	{
-		str = ft_split(data->nodes[i].args[j], '=');
-		key = ft_strdup(str[0]);
-		value = ft_strdup(str[1]);
-		free_array((void **)str);
-		if (key)
+		if (data->nodes[i].args[j][0] != '=')
 		{
+			str = ft_split(data->nodes[i].args[j], '=');
+			key = ft_strdup(str[0]);
+			value = ft_strdup(str[1]);
+			printf("key:**%s**\n", key);
+			printf("value:**%s**\n", value);
+			free_array((void **)str);
 			if (find_export_node(*exp_list, key))
 			{
 				if (value)
@@ -110,6 +112,8 @@ void	add_export(int i, t_data *data, t_export **exp_list, int j)
 			free(key);
 			free(value);
 		}
+		else
+			printf("export: '%s': not a valid identifier\n", data->nodes[i].args[j]);
 	}
 	else
 	{
@@ -124,12 +128,12 @@ void 	add_env(int i, t_data *data, t_env **env_list, int j)
 	char	*key;
 	char	*value;
 
-	str = ft_split(data->nodes[i].args[j], '=');
-	key = ft_strdup(str[0]);
-	value = ft_strdup(str[1]);
-	free_array((void **)str);
-	if (key)
+	if (data->nodes[i].args[j][0] != '=')
 	{
+		str = ft_split(data->nodes[i].args[j], '=');
+		key = ft_strdup(str[0]);
+		value = ft_strdup(str[1]);
+		free_array((void **)str);
 		if (find_env_node(*env_list, key))
 			update_env_node(*env_list, key, value);
 		else
@@ -137,7 +141,9 @@ void 	add_env(int i, t_data *data, t_env **env_list, int j)
 		free(key);
 		free(value);
 	}
+
 }
+
 
 void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data)
 {
