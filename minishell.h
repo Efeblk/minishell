@@ -11,8 +11,6 @@
 # include <unistd.h>
 # include <fcntl.h>
 
-
-
 typedef enum
 {
 	TOKEN_PIPE,
@@ -36,6 +34,13 @@ typedef struct s_env
     char    *value;
     struct  s_env *next;
 } t_env;
+
+typedef struct s_export
+{
+    char    *key;
+    char    *value;
+    struct  s_export *next;
+} t_export;
 
 typedef struct s_node
 {
@@ -105,7 +110,7 @@ void    data_free(t_data *data);
 int     is_input(char *cmd);
 
 
-int     executor(t_data *data, t_globals *globals);
+int     executor(t_data *data, t_globals *globals, char **envp);
 
 void    op_router(t_data *data, int i);
 
@@ -114,7 +119,7 @@ void    close_pipes(int **pipes, int pipe_count);
 pid_t   *pid_create(int size);
 
 
-void    built_in(t_data *data, t_globals *globals);
+void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list);
 
 void	run_cd(t_data *data, int i);
 char    *return_pwd(void);
@@ -125,6 +130,34 @@ void    run_echo(t_data *data, int i);
 char	*get_env_val(const char *key, t_env *env_list);
 t_env	*load_environment(char *envp[]);
 
+void    run_env(t_env *env_list);
+void    run_export(t_export **exp_list, int i, t_data *data, t_env **env);
+void	add_export(int i, t_data *data, t_export **exp_list);
+void 	add_env(int i, t_data *data, t_env **env_list);
+
+t_env	*create_env_node(const char *key, const char *value);
+void	add_env_node(t_env **head, const char *key, const char *value);
+t_env	*find_env_node(t_env *head, const char *key);
+void	free_env_list(t_env *head);
+char	*join_env(const char *key, const char *value);
+t_env	*load_environment(char *envp[]);
+char	*get_env_val(const char *key, t_env *env_list);
+char	**get_env_arr(t_env *head);
+void	update_env_node(t_env *head, const char *key, const char *new_value);
+void	delete_env_node(t_env **head, const char *key);
+void	print_list(t_env *head);
+
+t_export	*create_export_node(const char *key, const char *value);
+void	    add_export_node(t_export **head, const char *key, const char *value);
+t_export	*find_export_node(t_export *head, const char *key);
+void	    free_export_list(t_export *head);
+char	    *join_export(const char *key, const char *value);
+t_export	*load_export(char *envp[]);
+char	    *get_export_val(const char *key, t_export *exp_list);
+char	    **get_export_arr(t_export *head);
+void	    update_export_node(t_export *head, const char *key, const char *new_value);
+void	    delete_export_node(t_export **head, const char *key);
+void	    print_export_list(t_export *head);
 
 #endif
 

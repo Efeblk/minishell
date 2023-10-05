@@ -112,15 +112,10 @@ char *full_pwd(t_globals *globals)
     char *env;
 
     env = globals->user;
-    printf("env %s \n", env);
     pwd = return_pwd();
-    printf("pwd %s \n", pwd);
     suffix = ft_strjoin(pwd, ":>");
-    printf("suffix %s \n", suffix);
     user = ft_strjoin(env, "@");
-    printf("user %s \n", user);
     print = ft_strjoin(user, suffix);
-    printf("print %s \n", print);
     
     free(pwd);
     free(user);
@@ -138,7 +133,7 @@ int     ft_readline(t_data *data, t_globals *globals)
         t_token **tokens;
         
         char *print = full_pwd(globals);
-        input = readline("minishell");
+        input = readline(print);
         add_history(input);
         if (input[0] == '\0')
         {

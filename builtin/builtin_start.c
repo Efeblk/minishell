@@ -23,7 +23,7 @@ static void question_mark(t_data *data, t_globals *globals)
         i++;  
     }
 }
-static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals)
+static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env **env, t_export **exp_list)
 {
     question_mark(data, globals);
     if (ft_strncmp(cmd, "clear", 5) == 0)
@@ -32,19 +32,19 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals)
         run_exit(data);
     else if (ft_strncmp(cmd, "pwd", 3) == 0)
         run_pwd();
-    //else if(ft_strncmp(cmd, "cd", 2) == 0)
-        //run_cd(NULL);
+    else if(ft_strncmp(cmd, "cd", 2) == 0)
+        run_cd(data, i);
     else if (ft_strncmp(cmd, "echo", 4) == 0)
         run_echo(data, i);
-    // else if (ft_strncmp(cmd, "env", 3) == 0)
-    //     run_env(env);
-    // else if (ft_strncmp(cmd, "export", 6) == 0)
-    //     run_export(env, i, data);
+    else if (ft_strncmp(cmd, "env", 3) == 0)
+        run_env(*env);
+    else if (ft_strncmp(cmd, "export", 6) == 0)
+         run_export(exp_list, i, data, env);
     else
         printf("no builtin \n"); //burası önemli else olmayınca TERM error basıyor?
 }
 
-void built_in(t_data *data, t_globals *globals)
+void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list)
 {
     //(void)envp;
     int i;
@@ -52,7 +52,7 @@ void built_in(t_data *data, t_globals *globals)
     i = -1;
     while (++i < data->pipe_count + 1)
     {
-        is_builtin(data->nodes[i].cmd, data, i, globals);
+        is_builtin(data->nodes[i].cmd, data, i, globals, env, exp_list);
     }
 }
 

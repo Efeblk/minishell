@@ -43,7 +43,7 @@ static void wait_close_free(t_data *data, int **pipes, int *pids, t_globals *glo
     free(pids);
 }
 
-int executor(t_data *data, t_globals *globals)
+int executor(t_data *data, t_globals *globals, char **env)
 {
     int **pipes;
     pid_t *pids;
@@ -64,7 +64,7 @@ int executor(t_data *data, t_globals *globals)
                 last_process(data, pipes, i);
             else
                 middle_process(data, pipes, i);
-            execve(data->nodes[i].args[0], data->nodes[i].args, NULL);
+            execve(data->nodes[i].args[0], data->nodes[i].args, env);
             exit(0);
         }
     }

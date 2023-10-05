@@ -1,40 +1,11 @@
 #include "minishell.h"
 
-/*void	run_cd(t_data *data)
-{
-    char	*s;
-
-	if (node.arg_count != 1 && node.args[1][0] != '~')
-	{
-		if (chdir(node.args[1]) != 0)
-		{
-			printf("tsh: cd: %s: No such file or directory\n", node.args[1]);
-			question_mark_update(ft_strdup("?=1"), -1);
-		}
-	}
-	else
-	{
-		s = getenv("HOME");
-		if (s && *s)
-		{
-			if (chdir(s))
-			{
-				perror("tsh: cd chdir error");
-				question_mark_update(ft_strdup("?=1"), -1);
-			}
-		}
-	}*/
-
 void run_cd(t_data *data, int i)
 {
 	if (data->nodes[i].args[1])
-	{
 		chdir(data->nodes[i].args[1]);
-	}
 	else
-	{
 		chdir(getenv("HOME"));
-	}
 }
 
 char *return_pwd(void)
@@ -87,19 +58,69 @@ void run_echo(t_data *data, int i)
 	}
 }
 
-// void run_env(t_env *env_list)
-// {
-// 	print_list(env_list);
-// }
+void run_env(t_env *env_list)
+{
+	print_list(env_list);
+}
 
-// void run_export(t_env *exp_list, int i, t_data *data)
-// {
-// 	int	j;
+void run_export(t_export **exp_list, int i, t_data *data, t_env **env)
+{
+    if (data->nodes[i].args[1] && (ft_strchr(data->nodes[i].args[1], '=')))
+    {
+        add_export(i, data, exp_list);
+        add_env(i, data, env);
+    }
+    else if (data->nodes[i].args[1] && !(ft_strchr(data->nodes[i].args[1], '=')))
+        add_export(i, data, exp_list);
+    else
+        print_export_list(*exp_list);
+}
 
-// 	j = -1;
-// 	while (data->nodes[i].args[1] != NULL && data->nodes[i].args[1][1] = '=')
-// 	{
+void	add_export(int i, t_data *data, t_export **exp_list)
+{
+	char 	**str;
+	char	*key;
+	char	*value;
 
-// 	}
-	
-// }
+	if ((ft_strchr(data->nodes[i].args[1], '=')))
+	{
+		str = ft_split(data->nodes[i].args[1], '=');
+		key = ft_strdup(str[0]);
+		value = ft_strdup(str[1]);
+		free_array((void **)str);
+		if (find_export_node(*exp_list, key))
+		{
+			if (value)
+				update_export_node(*exp_list, key, value);
+		}
+		else
+		{
+			add_export_node(exp_list, key, value);
+		}
+		free(key);
+		free(value);
+	}
+	else
+	{
+		if (!find_export_node(*exp_list, data->nodes[i].args[1]))
+			add_export_node(exp_list, data->nodes[i].args[1], "");
+	}
+}
+
+void 	add_env(int i, t_data *data, t_env **env_list)
+{
+	char 	**str;
+	char	*key;
+	char	*value;
+
+	str = ft_split(data->nodes[i].args[1], '=');
+	key = ft_strdup(str[0]);
+	value = ft_strdup(str[1]);
+	free_array((void **)str);
+	if (find_env_node(*env_list, key))
+		update_env_node(*env_list, key, value);
+	else
+		add_env_node(env_list, key, value);
+	free(key);
+	free(value);
+}
