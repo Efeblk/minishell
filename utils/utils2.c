@@ -38,9 +38,6 @@ void free_node(t_node *node)
     printf("node 6\n");
 }
 
-
-
-
 void data_free(t_data *data) 
 {
     int i = 0;

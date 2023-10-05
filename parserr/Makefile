@@ -3,7 +3,7 @@ SRC = error.c free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counte
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I.. -g
+CFLAGS = -Wall -Wextra -Werror -I..
 all: $(NOM)
 
 $(NOM): $(OBJ)

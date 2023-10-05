@@ -10,6 +10,7 @@
 # include <ctype.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <limits.h>
 
 typedef enum
 {
@@ -76,6 +77,8 @@ typedef struct s_globals
 int     ft_readline(t_data *data, t_globals *globals);
 char    *ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
+char	*ft_itoa(int n);
+int     ft_atoi(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
@@ -112,7 +115,7 @@ void    data_free(t_data *data);
 int     is_input(char *cmd);
 
 
-int     executor(t_data *data, t_globals *globals, t_env *env);
+int     executor(t_data *data, t_globals *globals, t_env **env);
 
 void    op_router(t_data *data, int i);
 
