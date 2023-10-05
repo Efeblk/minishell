@@ -66,7 +66,9 @@ int executor(t_data *data, t_globals *globals, char **env)
                 else if (i == data->pipe_count)
                     last_process(data, pipes, i);
                 else
-                    middle_process(data, pipes, i);  
+                    middle_process(data, pipes, i);
+                globals->status = 0;
+                printf("exec \n");
                 execve(data->nodes[i].args[0], data->nodes[i].args, env);
                 exit(0);
             }

@@ -38,6 +38,7 @@ static int is_path(t_data *data, int *valid, int *j)
     else if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
     {
         data->nodes[*j].is_valid_cmd = 1;
+        //char *c = return_pwd();
         data->nodes[*j].args[0] = ft_strdup(data->nodes[*j].cmd);
         *valid += 1;
         return(1);
