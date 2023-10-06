@@ -107,7 +107,7 @@ int     first_token_controller(t_token **tokens);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
-int     find_env(t_data *data, t_globals *globals);
+int     find_env(t_data *data, t_globals *globals, t_env **env);
 
 void    free_array(void **array);
 void    data_free(t_data *data);
@@ -124,12 +124,12 @@ void    close_pipes(int **pipes, int pipe_count);
 pid_t   *pid_create(int size);
 
 
-void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list);
+void built_in(t_data *data, t_env **env, t_export **exp_list);
 
 void	run_cd(t_data *data, int i);
 char    *return_pwd(void);
 void    run_pwd(void);
-void run_exit(t_data *data, t_globals *globals, int i);
+void    run_exit(t_data *data, t_env **env, int i);
 void    run_echo(t_data *data, int i);
 void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data);
 
@@ -164,6 +164,8 @@ char	    **get_export_arr(t_export *head);
 void	    update_export_node(t_export *head, const char *key, const char *new_value);
 void	    delete_export_node(t_export **head, const char *key);
 void	    print_export_list(t_export *head);
+
+void        update_status(int status, t_env **env);
 
 #endif
 

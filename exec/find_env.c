@@ -80,31 +80,30 @@ static int is_accessible(char **bin, t_data *data)
     return (valid);
 }
 
-int find_env(t_data *data, t_globals *globals)
+int find_env(t_data *data, t_globals *globals, t_env **env)
 {
-    char *env;
+    char *path;
     char **bin; 
     int i;
-
-    env = getenv("PATH");
-    bin = ft_split(env, ':');
+    (void)globals;
+    path = get_env_val("PATH", *env);
+    bin = ft_split(path, ':');
 
     is_accessible(bin, data);
     i = -1;
-    
     while (++i < data->pipe_count + 1)
     {
         if (data->nodes[i].is_valid_cmd == 0)
         {
             printf("%s : command not found\n", data->nodes[i].cmd);
-            globals->status = 127;
+            int status = 127;
+            update_status(status, env);
             break;
         }
         else if (data->nodes[i].is_valid_path == 0)
         {
             printf("%s : not a valid path \n", data->nodes[i].cmd);
-            globals->status = 127;
-            printf("%d\n", globals->status);
+            update_status(127, env);
             break;
         }
     }

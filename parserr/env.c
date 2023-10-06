@@ -98,6 +98,10 @@ t_env	*load_environment(char *envp[])
 		free(value);
 		i++;
 	}
+	if (!find_env_node(head, "?"))
+	{
+		add_env_node(&head, "?", "0");
+	}	
 	return (head);
 }
 
@@ -150,7 +154,7 @@ void	update_env_node(t_env *head, const char *key, const char *new_value)
 	{
 		if (strcmp(current->key, key) == 0)
 		{
-			free(current->value);
+			//free(current->value);
 			current->value = ft_strdup(new_value);
 			return ;
 		}

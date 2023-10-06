@@ -25,33 +25,33 @@ static void last_process(t_data *data, int **pipes, int i)
     op_router(data, i);
 }
 
+void update_status(int status, t_env **env)
+{
+    char *tmpchar;
+
+    tmpchar = ft_itoa(status);
+    update_env_node(*env, "?", tmpchar); //itoa leaks
+    free(tmpchar);   
+}
+
 static void wait_close_free(t_data *data, int **pipes, int *pids, t_globals *globals, t_env **env)
 {
     int i;
+    
+    int status;
 
+    (void)globals;
+
+    printf("here \n");
+    char *chart = get_env_val("?", *env);
+    status = atoi(chart);
+    printf("%i status \n", status);
     close_pipes(pipes, data->pipe_count);
     i = -1;
     while (++i < data->pipe_count + 1)
-    {
-        if (globals->status > 0)
-        {
-            waitpid(pids[i], NULL, 0);
-        }
-        else
-        {
-            int tmp;
-
-            tmp = 0;
-            waitpid(pids[i], &tmp, 0);
-            if(find_env_node(*env, "$?"))
-                update_env_node(*env, "$?", ft_itoa(tmp)); //itoa leaks
-            else
-                add_env_node(env, "$?", ft_itoa(tmp));
-            printf("from waitpid %s \n ", get_env_val("$?", *env));
-            
-        }
-        
-            
+    { 
+        waitpid(pids[i], &status, 0);
+        update_status(status, env);   
     }
     free(pids);
 }
@@ -61,8 +61,10 @@ int executor(t_data *data, t_globals *globals, t_env **env)
     int **pipes;
     pid_t *pids;
     int i;
+    char **envs;
 
-    find_env(data, globals);
+    find_env(data, globals, env);
+
     i = -1;
     pipes = pipe_create(data->pipe_count);
     pids = pid_create(data->pipe_count + 1);
@@ -81,7 +83,7 @@ int executor(t_data *data, t_globals *globals, t_env **env)
                     middle_process(data, pipes, i);
                 if (data->nodes[i].is_valid_path == 1)
                 {
-                    char **envs = get_env_arr(*env);
+                    envs = get_env_arr(*env);
                     execve(data->nodes[i].args[0], data->nodes[i].args, envs);
                 }
                 exit(0);

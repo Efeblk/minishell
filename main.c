@@ -19,7 +19,7 @@ int main(int argc, char *argv[], char *envp[])
         data = malloc(sizeof(t_data));
         if (ft_readline(data, &globals))
         {
-            built_in(data, &globals, &env, &exp_list);
+            built_in(data, &env, &exp_list);
             executor(data, &globals, &env);
             data_free(data);   
             //print_node(data);
