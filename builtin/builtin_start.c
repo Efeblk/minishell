@@ -55,17 +55,14 @@ static void is_builtin(char *cmd, t_data *data, int i, t_globals *globals, t_env
         else if (ft_strncmp(cmd, "export", 6) == 0)
             run_export(exp_list, i, data, env);
         else if (ft_strncmp(cmd, "unset", 5) == 0)
-            run_unset(env, exp_list, i, data);
-        else
-        {
+			run_unset(env, exp_list, i, data);
+		else
             data->nodes[i].is_builtin = 0;
-        }
     }
 }
 
 void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list)
 {
-    //(void)envp;
     int i;
 
     i = -1;
@@ -73,8 +70,7 @@ void built_in(t_data *data, t_globals *globals, t_env **env, t_export **exp_list
     {
         is_builtin(data->nodes[i].cmd, data, i, globals, env, exp_list);
         if (data->nodes[i].is_builtin == 1)
-            globals->status = 0;
+             globals->status = 0;
         
     }
 }
-

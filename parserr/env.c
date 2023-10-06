@@ -98,6 +98,7 @@ t_env	*load_environment(char *envp[])
 		free(value);
 		i++;
 	}
+	add_env_node(&head, "?", "0");
 	return (head);
 }
 
@@ -108,7 +109,7 @@ char	*get_env_val(const char *key, t_env *env_list)
 	current = find_env_node(env_list, key);
 	if (!current)
 	{
-		printf("ENV VALUE DOESNT EXIST FOR KEY: %s", key);
+		printf("ENV VALUE DOESNT EXIST FOR KEY: %s\n", key);
 		return (NULL);
 	}
 	return (current->value);

@@ -69,44 +69,15 @@ t_token	*generate_pr_token(char **input)
 	return (NULL);
 }
 
-char *remove_quotes(char *word)
-{
-    size_t i;
-    size_t j;
-    char *str;
-
-    str = malloc(ft_strlen(word) + 1);
-    if (!str)
-        return NULL;
-	i = 0;
-	j = 0;
-    while (word[i])
-    {
-        if (word[i] != '\"')
-        {
-            str[j] = word[i];
-            j++;
-        }
-		i++;
-    }
-
-    str[j] = '\0';
-	free(word);
-    return (str);
-}
-
 char	*create_word(char **input, char *start)
 {
 	size_t	len;
 	char	*word;
 
 	len = *input - start;
-	if (len == 0)
-		return (ft_strdup(""));
 	word = (char *) malloc(len + 1);
 	strncpy(word, start, len);
 	word[len] = '\0';
-	word = remove_quotes(word);
 	return (word);
 }
 

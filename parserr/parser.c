@@ -63,8 +63,8 @@ void    fill_structs(t_data *data, t_token **tokens, char *input)
         i++;
     }
 }
-// int return etsin 
-int    fill_nodes(t_data *data, t_token **tokens, char *input) 
+
+int    fill_nodes(t_data *data, t_token **tokens, char *input)
 {
     int i;
     int node_index;
@@ -79,7 +79,7 @@ int    fill_nodes(t_data *data, t_token **tokens, char *input)
     x = 0;
     int current_index = 0;
     fill_structs(data, tokens, input);
-    while (tokens[i]->type != TOKEN_EOF) 
+    while (tokens[i]->type != TOKEN_EOF)
     {
         data->nodes[node_index].is_pipe = 0;
         if (tokens[0]->type != TOKEN_WORD)
@@ -115,21 +115,22 @@ int    fill_nodes(t_data *data, t_token **tokens, char *input)
         }
         else if ((tokens[i]->type == TOKEN_O || tokens[i]->type == TOKEN_O_O) && (tokens[i + 1]->type != TOKEN_EOF))
         {
-            data->nodes[node_index].outfile[y] = ft_strdup(tokens[i + 1]->value);
-            data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
-            current_index++;
-            y++;
-            i++;
-        }
-        else if (tokens[i]->type == TOKEN_PIPE)
-        {
-            if (tokens[i + 1]->type == TOKEN_PIPE)
+            if (tokens[i + 1]->type == TOKEN_EOF)
             {
-                printf("syntax error near unexpected token `|'\n");
-                return (0);
+                    printf("syntax error near unexpected token `newline\n'");
+                    return (0);
             }
             else
             {
+                data->nodes[node_index].outfile[y] = ft_strdup(tokens[i + 1]->value);
+                data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
+                current_index++;
+                y++;
+                i++;
+            }
+        }
+        else if (tokens[i]->type == TOKEN_PIPE)
+        {
                 data->nodes[node_index].is_pipe = 1;
                 data->nodes[node_index].args[arg_index + 1] = NULL;
                 data->nodes[node_index].infile[x] = NULL;
@@ -141,7 +142,6 @@ int    fill_nodes(t_data *data, t_token **tokens, char *input)
                 current_index = 0;
                 x = 0;
                 y = 0;
-            }
         }
         i++;
     }

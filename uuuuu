@@ -1,0 +1,25 @@
+total 288
+drwxr-xr-x  24 alakin  2022_istanbul    816  6 Eki 15:04 .
+drwxr-xr-x  20 alakin  2022_istanbul    680  5 Eki 10:08 ..
+-rw-r--r--   1 alakin  2022_istanbul   8196  6 Eki 14:03 .DS_Store
+drwxr-xr-x  15 alakin  2022_istanbul    510  5 Eki 18:32 .git
+-rw-r--r--   1 alakin  2022_istanbul     27  5 Eki 10:08 .gitignore
+drwxr-xr-x   5 alakin  2022_istanbul    170  5 Eki 10:08 .vscode
+-rwxr-xr-x   1 alakin  2022_istanbul   1416  6 Eki 15:04 C
+-rw-r--r--   1 alakin  2022_istanbul    745  6 Eki 14:37 Makefile
+-rwxr-xr-x   1 alakin  2022_istanbul   1475  6 Eki 15:04 a
+-rwxr-xr-x   1 alakin  2022_istanbul     42  6 Eki 14:18 b
+drwxr-xr-x   8 alakin  2022_istanbul    272  6 Eki 15:03 builtin
+drwxr-xr-x  14 alakin  2022_istanbul    476  6 Eki 15:03 exec
+-rwxr-xr-x   1 alakin  2022_istanbul     53  5 Eki 10:08 leaks.sh
+-rw-r--r--   1 alakin  2022_istanbul    687  6 Eki 15:03 main.c
+drwxr-xr-x   3 alakin  2022_istanbul    102  5 Eki 10:08 main.dSYM
+-rw-r--r--   1 alakin  2022_istanbul   1152  6 Eki 15:03 main.o
+-rwxr-xr-x   1 alakin  2022_istanbul  79232  6 Eki 15:03 minishell
+-rw-r--r--   1 alakin  2022_istanbul   4685  5 Eki 18:53 minishell.h
+drwxr-xr-x  24 alakin  2022_istanbul    816  6 Eki 15:03 parserr
+-rw-r--r--   1 alakin  2022_istanbul     47  5 Eki 10:08 readme.txt
+-rwxr-xr-x   1 alakin  2022_istanbul    374  5 Eki 10:08 text
+drwxr-xr-x  10 alakin  2022_istanbul    340  6 Eki 15:03 utils
+-rwxr-xr-x   1 alakin  2022_istanbul      0  6 Eki 15:04 uuuuu
+-rwxr-xr-x   1 alakin  2022_istanbul   1475  6 Eki 15:04 x

@@ -73,8 +73,20 @@ typedef struct s_globals
     int status;
 }t_globals;
 
+typedef struct exp_stsh
+{
+	int		src_i;
+	int		rt_i;
 
-int     ft_readline(t_data *data, t_globals *globals);
+	int		src_len;
+	int		rt_len;
+
+	char	*rt;
+
+}			exp_stsh;
+
+
+int     ft_readline(t_data *data, t_globals *globals, t_env **env_list);
 char    *ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
@@ -101,6 +113,7 @@ int     infile_counter(t_token **tokens);
 int     operator_counter(t_token **tokens);
 
 int     first_token_controller(t_token **tokens);
+int     controller(t_token **tokens, int i);
 int     token_controller(t_token **tokens);
 
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
@@ -164,7 +177,11 @@ void	    update_export_node(t_export *head, const char *key, const char *new_val
 void	    delete_export_node(t_export **head, const char *key);
 void	    print_export_list(t_export *head);
 
-char **linked_list_to_array(t_export *head);
+char	    *get_expanded(const char *str, t_env **env_list);
+void	    expand_stsh(const char *str, exp_stsh *stsh, int sf, int df, t_env **env_list);
+void	    ft_dollarize(const char *str, exp_stsh *stsh, t_env **env_list);
+exp_stsh	*get_stsh(const char *str);
+void	    *ft_realloc(void *ptr, size_t b_amount, size_t b_size);
 
 #endif
 

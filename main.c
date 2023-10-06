@@ -13,15 +13,15 @@ int main(int argc, char *argv[], char *envp[])
     env = load_environment(envp);
     globals.user =  get_env_val("USER", env);
     exp_list = load_export(envp);
-    while (1) 
+    while (1)
     {
 		t_data *data;
         data = malloc(sizeof(t_data));
-        if (ft_readline(data, &globals))
+        if (ft_readline(data, &globals, &env))
         {
             built_in(data, &globals, &env, &exp_list);
             executor(data, &globals, envp);
-            data_free(data);   
+            data_free(data);
             //print_node(data);
         }    
     }
