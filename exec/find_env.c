@@ -68,7 +68,7 @@ static int is_accessible(char **bin, t_data *data)
         data->nodes[j].is_valid_cmd = 1;
         if (data->nodes[j].cmd != NULL)
         {
-            if (data->nodes[j].is_builtin == 1)
+            if (data->nodes[j].is_builtin == 1 && ft_strncmp(data->nodes[j].cmd, "echo", 4))
             {   
             }
             else if (!is_executable(bin, data, &valid, &j) && 
@@ -83,12 +83,12 @@ static int is_accessible(char **bin, t_data *data)
     return (valid);
 }
 
-int find_env(t_data *data, t_globals *globals, t_env **env)
+int find_env(t_data *data, t_env **env)
 {
     char *path;
     char **bin; 
     int i;
-    (void)globals;
+
     path = get_env_val("PATH", *env);
     if (!path)
         return -1;
@@ -97,8 +97,9 @@ int find_env(t_data *data, t_globals *globals, t_env **env)
     i = -1;
     while (++i < data->pipe_count + 1)
     {
-        if (data->nodes[i].is_valid_cmd == 0 || 
-        ft_strncmp(data->nodes[i].cmd, "$?", 2) == 0
+        if (data->nodes[i].cmd != NULL &&
+            (data->nodes[i].is_valid_cmd == 0 || 
+        ft_strncmp(data->nodes[i].cmd, "$?", 2) == 0)
         )
         {
             printf("%s : command not found\n", data->nodes[i].cmd);

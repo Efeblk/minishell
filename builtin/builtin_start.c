@@ -13,6 +13,7 @@ static int question_mark(t_data *data, t_env **env)
     i = 0;
     tmp = get_env_val("?", *env);
     status = ft_atoi(tmp);
+    
     while (i < data->pipe_count + 1)
     {
         if (data->nodes[i].cmd != NULL)

@@ -64,7 +64,8 @@ void run_echo(t_data *data, int i)
 				printf("%s", data->nodes[i].args[j]);
 		}
 		else
-			printf("%s\n", data->nodes[i].args[j]);
+			data->nodes[i].is_builtin = 0;
+
 	}
 }
 

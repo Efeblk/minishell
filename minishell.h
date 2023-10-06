@@ -107,7 +107,7 @@ int     first_token_controller(t_token **tokens);
 int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
-int     find_env(t_data *data, t_globals *globals, t_env **env);
+int     find_env(t_data *data, t_env **env);
 
 void    free_array(void **array);
 void    data_free(t_data *data);
@@ -115,7 +115,7 @@ void    data_free(t_data *data);
 int     is_input(char *cmd);
 
 
-int     executor(t_data *data, t_globals *globals, t_env **env);
+int     executor(t_data *data, t_env **env);
 
 void    op_router(t_data *data, int i);
 
