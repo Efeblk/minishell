@@ -1,5 +1,5 @@
 NOM = libbuiltin.a
-SRC = builtin_start.c runs.c
+SRC = builtin_start.c runs.c runs2.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
