@@ -21,8 +21,7 @@ static int is_executable(char **bin, t_data *data, int *valid, int *j)
         }
         free(tmp);
     }
-    if (data->nodes[*j].is_builtin == 0)
-        data->nodes[*j].is_valid_cmd = 0;
+    data->nodes[*j].is_valid_cmd = 0;
     return (0);
 }
 
@@ -53,8 +52,7 @@ static int is_path(t_data *data, int *valid, int *j)
         *valid += 1; //prob leaks here
         return(1);
     }
-    if (data->nodes[*j].is_builtin == 0)
-        data->nodes[*j].is_valid_cmd = 0;
+    data->nodes[*j].is_valid_cmd = 0;
     return (0);
 }
 
@@ -105,6 +103,8 @@ int find_env(t_data *data, t_globals *globals)
         else if (data->nodes[i].is_valid_path == 0)
         {
             printf("%s : not a valid path \n", data->nodes[i].cmd);
+            globals->status = 127;
+            printf("%d\n", globals->status);
             break;
         }
     }

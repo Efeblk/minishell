@@ -3,7 +3,7 @@ SRC = executor.c find_env.c input_commands.c exec_helpers.c op_router.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -I.. -g
+CFLAGS = -Wall -Wextra -Werror -I..
 
 all: $(NOM)
 

@@ -38,9 +38,6 @@ void free_node(t_node *node)
     printf("node 6\n");
 }
 
-
-
-
 void data_free(t_data *data) 
 {
     int i = 0;
@@ -105,3 +102,12 @@ void data_free(t_data *data)
         free(data);
 }
 
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 == *s2 && *s1)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}

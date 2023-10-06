@@ -1,8 +1,8 @@
 #include "minishell.h"
 
-t_token *get_next_token(char **input)
+t_token	*get_next_token(char **input)
 {
-    while (isspace(**input))
+	while (isspace(**input))
 		(*input)++;
 	if (**input == '\0')
 		return (create_token(TOKEN_EOF, input, *input));
@@ -14,8 +14,8 @@ t_token *get_next_token(char **input)
 t_token	*generate_word_token(char **input)
 {
 	char	*start;
-	int				sf;
-	int				df;
+	int		sf;
+	int		df;
 
 	start = *input;
 	sf = 0;
@@ -31,13 +31,12 @@ t_token	*generate_word_token(char **input)
 		(*input)++;
 	}
 	if (sf != 0 || df != 0)
-	{	
+	{
 		printf("Error: Unbalanced quotes\n");
 		exit(1);
 	}
 	return (create_token(TOKEN_WORD, input, start));
 }
-
 
 t_token	*generate_pr_token(char **input)
 {
@@ -81,11 +80,10 @@ char	*create_word(char **input, char *start)
 	return (word);
 }
 
-
 t_token	*create_token(TokenType type, char **input, char *start)
 {
 	t_token	*token;
-	
+
 	token = (t_token *) malloc(sizeof(t_token));
 	token->type = type;
 	token->value = create_word(input, start);

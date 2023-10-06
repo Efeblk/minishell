@@ -1,10 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   start.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/06 19:57:40 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 00:42:16 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 void	*ft_realloc(void *ptr, size_t b_amount, size_t b_size)
 {
@@ -13,7 +19,7 @@ void	*ft_realloc(void *ptr, size_t b_amount, size_t b_size)
 
 	msize = b_amount * b_size;
 	rt = malloc((b_amount + 1) * b_size);
-	rt = memcpy(rt, ptr, msize);
+	rt = ft_memcpy(rt, ptr, msize);
 	free(ptr);
 	return (rt);
 }
@@ -21,8 +27,8 @@ void	*ft_realloc(void *ptr, size_t b_amount, size_t b_size)
 char	*get_expanded(const char *str, t_env **env_list)
 {
 	exp_stsh	*stsh;
-	int		sf;
-	int		df;
+	int			sf;
+	int			df;
 	char		*rt;
 
 	stsh = get_stsh(str);
@@ -35,7 +41,7 @@ char	*get_expanded(const char *str, t_env **env_list)
 	return (rt);
 }
 
-void	expand_stsh(const char *str, exp_stsh *stsh, int sf, int df, t_env **env_list)
+void	expand_stsh(const char *str, exp_stsh *stsh,int sf, int df, t_env **env_list)
 {
 	while (str[stsh->src_i])
 	{
@@ -44,12 +50,9 @@ void	expand_stsh(const char *str, exp_stsh *stsh, int sf, int df, t_env **env_li
 		else if (str[stsh->src_i] == '\'' && !df)
 			sf = !sf;
 		else if (str[stsh->src_i] == '$' && !sf)
-        {
-            if (str[stsh->src_i + 1] == '?')
-                return ;
-            else
-                ft_dollarize(str, stsh, env_list);
-        }
+		{
+				ft_dollarize(str, stsh, env_list);
+		}
 		else
 		{
 			stsh->rt[stsh->rt_i++] = str[stsh->src_i];
@@ -68,8 +71,9 @@ void	ft_dollarize(const char *str, exp_stsh *stsh, t_env **env_list)
 
 	var_start = stsh->src_i + 1;
 	var_len = 0;
-	while (str[var_start + var_len] != '\0' && (isalnum(str[var_start + var_len]
-			) || str[var_start + var_len] == '_'))
+	while (str[var_start + var_len] != '\0' &&
+	(isalnum(str[var_start + var_len]) ||
+	str[var_start + var_len] == '_'))
 	{
 		var_len++;
 	}
@@ -100,7 +104,8 @@ exp_stsh	*get_stsh(const char *str)
 	rt->rt = (char *)malloc(sizeof(char) * (rt->rt_len + 1));
 	return (rt);
 }
-t_token	**allocate_tokens(int size) 
+
+t_token	**allocate_tokens(int size)
 {
 	t_token	**tokens;
 
@@ -171,7 +176,9 @@ int	first_token_controller(t_token **tokens)
 		printf("syntax error near unexpected token `|'\n");
 		return (0);
 	}
-	else if ((tokens[0]->type == TOKEN_I || tokens[0]->type == TOKEN_I_I || tokens[0]->type == TOKEN_O || tokens[0]->type == TOKEN_O_O) && tokens[1]->type == TOKEN_EOF)
+	else if ((tokens[0]->type == TOKEN_I || tokens[0]->type == TOKEN_I_I ||
+		tokens[0]->type == TOKEN_O ||
+			tokens[0]->type == TOKEN_O_O) && tokens[1]->type == TOKEN_EOF)
 	{
 		printf("syntax error near unexpected token `newline' \n");
 		return (0);
@@ -249,11 +256,11 @@ int     token_controller(t_token **tokens)
 char	*full_pwd(t_globals *globals)
 {
 	char	*pwd;
-    char	*suffix;
-    char	*user;
-    char	*print;
-    char	*env;
-	
+	char	*suffix;
+	char	*user;
+	char	*print;
+	char	*env;
+
 	env = globals->user;
 	pwd = return_pwd();
 	suffix = ft_strjoin(pwd, ":>");
@@ -270,7 +277,7 @@ char	*full_pwd(t_globals *globals)
 	return (print);
 }
 
-int     ft_readline(t_data *data, t_globals *globals, t_env **env_list)
+int     ft_readline(t_data *data, t_globals *globals, t_env **env_list, t_index *index)
 {
         char *input;
         t_token **tokens;
@@ -307,7 +314,7 @@ int     ft_readline(t_data *data, t_globals *globals, t_env **env_list)
             return (0);
         }
         data->pipe_count = pipe_counter(data, tokens);
-        if (!fill_nodes(data, tokens, input))
+        if (!fill_nodes(data, tokens, input, index))
         {
             free(print);
             free_tokens(tokens);
