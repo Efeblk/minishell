@@ -11,7 +11,6 @@ static int is_executable(char **bin, t_data *data, int *valid, int *j)
         if (bin[i][ft_strlen(bin[i]) - 1] != '/')
             bin[i][ft_strlen(bin[i])] = '/';
         tmp = ft_strjoin(bin[i], data->nodes[*j].cmd); 
-        
         if ((access(tmp, F_OK | X_OK)) == 0)
         {
             data->nodes[*j].args[0] = ft_strdup(tmp);

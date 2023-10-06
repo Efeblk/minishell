@@ -1,0 +1,23 @@
+total 256
+drwxr-xr-x  22 ibalik  2022_istanbul    748 Oct  7 02:05 .
+drwxr-xr-x  13 ibalik  2022_istanbul    442 Oct  6 21:54 ..
+-rw-r--r--   1 ibalik  2022_istanbul   8196 Oct  6 21:54 .DS_Store
+drwxr-xr-x  13 ibalik  2022_istanbul    442 Oct  6 23:11 .git
+-rw-r--r--   1 ibalik  2022_istanbul     27 Oct  6 21:54 .gitignore
+drwxr-xr-x   5 ibalik  2022_istanbul    170 Oct  6 21:54 .vscode
+-rw-r--r--   1 ibalik  2022_istanbul    745 Oct  6 23:08 Makefile
+-rw-r--r--   1 ibalik  2022_istanbul   2655 Oct  7 02:04 a
+drwxr-xr-x   8 ibalik  2022_istanbul    272 Oct  7 01:55 builtin
+drwxr-xr-x  14 ibalik  2022_istanbul    476 Oct  7 01:55 exec
+-rw-r--r--   1 ibalik  2022_istanbul      0 Oct  7 02:05 k
+-rwxr-xr-x   1 ibalik  2022_istanbul     53 Oct  6 21:54 leaks.sh
+-rw-r--r--   1 ibalik  2022_istanbul    679 Oct  6 23:06 main.c
+drwxr-xr-x   3 ibalik  2022_istanbul    102 Oct  6 21:54 main.dSYM
+-rw-r--r--   1 ibalik  2022_istanbul   1208 Oct  7 01:55 main.o
+-rwxr-xr-x   1 ibalik  2022_istanbul  71096 Oct  7 01:55 minishell
+-rw-r--r--   1 ibalik  2022_istanbul   4637 Oct  6 23:06 minishell.h
+drwxr-xr-x  24 ibalik  2022_istanbul    816 Oct  7 01:55 parserr
+-rw-r--r--   1 ibalik  2022_istanbul     18 Oct  7 02:03 q
+-rw-r--r--   1 ibalik  2022_istanbul     47 Oct  6 21:54 readme.txt
+-rwxr-xr-x   1 ibalik  2022_istanbul    374 Oct  6 21:54 text
+drwxr-xr-x  14 ibalik  2022_istanbul    476 Oct  7 01:55 utils

@@ -10,17 +10,36 @@ static void first_process(t_data *data, int **pipes, int i)
     op_router(data, i);
 }
 
+static int find_heredoc(char **operators)
+{
+    int i;
+
+    i = 0;
+    while (operators[i] != NULL)
+    {
+        if (ft_strncmp(operators[i], "<<", 2) == 0)
+            return (1);
+    }
+    return (0);
+}
+
 static void middle_process(t_data *data, int **pipes, int i)
 {
-    dup2(pipes[i - 1][0], STDIN_FILENO);
-    dup2(pipes[i][1], STDOUT_FILENO);
+    if (find_heredoc(data->nodes[i].operators) == 0)
+    {
+        dup2(pipes[i - 1][0], STDIN_FILENO);
+        close_pipes(pipes, data->pipe_count);
+    }    
     close_pipes(pipes, data->pipe_count);
     op_router(data, i);
 }
 
 static void last_process(t_data *data, int **pipes, int i)
 {
-    dup2(pipes[i - 1][0], STDIN_FILENO);
+    if (find_heredoc(data->nodes[i].operators) == 0)
+    {
+        dup2(pipes[i - 1][0], STDIN_FILENO);
+    }  
     close_pipes(pipes, data->pipe_count);
     op_router(data, i);
 }
@@ -66,7 +85,10 @@ int executor(t_data *data, t_env **env)
     pids = pid_create(data->pipe_count + 1);
     while (++i < (data->pipe_count + 1))
     {
-        if (data->nodes[i].is_builtin == 0 && data->nodes[i].is_valid_cmd == 1)
+        if (data->nodes[i].is_builtin == 0 && 
+        data->nodes[i].is_valid_cmd == 1 &&
+        data->nodes[i].is_valid_path == 1
+        )
         {
             pids[i] = fork();
             if (pids[i] == 0)
@@ -79,7 +101,7 @@ int executor(t_data *data, t_env **env)
                     middle_process(data, pipes, i);
                 if (data->nodes[i].is_valid_path == 1)
                 {
-                    envs = get_env_arr(*env);
+                    envs = get_env_arr(*env); 
                     execve(data->nodes[i].args[0], data->nodes[i].args, envs);
                 }
                 exit(0);

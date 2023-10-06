@@ -13,7 +13,7 @@ static int question_mark(t_data *data, t_env **env)
     i = 0;
     tmp = get_env_val("?", *env);
     status = ft_atoi(tmp);
-    
+
     while (i < data->pipe_count + 1)
     {
         if (data->nodes[i].cmd != NULL)
@@ -21,7 +21,6 @@ static int question_mark(t_data *data, t_env **env)
             if (data->nodes[i].cmd[0] == '$' && data->nodes[i].cmd[1] == '?')
             {
                 flag = 1;
-                printf("TMP : %i \n", status);
                 if (status > 255)
                 {
                     status = status % 255;
@@ -38,7 +37,6 @@ static int question_mark(t_data *data, t_env **env)
                 if (data->nodes[i].args[j][0] == '$' && data->nodes[i].args[j][1] == '?')
                 {
                     flag = 1;
-                    printf("TMP : %i \n", status);
                     if (status > 255)
                     {
                         status = status % 255;
@@ -88,6 +86,8 @@ static void is_builtin(char *cmd, t_data *data, int i, t_env **env, t_export **e
             data->nodes[i].is_builtin = 0;
         }
     }
+    else
+        data->nodes[i].is_builtin = 0;
 }
 
 void built_in(t_data *data, t_env **env, t_export **exp_list)

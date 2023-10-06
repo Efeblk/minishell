@@ -25,49 +25,43 @@ static int outfiler(char **outfiles, char **operators, int *j)
 
 static void here_doc(t_data *data, int i)
 {
-    FILE *tmp = tmpfile();
-    char buffer[1024];
-    char *delimiter = data->nodes[i].infile[0];
-
-    // Read from stdin until the delimiter is found
-    while (fgets(buffer, sizeof(buffer), stdin) != NULL)
+    char *tmp = data->nodes[i].infile[0];
+    char *buffer;
+    while (1)
     {
-        if (strncmp(buffer, delimiter, strlen(delimiter)) == 0)
+        buffer = readline(">");
+        if (ft_strncmp(buffer, tmp, sizeof(buffer)) == 0)
+        {
             break;
-        fputs(buffer, tmp);
+        }
+
     }
-
-    // Redirect stdin to the temporary file
-    fflush(tmp);
-    rewind(tmp);
-    dup2(fileno(tmp), STDIN_FILENO);
-
-    // Execute the command
-    execve(data->nodes[i].args[0], data->nodes[i].args, NULL);
-    
 }
 
 void op_router(t_data *data, int i)
 {
-    int j = -1;
+    int j;
+    char *pwd;
 
+    j = -1;
     while (data->nodes[i].operators[++j] != NULL)
     {
         if (ft_strncmp(data->nodes[i].operators[j], ">", 2) == 0)
-        {
             dup2(outfiler(data->nodes[i].outfile, data->nodes[i].operators, &j), STDOUT_FILENO);
-        }
         else if (ft_strncmp(data->nodes[i].operators[j], ">>", 2) == 0)
-        {
             dup2(outfiler(data->nodes[i].outfile, data->nodes[i].operators, &j), STDOUT_FILENO);
-        }
         else if (ft_strncmp(data->nodes[i].operators[j], "<", 2) == 0)
         {
-            dup2(open(data->nodes[i].infile[0], O_RDONLY, 0777), STDIN_FILENO);
+            pwd = return_pwd();
+            pwd = ft_strjoin(pwd, "/");
+            pwd = ft_strjoin(pwd, data->nodes[i].infile[0]);
+            if ((access(pwd, F_OK)) == 0)
+                dup2(open(data->nodes[i].infile[0], O_RDONLY, 0777), STDIN_FILENO);
+            else
+                data->nodes[i].args[1] = ft_strdup(data->nodes[i].infile[0]);
+            free(pwd);
         }
         else if (ft_strncmp(data->nodes[i].operators[j], "<<", 2) == 0)
-        {   
             here_doc(data, i);
-        }
     }
 }
