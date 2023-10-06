@@ -91,7 +91,6 @@ static void is_builtin(char *cmd, t_data *data, int i, t_env **env, t_export **e
 
 void built_in(t_data *data, t_env **env, t_export **exp_list)
 {
-    //(void)envp;
     int i;
 
     i = -1;
@@ -100,7 +99,6 @@ void built_in(t_data *data, t_env **env, t_export **exp_list)
         is_builtin(data->nodes[i].cmd, data, i, env, exp_list);
         if (data->nodes[i].is_builtin == 1)
             update_status(0, env);
-        
     }
 }
 

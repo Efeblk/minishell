@@ -112,7 +112,6 @@ char	*get_env_val(const char *key, t_env *env_list)
 	current = find_env_node(env_list, key);
 	if (!current)
 	{
-		printf("ENV VALUE DOESNT EXIST FOR KEY: %s", key);
 		return (NULL);
 	}
 	return (current->value);

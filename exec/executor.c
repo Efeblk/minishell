@@ -70,7 +70,7 @@ int executor(t_data *data, t_globals *globals, t_env **env)
     pids = pid_create(data->pipe_count + 1);
     while (++i < (data->pipe_count + 1))
     {
-        if (data->nodes[i].is_builtin == 0)
+        if (data->nodes[i].is_builtin == 0 && data->nodes[i].is_valid_cmd == 1)
         {
             pids[i] = fork();
             if (pids[i] == 0)
