@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/07 02:32:29 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 04:01:10 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 void free_array(void **array) 
@@ -15,33 +27,14 @@ void free_array(void **array)
     }
 }
 
-void free_node(t_node *node)
- {
-    if (node == NULL) {
-        return;
-    }
-    printf("node 1\n");
-    // Free individual fields of the t_node structure
-    if (node->cmd) {
-        free(node->cmd);
-        node->cmd = NULL;
-    }
 
-    printf("node 2\n");
-    free_array((void **)node->args);
-    printf("node 3\n");
-    free_array((void **)node->outfile);
-    printf("node 4\n");
-    free_array((void **)node->infile);
-    printf("node 5\n");
-    free_array((void **)node->operators);
-    printf("node 6\n");
-}
-
-void data_free(t_data *data) 
+void data_free(t_data *data)
 {
-    int i = 0;
-    int j = 0;
+    int i;
+    int j;
+
+    i = 0;
+    j = 0;
     while (i < (data->pipe_count + 1))
     {
         if (data->nodes[i].cmd != NULL)
@@ -101,4 +94,20 @@ void data_free(t_data *data)
     if (data != NULL)
         free(data);
 }
+
+int	ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 == *s2 && *s1)
+	{
+		s1++;
+		s2++;
+	}
+	return (*s1 - *s2);
+}
+
+int	ft_isalnum(int c)
+{
+	return (ft_isdigit(c) || ft_isalpha(c));
+}
+
 

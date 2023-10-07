@@ -1,150 +1,92 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/06 19:51:12 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 01:52:02 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int outfile_counter(t_token **tokens)
+int	outfile_counter(t_token **tokens)
 {
-    int i;
-    int count;
-    
-    i = 0;
-    count = 0;
-    while (tokens[i]->type != TOKEN_EOF)
-    {
-        if (tokens[i]->type == TOKEN_O || tokens[i]->type == TOKEN_O_O)
-            count++;
-        i++;
-    }
-    return (count);
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i]->type != TOKEN_EOF)
+	{
+		if (tokens[i]->type == TOKEN_O || tokens[i]->type == TOKEN_O_O)
+			count++;
+		i++;
+	}
+	return (count);
 }
 
-int infile_counter(t_token **tokens)
+int	infile_counter(t_token **tokens)
 {
-    int i;
-    int count;
-    
-    i = 0;
-    count = 0;
-    while (tokens[i]->type != TOKEN_EOF)
-    {
-        if (tokens[i]->type == TOKEN_I || tokens[i]->type == TOKEN_I_I)
-            count++;
-        i++;
-    }
-    return (count);
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i]->type != TOKEN_EOF)
+	{
+		if (tokens[i]->type == TOKEN_I || tokens[i]->type == TOKEN_I_I)
+			count++;
+		i++;
+	}
+	return (count);
 }
 
-int operator_counter(t_token **tokens)
+int	operator_counter(t_token **tokens)
 {
-    int i;
-    int count;
-    
-    i = 0;
-    count = 0;
-    while (tokens[i]->type != TOKEN_EOF)
-    {
-        if (tokens[i]->type != TOKEN_WORD)
-            count++;
-        i++;
-    }
-    return (count);
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (tokens[i]->type != TOKEN_EOF)
+	{
+		if (tokens[i]->type != TOKEN_WORD)
+			count++;
+		i++;
+	}
+	return (count);
 }
 
-void    fill_structs(t_data *data, t_token **tokens, char *input)
+void	fill_structs(t_data *data, t_token **tokens, char *input)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    data->nodes = malloc(sizeof(t_node) * (data->pipe_count + 1));
-    while (i < (data->pipe_count + 1))
-    {
-        data->nodes[i].args = calloc(sizeof(input), sizeof(char *));
-        data->nodes[i].outfile = calloc((outfile_counter(tokens) + 1), sizeof(char *));
-        data->nodes[i].infile = calloc((infile_counter(tokens) + 1), sizeof(char *));
-        data->nodes[i].operators = calloc((operator_counter(tokens) + 1), sizeof(char *));       
-        i++;
-    }
-}
-// int return etsin 
-void    fill_nodes(t_data *data, t_token **tokens, char *input) 
-{
-    int i;
-    int node_index;
-    int arg_index;
-    int y;
-    int x;
-
-    i = 0;
-    node_index = 0;
-    arg_index = 0;
-    y = 0;
-    x = 0;
-    int current_index = 0;
-    fill_structs(data, tokens, input);
-    while (tokens[i]->type != TOKEN_EOF) 
-    {
-        data->nodes[node_index].is_pipe = 0;
-        if (tokens[0]->type != TOKEN_WORD)
-            data->nodes[node_index].cmd = NULL;
-        if (tokens[i]->type == TOKEN_WORD)
-        {
-            if (arg_index == 0)
-            {
-                    data->nodes[node_index].cmd = ft_strdup(tokens[i]->value);
-                    arg_index++;
-            }
-            else
-            {
-                data->nodes[node_index].args[arg_index] = ft_strdup(tokens[i]->value);
-                arg_index++;
-            }
-
-        }
-        else if ((tokens[i]->type == TOKEN_I || tokens[i]->type == TOKEN_I_I))
-        {
-            if (tokens[i + 1]->type == TOKEN_EOF)
-                    printf("syntax error near unexpected token `newline\n'");
-            else
-            { 
-                data->nodes[node_index].infile[x] = ft_strdup(tokens[i + 1]->value);
-                data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
-                current_index++;
-                x++;
-                i++;
-            }
-        }
-        else if ((tokens[i]->type == TOKEN_O || tokens[i]->type == TOKEN_O_O) && (tokens[i + 1]->type != TOKEN_EOF))
-        {
-            data->nodes[node_index].outfile[y] = ft_strdup(tokens[i + 1]->value);
-            data->nodes[node_index].operators[current_index] = ft_strdup(tokens[i]->value);
-            current_index++;
-            y++;
-            i++;
-        }
-        else if (tokens[i]->type == TOKEN_PIPE)
-        {
-            if (tokens[i + 1]->type == TOKEN_PIPE)
-            {
-                printf("syntax error near unexpected token `|'\n");
-                return ;
-            }
-            data->nodes[node_index].is_pipe = 1;
-            data->nodes[node_index].args[arg_index + 1] = NULL;
-            data->nodes[node_index].infile[x] = NULL;
-            data->nodes[node_index].outfile[y] = NULL;
-            data->nodes[node_index].operators[current_index] = NULL;
-            node_index++;
-            data->nodes[node_index].cmd = NULL;
-            arg_index = 0;
-            current_index = 0;
-            x = 0;
-            y = 0;
-        }
-        i++;
-    }
-    data->nodes[node_index].args[arg_index] = NULL;
-    data->nodes[node_index].operators[current_index] = NULL;
-    free_tokens(tokens);
+	i = 0;
+	data->nodes = malloc(sizeof(t_node) * (data->pipe_count + 1));
+	while (i < (data->pipe_count + 1))
+	{
+		data->nodes[i].args = calloc(sizeof(input), sizeof(char *));
+		data->nodes[i].outfile = calloc((outfile_counter(tokens) + 1),
+				sizeof(char *));
+		data->nodes[i].infile = calloc((infile_counter(tokens) + 1),
+				sizeof(char *));
+		data->nodes[i].operators = calloc((operator_counter(tokens) + 1),
+				sizeof(char *));
+		i++;
+	}
 }
 
+
+
+void	null_free_nodes(t_data *data, t_token **tokens, t_index *index)
+{
+	data->nodes[(*index).node_index].args[(*index).arg_index] = NULL;
+	data->nodes[(*index).node_index].operators[(*index).current_index] = NULL;
+	free_tokens(tokens);
+}
 
 
 // void print_node(t_data *data) 

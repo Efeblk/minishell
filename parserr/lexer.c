@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/07 01:13:25 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 01:24:29 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-t_token *get_next_token(char **input)
+t_token	*get_next_token(char **input)
 {
-    while (isspace(**input))
+	while (isspace(**input))
 		(*input)++;
 	if (**input == '\0')
 		return (create_token(TOKEN_EOF, input, *input));
@@ -14,8 +26,8 @@ t_token *get_next_token(char **input)
 t_token	*generate_word_token(char **input)
 {
 	char	*start;
-	int				sf;
-	int				df;
+	int		sf;
+	int		df;
 
 	start = *input;
 	sf = 0;
@@ -31,69 +43,32 @@ t_token	*generate_word_token(char **input)
 		(*input)++;
 	}
 	if (sf != 0 || df != 0)
-	{	
+	{
 		printf("Error: Unbalanced quotes\n");
 		exit(1);
 	}
 	return (create_token(TOKEN_WORD, input, start));
 }
 
-
 t_token	*generate_pr_token(char **input)
 {
 	if (**input == '|')
-	{
-		(*input)++;
-		return (create_token(TOKEN_PIPE, input, (*input) - 1));
-	}
+		return (create_token(TOKEN_PIPE, input, ++(*input) - 1));
 	if (**input == '<')
 	{
-		(*input)++;
-		if (**input == '<')
-		{
-			(*input)++;
-			return (create_token(TOKEN_I_I, input, (*input) - 2));
-		}
+		if (*++(*input) == '<')
+			return (create_token(TOKEN_I_I, input, ++(*input) - 2));
 		return (create_token(TOKEN_I, input, (*input) - 1));
 	}
 	if (**input == '>')
 	{
-		(*input)++;
-		if (**input == '>')
-		{
-			(*input)++;
-			return (create_token(TOKEN_O_O, input, (*input) - 2));
-		}
+		if (*++(*input) == '>')
+			return (create_token(TOKEN_O_O, input, ++(*input) - 2));
 		return (create_token(TOKEN_O, input, (*input) - 1));
 	}
 	return (NULL);
 }
 
-char *remove_quotes(char *word)
-{
-    size_t i;
-    size_t j;
-    char *str;
-
-    str = malloc(ft_strlen(word) + 1);
-    if (!str)
-        return NULL;
-	i = 0;
-	j = 0;
-    while (word[i])
-    {
-        if (word[i] != '\"')
-        {
-            str[j] = word[i];
-            j++;
-        }
-		i++;
-    }
-
-    str[j] = '\0';
-	free(word);
-    return (str);
-}
 
 char	*create_word(char **input, char *start)
 {
@@ -101,20 +76,16 @@ char	*create_word(char **input, char *start)
 	char	*word;
 
 	len = *input - start;
-	if (len == 0)
-		return (ft_strdup(""));
 	word = (char *) malloc(len + 1);
 	strncpy(word, start, len);
 	word[len] = '\0';
-	word = remove_quotes(word);
 	return (word);
 }
-
 
 t_token	*create_token(TokenType type, char **input, char *start)
 {
 	t_token	*token;
-	
+
 	token = (t_token *) malloc(sizeof(t_token));
 	token->type = type;
 	token->value = create_word(input, start);

@@ -1,5 +1,5 @@
 NOM = libparser.a
-SRC = error.c free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counter.c start.c env.c export.c
+SRC = free_tokens.c ft_memcpy.c ft_strchr.c lexer.c parser.c pipe_counter.c start.c env.c export.c env_utils.c export_utils.c fill.c fill_utils.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc

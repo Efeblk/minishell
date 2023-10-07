@@ -33,6 +33,7 @@ typedef struct s_env
 {
     char    *key;
     char    *value;
+    char    *full;
     struct  s_env *next;
 } t_env;
 
@@ -40,6 +41,7 @@ typedef struct s_export
 {
     char    *key;
     char    *value;
+    char    *full;
     struct  s_export *next;
 } t_export;
 
@@ -73,8 +75,30 @@ typedef struct s_globals
     int status;
 }t_globals;
 
+typedef struct exp_stsh
+{
+	int		src_i;
+	int		rt_i;
 
-int     ft_readline(t_data *data, t_globals *globals);
+	int		src_len;
+	int		rt_len;
+
+	char	*rt;
+
+}			exp_stsh;
+
+typedef struct s_index
+{
+    int node_index;
+    int arg_index;
+    int current_index;
+    int i;
+    int x;
+    int y;
+}   t_index;
+
+int	ft_readline(t_data *data, t_globals *globals,
+	t_env **env_list, t_index *index);
 char    *ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
 char	*ft_itoa(int n);
@@ -95,7 +119,7 @@ void    print_and_free_tokens(t_token **tokens, int count);
 int     pipe_counter(t_data *data, t_token **tokens);
 
 void    free_tokens(t_token **tokens);
-void    fill_nodes(t_data *data, t_token **tokens, char *input);
+int	    fill_nodes(t_data *data, t_token **tokens, char *input, t_index *index);
 void    print_node(t_data *data);
 
 int     outfile_counter(t_token **tokens);
@@ -103,8 +127,9 @@ int     infile_counter(t_token **tokens);
 int     operator_counter(t_token **tokens);
 
 int     first_token_controller(t_token **tokens);
+int     controller(t_token **tokens, int i);
+int     token_controller(t_token **tokens);
 
-int	    ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strjoin(char const *s1, char const *s2);
 
 int     find_env(t_data *data, t_env **env);
@@ -169,5 +194,34 @@ void        update_status(int status, t_env **env);
 int         find_heredoc(char **operators);
 void	wait_close_free(t_data *data, int **pipes, int *pids, t_env **env);
 int     question_mark(t_data *data, t_env **env);
+char	    *get_expanded(const char *str, t_env **env_list);
+void	    expand_stsh(const char *str, exp_stsh *stsh, int sf, int df, t_env **env_list);
+void	    ft_dollarize(const char *str, exp_stsh *stsh, t_env **env_list);
+exp_stsh	*get_stsh(const char *str);
+void	    *ft_realloc(void *ptr, size_t b_amount, size_t b_size);
+
+int		ft_strcmp(const char *s1, const char *s2);
+
+void	fill_cmd(t_data *data, t_token **tokens, t_index *index);
+void	fill_structs(t_data *data, t_token **tokens, char *input);
+void	fill_index(t_index *index);
+int	    fill_infile(t_data *data, t_token **tokens, t_index *index);
+int	    fill_outfile(t_data *data, t_token **tokens, t_index *index);
+void	pipe_situation(t_data *data, t_index *index);
+void	null_free_nodes(t_data *data, t_token **tokens, t_index *index);
+void	control_word(t_data *data, t_token **tokens, t_index *index);
+void     update_status(int status, t_env **env);
+t_token	*input_utils(char **input);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strncpy(char *dest, const char *src, size_t n);
+char	*ft_strcpy(char *s1, char *s2);
+void	cmd_free(t_data *data, int i);
+void	args_free(t_data *data, int i, int j);
+void	outfile_free(t_data *data, int i, int j);
+void	infile_free(t_data *data, int i, int j);
+void	operators_free(t_data *data, int i, int j);
+void	last_controller(t_data *data, t_token **tokens, t_index *index);
 
 #endif
