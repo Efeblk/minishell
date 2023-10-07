@@ -20,7 +20,7 @@ int main(int argc, char *argv[], char *envp[])
 		if (ft_readline(data, &globals, &env, &index))
 		{
 			built_in(data, &env, &exp_list);
-			executor(data, &env);
+			executor(data, &env);			
 			data_free(data);
 		}
 	}

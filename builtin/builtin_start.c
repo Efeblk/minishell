@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:26:27 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 04:26:10 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 05:03:32 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,10 @@ void	built_in(t_data *data, t_env **env, t_export **exp_list)
 	{
 		is_builtin(data, i, env, exp_list);
 		if (data->nodes[i].is_builtin == 1)
+		{
+			data->nodes[i].is_valid_cmd = 1;
 			update_status(0, env);
+			data->nodes[i].args[0] = ft_strdup(data->nodes[i].cmd);
+		}
 	}
 }

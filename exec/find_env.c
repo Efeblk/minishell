@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 03:13:52 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 05:02:02 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,10 +123,21 @@ int	find_env(t_data *data, t_env **env)
 {
 	char	*path;
 	char	**bin;
+	int		i;
 
+	i = -1;
 	path = get_env_val("PATH", *env);
 	if (!path)
+	{
+		while (++i < data->pipe_count + 1)
+		{
+			if (data->nodes[i].is_valid_cmd == 0)
+			{
+				data->nodes[i].args[0] = ft_strdup(data->nodes[i].cmd);
+			}
+		}
 		return (-1);
+	}
 	bin = ft_split(path, ':');
 	is_accessible(bin, data);
 	find_helper(data, env);
