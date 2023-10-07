@@ -19,6 +19,9 @@ $(NAME): $(OBJ)
 	@make -s -C $(BUILTIN)
 	@$(CC) $(CFLAGS) -o $(NAME) $(OBJ) $(UTILS)/libutils.a $(EXEC)/libexec.a $(PARSER)/libparser.a $(BUILTIN)/libbuiltin.a -lreadline
 
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
+
 clean:
 	@$(RM) $(OBJ)
 	@make clean -s -C $(UTILS)
