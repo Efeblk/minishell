@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:30:40 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 02:30:56 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:26:52 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	add_export(int i, t_data *data, t_export **exp_list, int j)
 	}
 }
 
-void 	add_env(int i, t_data *data, t_env **env_list, int j)
+void	add_env(int i, t_data *data, t_env **env_list, int j)
 {
 	char	**str;
 	char	*key;
