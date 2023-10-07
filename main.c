@@ -9,7 +9,7 @@ int main(int argc, char *argv[], char *envp[])
 	t_export	*exp_list;
 	t_globals	globals;
 	t_data		*data;
-	t_index		*index;
+	t_index		index;
 
     printf("new shell \n");
 	env = load_environment(envp);
@@ -18,8 +18,7 @@ int main(int argc, char *argv[], char *envp[])
 	while (1)
 	{
 		data = malloc(sizeof(t_data));
-		index = malloc(sizeof(t_index));
-		if (ft_readline(data, &globals, &env, index))
+		if (ft_readline(data, &globals, &env, &index))
 		{
 			built_in(data, &env, &exp_list);
 			executor(data, &env);

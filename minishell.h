@@ -218,6 +218,7 @@ void	args_free(t_data *data, int i, int j);
 void	outfile_free(t_data *data, int i, int j);
 void	infile_free(t_data *data, int i, int j);
 void	operators_free(t_data *data, int i, int j);
+void	last_controller(t_data *data, t_token **tokens, t_index *index);
 
 #endif
 

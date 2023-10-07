@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:40:18 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/06 19:40:19 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:10:39 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	update_env_node(t_env *head, const char *key, const char *new_value)
 	{
 		if (ft_strcmp(current->key, key) == 0)
 		{
+			free(current->value);
 			current->value = ft_strdup(new_value);
 			return ;
 		}

@@ -6,27 +6,25 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:32:29 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 03:42:01 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:01:10 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_array(void **array)
+void free_array(void **array) 
 {
-    if (array)
-	{
-		int	i;
-
-		i = 0;
-		while (array[i] != NULL)
-		{
-			free(array[i]);
-			array[i] = NULL;
-			i++;
-		}
-		free(array);
-	}
+    if (array) {
+        int i = 0;
+        while (array[i] != NULL)
+        {
+            free(array[i]);
+            array[i] = NULL; // Set the freed pointer to NULL to avoid double-free
+            i++;
+        }
+        //free(array[i]);
+        free(array);
+    }
 }
 
 

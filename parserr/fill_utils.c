@@ -6,13 +6,18 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 01:50:40 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 02:13:19 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:09:26 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
+void	last_controller(t_data *data, t_token **tokens, t_index *index)
+{
+	data->nodes[index->node_index].args[index->arg_index] = NULL;
+	data->nodes[index->node_index].operators[index->current_index] = NULL;
+	free_tokens(tokens);
+}
 void	control_word(t_data *data, t_token **tokens, t_index *index)
 {
 	data->nodes[(*index).node_index].is_pipe = 0;
@@ -46,5 +51,6 @@ int	fill_nodes(t_data *data, t_token **tokens, char *input, t_index *index)
 			pipe_situation(data, index);
 		(*index).i++;
 	}
+	last_controller(data, tokens, index);
 	return (1);
 }
