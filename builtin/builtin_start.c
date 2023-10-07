@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:26:27 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 05:03:32 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:22:34 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,10 @@ void	built_in(t_data *data, t_env **env, t_export **exp_list)
 		{
 			data->nodes[i].is_valid_cmd = 1;
 			update_status(0, env);
-			data->nodes[i].args[0] = ft_strdup(data->nodes[i].cmd);
+			if (ft_strncmp(data->nodes[i].cmd, "echo", 4))
+			{
+				data->nodes[i].args[0] = ft_strdup(data->nodes[i].cmd);
+			}
 		}
 	}
 }

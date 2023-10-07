@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 06:07:24 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:22:32 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int  is_executable(char **bin, t_data *data, int *valid, int *j)
 			tmp = ft_strjoin(newbin, data->nodes[*j].cmd);
 			free(newbin);
 		}
-		if ((access(tmp, F_OK | X_OK)) == 0 && ft_strncmp(data->nodes[*j].cmd, "echo", 4))
+		if ((access(tmp, F_OK | X_OK)) == 0)
 		{
 			data->nodes[*j].args[0] = ft_strdup(tmp);
 			*valid += 1;
@@ -89,9 +89,7 @@ static int	is_accessible(char **bin, t_data *data)
 			else if (!is_executable(bin, data, &valid, &j) &&
 				!is_path(data, &valid, &j))
 			{
-				printf("%s args 0 \n", data->nodes[j].args[0]);
 				data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
-				system("leaks minishell");
 			}
 		}
 		else if (data->nodes[j].cmd == NULL)
