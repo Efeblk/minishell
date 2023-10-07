@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/07 02:29:05 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 02:31:28 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)
@@ -50,39 +62,41 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (s3);
 }
 
-char    *ft_strdup(const char *s1)
+char	*ft_strdup(const char *s1)
 {
-    int     i;
-    char    *str;
-    i = 0;
-    str = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 1));
-    if (!str)
-        return (0);
-    while (s1[i])
-    {
-        str[i] = s1[i];
-        i++;
-    }
-    str[i] = 0;
-    return (str);
+	int		i;
+	char	*str;
+
+	i = 0;
+	str = (char *) malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!str)
+		return (0);
+	while (s1[i])
+	{
+		str[i] = s1[i];
+		i++;
+	}
+	str[i] = 0;
+	return (str);
 }
 
-char    *ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-    char    *str;
-    size_t  i;
-    i = 0;
-    if (!s)
-        return (0);
-    if ((start > ft_strlen(s)))
-        return (ft_strdup(""));
-    if (len > ft_strlen(s))
-        len = ft_strlen(s) - start;
-    str = (char *) malloc((sizeof(char) * (len) + 1));
-    if (!str)
-        return (0);
-    while (s[start] && (i < len))
-        str[i++] = s[start++];
-    str[i] = 0;
-    return (str);
+	char	*str;
+	size_t	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if ((start > ft_strlen(s)))
+		return (ft_strdup(""));
+	if (len > ft_strlen(s))
+		len = ft_strlen(s) - start;
+	str = (char *) malloc((sizeof(char) * (len) + 1));
+	if (!str)
+		return (0);
+	while (s[start] && (i < len))
+		str[i++] = s[start++];
+	str[i] = 0;
+	return (str);
 }

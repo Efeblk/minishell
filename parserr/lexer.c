@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/07 01:13:25 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 01:24:29 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 t_token	*get_next_token(char **input)
@@ -41,32 +53,22 @@ t_token	*generate_word_token(char **input)
 t_token	*generate_pr_token(char **input)
 {
 	if (**input == '|')
-	{
-		(*input)++;
-		return (create_token(TOKEN_PIPE, input, (*input) - 1));
-	}
+		return (create_token(TOKEN_PIPE, input, ++(*input) - 1));
 	if (**input == '<')
 	{
-		(*input)++;
-		if (**input == '<')
-		{
-			(*input)++;
-			return (create_token(TOKEN_I_I, input, (*input) - 2));
-		}
+		if (*++(*input) == '<')
+			return (create_token(TOKEN_I_I, input, ++(*input) - 2));
 		return (create_token(TOKEN_I, input, (*input) - 1));
 	}
 	if (**input == '>')
 	{
-		(*input)++;
-		if (**input == '>')
-		{
-			(*input)++;
-			return (create_token(TOKEN_O_O, input, (*input) - 2));
-		}
+		if (*++(*input) == '>')
+			return (create_token(TOKEN_O_O, input, ++(*input) - 2));
 		return (create_token(TOKEN_O, input, (*input) - 1));
 	}
 	return (NULL);
 }
+
 
 char	*create_word(char **input, char *start)
 {

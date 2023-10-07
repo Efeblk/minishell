@@ -27,16 +27,17 @@ void run_pwd(void)
     free(s);
 }
 
-void run_exit(t_data *data, t_globals *globals, int i)
+void run_exit(t_data *data, t_env **env, int i)
 {
+	int tmp;
 	if (data->nodes[i].args[1])
 	{
-		printf("args 1 %s \n", data->nodes[i].args[1]);
-		globals->status = atoi(data->nodes[i].args[1]);
-		printf("args 1 %i \n", globals->status);
+		
+		tmp = atoi(data->nodes[i].args[1]);
+		update_status(tmp, env);
 		printf("exit \n");
 		data_free(data); 
-		exit(globals->status);
+		exit(tmp);
 	}
     data_free(data); 
     printf("exit \n");
@@ -63,7 +64,8 @@ void run_echo(t_data *data, int i)
 				printf("%s", data->nodes[i].args[j]);
 		}
 		else
-			printf("%s\n", data->nodes[i].args[j]);
+			data->nodes[i].is_builtin = 0;
+
 	}
 }
 

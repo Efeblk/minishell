@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:48:41 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/06 19:49:27 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 01:22:12 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,3 +54,4 @@ void	print_export_list(t_export *head)
 		current = current->next;
 	}
 }
+

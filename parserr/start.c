@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:57:40 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 00:42:16 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 02:47:17 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,15 +78,15 @@ void	ft_dollarize(const char *str, exp_stsh *stsh, t_env **env_list)
 		var_len++;
 	}
 	var_name = (char *)malloc(var_len + 1);
-	strncpy(var_name, str + var_start, var_len);
+	ft_strncpy(var_name, str + var_start, var_len);
 	var_name[var_len] = '\0';
 	var_val = get_env_val(var_name, *env_list);
 	free(var_name);
 	if (var_val)
 	{
-		stsh->rt_len += strlen(var_val) - (1 + var_len);
+		stsh->rt_len += ft_strlen(var_val) - (1 + var_len);
 		stsh->rt = (char *)ft_realloc(stsh->rt, stsh->rt_len, sizeof(char));
-		strcpy(stsh->rt + stsh->rt_i, var_val);
+		ft_strcpy(stsh->rt + stsh->rt_i, var_val);
 		stsh->rt_i += strlen(var_val);
 	}
 	stsh->src_i += var_len;
@@ -124,7 +124,8 @@ int	count_tokens(char *input)
 	t_token	*token;
 
 	count = 0;
-	while (1) 
+
+	while (1)
 	{
 		token = get_next_token(&input);
 		count++;
@@ -176,9 +177,10 @@ int	first_token_controller(t_token **tokens)
 		printf("syntax error near unexpected token `|'\n");
 		return (0);
 	}
-	else if ((tokens[0]->type == TOKEN_I || tokens[0]->type == TOKEN_I_I ||
-		tokens[0]->type == TOKEN_O ||
-			tokens[0]->type == TOKEN_O_O) && tokens[1]->type == TOKEN_EOF)
+	else if ((tokens[0]->type == TOKEN_I || tokens[0]->type == TOKEN_I_I
+			|| tokens[0]->type == TOKEN_O
+			|| tokens[0]->type == TOKEN_O_O)
+		&& tokens[1]->type == TOKEN_EOF)
 	{
 		printf("syntax error near unexpected token `newline' \n");
 		return (0);
@@ -277,53 +279,54 @@ char	*full_pwd(t_globals *globals)
 	return (print);
 }
 
-int     ft_readline(t_data *data, t_globals *globals, t_env **env_list, t_index *index)
+int	ft_readline(t_data *data, t_globals *globals, t_env **env_list, t_index *index)
 {
-        char *input;
-        t_token **tokens;
-        
-        char *print = full_pwd(globals);
-        input = readline(print);
-        add_history(input);
-        if (input[0] == '\0')
-        {
-            free(print);
-            print = NULL;
-            free(data);
-            free(input);
-            return (0);
-        }
-        input = get_expanded(input, env_list);
-        tokens = tokenize_input(input);
-        if (!first_token_controller(tokens))
-        {
-            free(print);
-            print = NULL;
-            free_tokens(tokens);
-            free(input);
-            free(data);
-            return (0);
-        }
-        if (!token_controller(tokens))
-        {
-            free(print);
-            print = NULL;
-            free_tokens(tokens);
-            free(input);
-            free(data);
-            return (0);
-        }
-        data->pipe_count = pipe_counter(data, tokens);
-        if (!fill_nodes(data, tokens, input, index))
-        {
-            free(print);
-            free_tokens(tokens);
-            free(input);
-            data_free(data);
-            return (0);
-		}
-        free(input);
-        free(print);
-        print = NULL;
-        return (1);
+	char	*input;
+	t_token	**tokens;
+	char	*print;
+
+	print = full_pwd(globals);
+	input = readline(print);
+	add_history(input);
+	if (input[0] == '\0')
+	{
+		free(print);
+		print = NULL;
+		free(data);
+		free(input);
+		return (0);
+	}
+	input = get_expanded(input, env_list);
+	tokens = tokenize_input(input);
+	if (!first_token_controller(tokens))
+	{
+		free(print);
+		print = NULL;
+		free_tokens(tokens);
+		free(input);
+		free(data);
+		return (0);
+	}
+	if (!token_controller(tokens))
+	{
+		free(print);
+		print = NULL;
+		free_tokens(tokens);
+		free(input);
+		free(data);
+		return (0);
+	}
+	data->pipe_count = pipe_counter(data, tokens);
+	if (!fill_nodes(data, tokens, input, index))
+	{
+		free(print);
+		free_tokens(tokens);
+		free(input);
+		data_free(data);
+		return (0);
+	}
+	free(input);
+	free(print);
+	print = NULL;
+	return (1);
 }

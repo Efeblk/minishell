@@ -39,7 +39,6 @@ static int is_path(t_data *data, int *valid, int *j)
     else if (data->nodes[*j].cmd[0] == '.' && data->nodes[*j].cmd[1] == '/')
     {
         data->nodes[*j].is_valid_cmd = 1;
-
         c = return_pwd();
         tmp = ft_strjoin(c, ++(data->nodes[*j].cmd));
         if ((access(tmp, F_OK | X_OK)) == -1)
@@ -69,7 +68,11 @@ static int is_accessible(char **bin, t_data *data)
         data->nodes[j].is_valid_cmd = 1;
         if (data->nodes[j].cmd != NULL)
         {
-            if (!is_executable(bin, data, &valid, &j) && !is_path(data, &valid, &j))
+            if (data->nodes[j].is_builtin == 1 && ft_strncmp(data->nodes[j].cmd, "echo", 4))
+            {   
+            }
+            else if (!is_executable(bin, data, &valid, &j) && 
+            !is_path(data, &valid, &j))
             {
                 data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
             }   
@@ -80,31 +83,33 @@ static int is_accessible(char **bin, t_data *data)
     return (valid);
 }
 
-int find_env(t_data *data, t_globals *globals)
+int find_env(t_data *data, t_env **env)
 {
-    char *env;
+    char *path;
     char **bin; 
     int i;
 
-    env = getenv("PATH");
-    bin = ft_split(env, ':');
-
+    path = get_env_val("PATH", *env);
+    if (!path)
+        return -1;
+    bin = ft_split(path, ':');
     is_accessible(bin, data);
     i = -1;
-    
     while (++i < data->pipe_count + 1)
     {
-        if (data->nodes[i].is_valid_cmd == 0)
+        if (data->nodes[i].cmd != NULL &&
+            (data->nodes[i].is_valid_cmd == 0 || 
+        ft_strncmp(data->nodes[i].cmd, "$?", 2) == 0)
+        )
         {
             printf("%s : command not found\n", data->nodes[i].cmd);
-            globals->status = 127;
+            update_status(127, env);
             break;
         }
         else if (data->nodes[i].is_valid_path == 0)
         {
             printf("%s : not a valid path \n", data->nodes[i].cmd);
-            globals->status = 127;
-            printf("%d\n", globals->status);
+            update_status(127, env);
             break;
         }
     }
