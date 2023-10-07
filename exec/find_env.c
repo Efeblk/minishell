@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 06:22:32 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:23:46 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int  is_executable(char **bin, t_data *data, int *valid, int *j)
+static int	is_executable(char **bin, t_data *data, int *valid, int *j)
 {
-	int     i;
-	char    *tmp;
-	char    *newbin;
+	int		i;
+	char	*tmp;
+	char	*newbin;
 
 	i = -1;
 	while (bin[++i])
