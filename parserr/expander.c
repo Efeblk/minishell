@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:35:33 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:43:24 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 05:59:07 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_dollarize(const char *str, t_exp_stsh *stsh, t_env **env_list)
 	ft_strncpy(var_name, str + var_start, var_len);
 	var_name[var_len] = '\0';
 	var_val = get_env_val(var_name, *env_list);
+	printf("**%s**\n", var_name);
 	free(var_name);
 	if (var_val)
 	{

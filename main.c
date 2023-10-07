@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:41:03 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:49:31 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 05:54:23 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if (ft_readline(data, &globals, &env, &index))
 		{
 			built_in(data, &env, &exp_list);
-			executor(data, &env);			
+			executor(data, &env);
 			data_free(data);
 		}
 	}
