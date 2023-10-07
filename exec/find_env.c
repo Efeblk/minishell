@@ -6,24 +6,28 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 05:02:02 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:07:24 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	is_executable(char **bin, t_data *data, int *valid, int *j)
+static int  is_executable(char **bin, t_data *data, int *valid, int *j)
 {
-	int		i;
-	char	*tmp;
+	int     i;
+	char    *tmp;
+	char    *newbin;
 
 	i = -1;
 	while (bin[++i])
 	{
 		if (bin[i][ft_strlen(bin[i]) - 1] != '/')
-			bin[i][ft_strlen(bin[i])] = '/';
-		tmp = ft_strjoin(bin[i], data->nodes[*j].cmd); 
-		if ((access(tmp, F_OK | X_OK)) == 0)
+		{
+			newbin = ft_strjoin(bin[i], "/");
+			tmp = ft_strjoin(newbin, data->nodes[*j].cmd);
+			free(newbin);
+		}
+		if ((access(tmp, F_OK | X_OK)) == 0 && ft_strncmp(data->nodes[*j].cmd, "echo", 4))
 		{
 			data->nodes[*j].args[0] = ft_strdup(tmp);
 			*valid += 1;
@@ -85,7 +89,9 @@ static int	is_accessible(char **bin, t_data *data)
 			else if (!is_executable(bin, data, &valid, &j) &&
 				!is_path(data, &valid, &j))
 			{
+				printf("%s args 0 \n", data->nodes[j].args[0]);
 				data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
+				system("leaks minishell");
 			}
 		}
 		else if (data->nodes[j].cmd == NULL)

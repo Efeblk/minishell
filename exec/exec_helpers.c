@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:50:34 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 03:12:02 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:11:08 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ void	wait_close_free(t_data *data, int **pipes, int *pids, t_env **env)
 	while (++i < data->pipe_count + 1)
 	{
 		waitpid(pids[i], &status, 0);
+		if (status < 255)
+			status = status % 255;
 		update_status(status, env);
 	}
 	free(pids);
