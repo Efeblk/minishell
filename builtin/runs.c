@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:27:33 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 03:14:44 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:10:27 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	run_exit(t_data *data, t_env **env, int i)
 	if (data->nodes[i].args[1])
 	{
 		tmp = atoi(data->nodes[i].args[1]);
+		if (tmp > 255)
+			tmp = tmp % 255;
 		update_status(tmp, env);
 		printf("exit \n");
 		data_free(data);

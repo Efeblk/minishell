@@ -25,24 +25,24 @@ typedef enum
 
 typedef struct s_token
 {
-    TokenType type;
-    char      *value;
+	TokenType	type;
+	char		*value;
 } t_token;
 
 typedef struct s_env
 {
-    char    *key;
-    char    *value;
-    char    *full;
-    struct  s_env *next;
+	char    *key;
+	char    *value;
+	char    *full;
+	struct  s_env *next;
 } t_env;
 
 typedef struct s_export
 {
-    char    *key;
-    char    *value;
-    char    *full;
-    struct  s_export *next;
+	char	*key;
+	char	*value;
+	char	*full;
+	struct s_export	*next;
 } t_export;
 
 typedef struct s_node
@@ -98,14 +98,14 @@ typedef struct s_index
 
 int	ft_readline(t_data *data, t_globals *globals,
 	t_env **env_list, t_index *index);
-char    *ft_strdup(const char *s1);
+char	*ft_strdup(const char *s1);
 char	**ft_split(const char *s, char c);
 char	*ft_itoa(int n);
-int     ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 size_t	ft_strlen(const char *s);
 char	*ft_strchr(const char *s, int c);
-t_token *get_next_token(char **input);
+t_token	*get_next_token(char **input);
 t_token	*generate_word_token(char **input);
 t_token	*generate_pr_token(char **input);
 char	*create_word(char **input, char *start);

@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 06:11:59 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:14:31 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,19 @@ static int	is_executable(char **bin, t_data *data, int *valid, int *j)
 {
 	int		i;
 	char	*tmp;
+	char	*newbin;
 
 	i = -1;
 	while (bin[++i])
 	{
 		if (bin[i][ft_strlen(bin[i]) - 1] != '/')
-			bin[i][ft_strlen(bin[i])] = '/';
-		tmp = ft_strjoin(bin[i], data->nodes[*j].cmd); 
-		if ((access(tmp, F_OK | X_OK)) == 0)
+		{
+			newbin = ft_strjoin(bin[i], "/");
+			tmp = ft_strjoin(newbin, data->nodes[*j].cmd);
+			free(newbin);
+		}
+		if ((access(tmp, F_OK | X_OK)) == 0
+			&& ft_strncmp(data->nodes[*j].cmd, "echo", 4))
 		{
 			data->nodes[*j].args[0] = ft_strdup(tmp);
 			*valid += 1;
