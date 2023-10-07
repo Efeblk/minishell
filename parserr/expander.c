@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:35:33 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 06:30:16 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 07:01:25 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ void	ft_dollarize(const char *str, t_exp_stsh *stsh, t_env **env_list)
 	var_name = (char *)malloc(var_len + 1);
 	ft_strncpy(var_name, str + var_start, var_len);
 	var_name[var_len] = '\0';
-	if ((ft_strcmp(var_name, "?")))
-		var_val = (get_env_val("?", *env_list));
+	printf("**%s**\n", var_name);
+	if ((!ft_strcmp(var_name, "?")))
+		var_val = get_env_val("?", *env_list);
 	else
 		var_val = get_env_val(var_name, *env_list);
 	free(var_name);

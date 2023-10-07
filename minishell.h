@@ -83,6 +83,7 @@ typedef struct s_exp_stsh
 	int		rt_len;
 
 	char	*rt;
+	t_env	*env_list;
 
 }	t_exp_stsh;
 
