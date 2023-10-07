@@ -6,12 +6,11 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:49:34 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/06 22:36:39 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:30:21 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {

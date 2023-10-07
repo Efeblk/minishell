@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 01:50:40 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 04:09:26 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:35:40 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	last_controller(t_data *data, t_token **tokens, t_index *index)
 	data->nodes[index->node_index].operators[index->current_index] = NULL;
 	free_tokens(tokens);
 }
+
 void	control_word(t_data *data, t_token **tokens, t_index *index)
 {
 	data->nodes[(*index).node_index].is_pipe = 0;
@@ -27,8 +28,7 @@ void	control_word(t_data *data, t_token **tokens, t_index *index)
 
 int	fill_nodes(t_data *data, t_token **tokens, char *input, t_index *index)
 {
-	fill_index(index);
-	fill_structs(data, tokens, input);
+	fill_structs(data, tokens, input, index);
 	while (tokens[(*index).i]->type != TOKEN_EOF)
 	{
 		control_word(data, tokens, index);

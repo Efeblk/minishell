@@ -47,35 +47,34 @@ typedef struct s_export
 
 typedef struct s_node
 {
-    char    *cmd;
-    char    **args;
-    char    **outfile;
-    char    **infile;
-    int     is_pipe;
-    char    **operators;
-    int     arg_count;
-    int     is_builtin;
-    int     is_valid_cmd;
-    int     is_valid_path;
+	char	*cmd;
+	char	**args;
+	char	**outfile;
+	char	**infile;
+	int		is_pipe;
+	char	**operators;
+	int		arg_count;
+	int		is_builtin;
+	int		is_valid_cmd;
+	int		is_valid_path;
 }t_node;
-
 
 typedef struct s_data
 {
-    int     pipe_count;
-    t_env   *env;
-    t_node  *nodes;
-    int     count;
+	int		pipe_count;
+	t_env	*env;
+	t_node	*nodes;
+	int		count;
 }t_data;
 
 typedef struct s_globals
 {
-    char *user;
-    int shell_count;
-    int status;
+	char	*user;
+	int		shell_count;
+	int		status;
 }t_globals;
 
-typedef struct exp_stsh
+typedef struct s_exp_stsh
 {
 	int		src_i;
 	int		rt_i;
@@ -85,17 +84,17 @@ typedef struct exp_stsh
 
 	char	*rt;
 
-}			exp_stsh;
+}	t_exp_stsh;
 
 typedef struct s_index
 {
-    int node_index;
-    int arg_index;
-    int current_index;
-    int i;
-    int x;
-    int y;
-}   t_index;
+	int	node_index;
+	int	arg_index;
+	int	current_index;
+	int	i;
+	int	x;
+	int	y;
+}	t_index;
 
 int	ft_readline(t_data *data, t_globals *globals,
 	t_env **env_list, t_index *index);
@@ -139,33 +138,24 @@ void    data_free(t_data *data);
 
 int     is_input(char *cmd);
 
-
 int     executor(t_data *data, t_env **env);
-
 void    op_router(t_data *data, int i);
-
 int     **pipe_create(int pipe_count);
 void    close_pipes(int **pipes, int pipe_count);
 pid_t   *pid_create(int size);
-
-
 void built_in(t_data *data, t_env **env, t_export **exp_list);
-
 void	run_cd(t_data *data, int i);
 char    *return_pwd(void);
 void    run_pwd(void);
 void    run_exit(t_data *data, t_env **env, int i);
 void    run_echo(t_data *data, int i);
 void	run_unset(t_env **env, t_export **exp_list, int i, t_data *data);
-
 char	*get_env_val(const char *key, t_env *env_list);
 t_env	*load_environment(char *envp[]);
-
 void    run_env(t_env *env_list);
 void    run_export(t_export **exp_list, int i, t_data *data, t_env **env);
 void	add_export(int i, t_data *data, t_export **exp_list, int j);
 void 	add_env(int i, t_data *data, t_env **env_list, int j);
-
 t_env	*create_env_node(const char *key, const char *value);
 void	add_env_node(t_env **head, const char *key, const char *value);
 t_env	*find_env_node(t_env *head, const char *key);
@@ -195,15 +185,15 @@ int         find_heredoc(char **operators);
 void	wait_close_free(t_data *data, int **pipes, int *pids, t_env **env);
 int     question_mark(t_data *data, t_env **env);
 char	    *get_expanded(const char *str, t_env **env_list);
-void	    expand_stsh(const char *str, exp_stsh *stsh, int sf, int df, t_env **env_list);
-void	    ft_dollarize(const char *str, exp_stsh *stsh, t_env **env_list);
-exp_stsh	*get_stsh(const char *str);
+void	    expand_stsh(const char *str, t_exp_stsh *stsh, int sf, int df, t_env **env_list);
+void	    ft_dollarize(const char *str, t_exp_stsh *stsh, t_env **env_list);
+t_exp_stsh	*get_stsh(const char *str);
 void	    *ft_realloc(void *ptr, size_t b_amount, size_t b_size);
 
 int		ft_strcmp(const char *s1, const char *s2);
 
 void	fill_cmd(t_data *data, t_token **tokens, t_index *index);
-void	fill_structs(t_data *data, t_token **tokens, char *input);
+void	fill_structs(t_data *data, t_token **tokens, char *input, t_index *index);
 void	fill_index(t_index *index);
 int	    fill_infile(t_data *data, t_token **tokens, t_index *index);
 int	    fill_outfile(t_data *data, t_token **tokens, t_index *index);
@@ -217,11 +207,21 @@ int		ft_isdigit(int c);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strncpy(char *dest, const char *src, size_t n);
 char	*ft_strcpy(char *s1, char *s2);
+int		ft_isalnum(int c);
 void	cmd_free(t_data *data, int i);
 void	args_free(t_data *data, int i, int j);
 void	outfile_free(t_data *data, int i, int j);
 void	infile_free(t_data *data, int i, int j);
 void	operators_free(t_data *data, int i, int j);
 void	last_controller(t_data *data, t_token **tokens, t_index *index);
+int	    pipe_controller_printer(t_token **tokens, int i);
+int	    input_check(char *input, char *print, t_data *data);
+void	free_main(t_token **tokens, char *input, t_data *data, char *print);
+void    free_main2(t_token **tokens, char *input, t_data *data, char *print);
+char	*full_pwd(t_globals *globals);
+int		token_controller_2(t_token **tokens, int i);
+void	readline_fill(char *print, char *input, t_globals *globals);
+void	readline_free(char *input, char *print);
+int	    main_controller(t_data *data, t_token **tokens, char *input, char *print);
 
 #endif

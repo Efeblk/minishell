@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 01:13:25 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 01:24:29 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 05:36:46 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ t_token	*generate_pr_token(char **input)
 	return (NULL);
 }
 
-
 char	*create_word(char **input, char *start)
 {
 	size_t	len;
@@ -77,7 +76,7 @@ char	*create_word(char **input, char *start)
 
 	len = *input - start;
 	word = (char *) malloc(len + 1);
-	strncpy(word, start, len);
+	ft_strncpy(word, start, len);
 	word[len] = '\0';
 	return (word);
 }

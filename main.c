@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/07 05:41:03 by alakin            #+#    #+#             */
+/*   Updated: 2023/10/07 05:41:04 by alakin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int main(int argc, char *argv[], char *envp[])
+int	main(int argc, char *argv[], char *envp[])
 {
-	(void)argc;
-	(void)argv;
 	t_env		*env;
 	t_export	*exp_list;
 	t_globals	globals;
 	t_data		*data;
 	t_index		index;
 
-    printf("new shell \n");
+	(void)argc;
+	(void)argv;
+	printf("new shell \n");
 	env = load_environment(envp);
-	globals.user =  get_env_val("USER", env);
+	globals.user = get_env_val("USER", env);
 	exp_list = load_export(envp);
 	while (1)
 	{

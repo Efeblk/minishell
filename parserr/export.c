@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 22:35:47 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/06 22:36:28 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:32:18 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_export	*create_export_node(const char *key, const char *value)
 	node->next = NULL;
 	return (node);
 }
-
 
 void	add_export_node(t_export **head, const char *key, const char *value)
 {
