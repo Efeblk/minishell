@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:24:09 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 03:15:46 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:53:33 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
 
 static int	ft_isspace(int c)
 {

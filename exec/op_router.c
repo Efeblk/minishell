@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   op_router.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:12:05 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 05:50:15 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:57:57 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,24 @@ static void	here_doc(t_data *data, int i)
 	}
 }
 
+void	op_rout_helper(t_data *data, int i)
+{
+	char	*pwd;
+
+	pwd = return_pwd();
+	pwd = ft_strjoin(pwd, "/");
+	pwd = ft_strjoin(pwd, data->nodes[i].infile[0]);
+	if ((access(pwd, F_OK)) == 0)
+		dup2(open(data->nodes[i].infile[0], O_RDONLY, 0777),
+			STDIN_FILENO);
+	else
+		data->nodes[i].args[1] = ft_strdup(data->nodes[i].infile[0]);
+	free(pwd);
+}
+
 void	op_router(t_data *data, int i)
 {
 	int		j;
-	char	*pwd;
 
 	j = -1;
 	while (data->nodes[i].operators[++j] != NULL)
@@ -62,15 +76,7 @@ void	op_router(t_data *data, int i)
 					data->nodes[i].operators, &j), STDOUT_FILENO);
 		else if (ft_strncmp(data->nodes[i].operators[j], "<", 2) == 0)
 		{
-			pwd = return_pwd();
-			pwd = ft_strjoin(pwd, "/");
-			pwd = ft_strjoin(pwd, data->nodes[i].infile[0]);
-			if ((access(pwd, F_OK)) == 0)
-				dup2(open(data->nodes[i].infile[0], O_RDONLY, 0777),
-					STDIN_FILENO);
-			else
-				data->nodes[i].args[1] = ft_strdup(data->nodes[i].infile[0]);
-			free(pwd);
+			op_rout_helper(data, i);
 		}
 		else if (ft_strncmp(data->nodes[i].operators[j], "<<", 2) == 0)
 			here_doc(data, i);

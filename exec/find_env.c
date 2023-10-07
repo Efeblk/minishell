@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 06:23:46 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:54:57 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ static int	is_accessible(char **bin, t_data *data)
 				&& ft_strncmp(data->nodes[j].cmd, "echo", 4))
 			{
 			}
-			else if (!is_executable(bin, data, &valid, &j) &&
-				!is_path(data, &valid, &j))
+			else if (!is_executable(bin, data, &valid, &j)
+				&& !is_path(data, &valid, &j))
 			{
 				data->nodes[j].args[0] = ft_strdup(data->nodes[j].cmd);
 			}
