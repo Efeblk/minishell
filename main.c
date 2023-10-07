@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:41:03 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:54:23 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:50:23 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int	main(int argc, char *argv[], char *envp[])
 
 	(void)argc;
 	(void)argv;
-	printf("new shell \n");
 	env = load_environment(envp);
 	globals.user = get_env_val("USER", env);
 	exp_list = load_export(envp);
