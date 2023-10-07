@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:35:33 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:59:07 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:09:57 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,17 @@ void	ft_dollarize(const char *str, t_exp_stsh *stsh, t_env **env_list)
 	var_name = (char *)malloc(var_len + 1);
 	ft_strncpy(var_name, str + var_start, var_len);
 	var_name[var_len] = '\0';
-	var_val = get_env_val(var_name, *env_list);
-	printf("**%s**\n", var_name);
+	if ((ft_strcmp(var_name, "?")))
+		var_val = (get_env_val("?", *env_list));
+	else
+		var_val = get_env_val(var_name, *env_list);
 	free(var_name);
 	if (var_val)
 	{
 		stsh->rt_len += ft_strlen(var_val) - (1 + var_len);
 		stsh->rt = (char *)ft_realloc(stsh->rt, stsh->rt_len, sizeof(char));
 		ft_strcpy(stsh->rt + stsh->rt_i, var_val);
-		stsh->rt_i += strlen(var_val);
+		stsh->rt_i += ft_strlen(var_val);
 	}
 	stsh->src_i += var_len;
 }
@@ -85,7 +87,7 @@ t_exp_stsh	*get_stsh(const char *str)
 	rt = (t_exp_stsh *)malloc(sizeof(t_exp_stsh));
 	rt->rt_i = 0;
 	rt->src_i = 0;
-	rt->src_len = strlen(str);
+	rt->src_len = ft_strlen(str);
 	rt->rt_len = rt->src_len;
 	rt->rt = (char *)malloc(sizeof(char) * (rt->rt_len + 1));
 	return (rt);
