@@ -4,11 +4,15 @@ OBJ = $(SRC:.c=.o)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I..
+AR = ar
 
 all: $(NOM)
 
 $(NOM): $(OBJ)
 	$(AR) -rcs $(NOM) $(OBJ)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	$(RM) $(OBJ) *~

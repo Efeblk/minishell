@@ -6,13 +6,13 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 01:13:25 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:36:46 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 08:07:31 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*get_next_token(char **input)
+t_token	*get_next_token(char **input, t_data *data)
 {
 	while (isspace(**input))
 		(*input)++;
@@ -20,29 +20,28 @@ t_token	*get_next_token(char **input)
 		return (create_token(TOKEN_EOF, input, *input));
 	if (**input == '<' || **input == '>' || **input == '|')
 		return (generate_pr_token(input));
-	return (generate_word_token(input));
+	return (generate_word_token(input, data));
 }
 
-t_token	*generate_word_token(char **input)
+t_token	*generate_word_token(char **input, t_data *data)
 {
 	char	*start;
-	int		sf;
-	int		df;
 
 	start = *input;
-	sf = 0;
-	df = 0;
+	data->sf = 0;
+	data->df = 0;
 	while (**input)
 	{
-		if (!(sf || df) && (ft_strchr("<>|", **input) || isspace(**input)))
+		if (!(data->sf || data->df)
+			&& (ft_strchr("<>|", **input) || isspace(**input)))
 			break ;
-		if (**input == '"' && !sf)
-			df = !df;
-		if (**input == '\'' && !df)
-			sf = !sf;
+		if (**input == '"' && !data->sf)
+			data->df = !data->df;
+		if (**input == '\'' && !data->df)
+			data->sf = !data->sf;
 		(*input)++;
 	}
-	if (sf != 0 || df != 0)
+	if (data->sf != 0 || data->df != 0)
 	{
 		printf("Error: Unbalanced quotes\n");
 		exit(1);
@@ -81,7 +80,7 @@ char	*create_word(char **input, char *start)
 	return (word);
 }
 
-t_token	*create_token(TokenType type, char **input, char *start)
+t_token	*create_token(t_tokentype type, char **input, char *start)
 {
 	t_token	*token;
 

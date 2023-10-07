@@ -6,11 +6,21 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:16:12 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:36:12 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 08:25:41 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_ctrl_d(char *input)
+{
+	if (!input)
+	{
+		write(1, "\033[D\033[D", 7);
+		printf("exit\n");
+		exit(1);
+	}
+}
 
 char	*full_pwd(t_globals *globals)
 {

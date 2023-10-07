@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 03:06:20 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 05:51:20 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 07:09:19 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ int	find_heredoc(char **operators)
 {
 	int	i;
 
-	i = 0;
-	while (operators[i] != NULL)
+	i = -1;
+	while (operators[++i] != NULL)
 	{
 		if (ft_strncmp(operators[i], "<<", 2) == 0)
 			return (1);

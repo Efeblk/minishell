@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:57:40 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:35:09 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 08:09:54 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_token	**allocate_tokens(int size)
 	return (tokens);
 }
 
-int	count_tokens(char *input)
+int	count_tokens(char *input, t_data *data)
 {
 	int		count;
 	t_token	*token;
@@ -33,7 +33,7 @@ int	count_tokens(char *input)
 	count = 0;
 	while (1)
 	{
-		token = get_next_token(&input);
+		token = get_next_token(&input, data);
 		count++;
 		if (token->type == TOKEN_EOF)
 		{
@@ -47,7 +47,7 @@ int	count_tokens(char *input)
 	return (count);
 }
 
-t_token	**tokenize_input(char *input)
+t_token	**tokenize_input(char *input, t_data *data)
 {
 	int			size;
 	t_token		**tokens;
@@ -55,11 +55,11 @@ t_token	**tokenize_input(char *input)
 	int			i;
 
 	i = 0;
-	size = count_tokens(input);
+	size = count_tokens(input, data);
 	tokens = allocate_tokens(size);
 	while (1)
 	{
-		token = get_next_token(&input);
+		token = get_next_token(&input, data);
 		tokens[i] = malloc(sizeof(t_token));
 		tokens[i]->type = token->type;
 		tokens[i]->value = ft_strdup(token->value);

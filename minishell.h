@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 06:29:38 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 06:39:39 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 08:54:12 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <fcntl.h>
 # include <limits.h>
 
-typedef enum
+typedef enum s_tokentype
 {
 	TOKEN_PIPE,
 	TOKEN_I,
@@ -32,11 +32,11 @@ typedef enum
 	TOKEN_O_O,
 	TOKEN_WORD,
 	TOKEN_EOF
-}				TokenType;
+}				t_tokentype;
 
 typedef struct s_token
 {
-	TokenType	type;
+	t_tokentype	type;
 	char		*value;
 }	t_token;
 
@@ -76,6 +76,8 @@ typedef struct s_data
 	t_env	*env;
 	t_node	*nodes;
 	int		count;
+	int		sf;
+	int		df;
 }t_data;
 
 typedef struct s_globals
@@ -94,7 +96,6 @@ typedef struct s_exp_stsh
 	int		rt_len;
 
 	char	*rt;
-	t_env	*env_list;
 
 }	t_exp_stsh;
 
@@ -108,6 +109,8 @@ typedef struct s_index
 	int	y;
 }	t_index;
 
+int		g_back;
+
 int			ft_readline(t_data *data, t_globals *globals,
 				t_env **env_list, t_index *index);
 char		*ft_strdup(const char *s1);
@@ -117,15 +120,15 @@ int			ft_atoi(const char *str);
 char		*ft_substr(char const *s, unsigned int start, size_t len);
 size_t		ft_strlen(const char *s);
 char		*ft_strchr(const char *s, int c);
-t_token		*get_next_token(char **input);
-t_token		*generate_word_token(char **input);
+t_token		*get_next_token(char **input, t_data *data);
+t_token		*generate_word_token(char **input, t_data *data);
 t_token		*generate_pr_token(char **input);
 char		*create_word(char **input, char *start);
-t_token		*create_token(TokenType type, char **input, char *start);
+t_token		*create_token(t_tokentype type, char **input, char *start);
 void		*ft_memcpy(void *dst, const void *src, size_t n);
 t_token		**allocate_tokens(int size);
-t_token		**tokenize_input(char *input);
-int			count_tokens(char *input);
+t_token		**tokenize_input(char *input, t_data *data);
+int			count_tokens(char *input, t_data *data);
 void		print_and_free_tokens(t_token **tokens, int count);
 int			pipe_counter(t_data *data, t_token **tokens);
 
@@ -164,7 +167,7 @@ void		run_exit(t_data *data, t_env **env, int i);
 void		run_echo(t_data *data, int i);
 void		run_unset(t_env **env, t_export **exp_list, int i, t_data *data);
 char		*get_env_val(const char *key, t_env *env_list);
-t_env		*load_environment(char *envp[]);
+t_env		*load_environment(char *envp[], int argc, char **argv);
 void		run_env(t_env *env_list);
 void		run_export(t_export **exp_list, int i, t_data *data, t_env **env);
 void		add_export(int i, t_data *data, t_export **exp_list, int j);
@@ -174,7 +177,6 @@ void		add_env_node(t_env **head, const char *key, const char *value);
 t_env		*find_env_node(t_env *head, const char *key);
 void		free_env_list(t_env *head);
 char		*join_env(const char *key, const char *value);
-t_env		*load_environment(char *envp[]);
 char		*get_env_val(const char *key, t_env *env_list);
 char		**get_env_arr(t_env *head);
 void		update_env_node(t_env *head, const char *key,
@@ -182,6 +184,7 @@ void		update_env_node(t_env *head, const char *key,
 void		delete_env_node(t_env **head, const char *key);
 void		print_list(t_env *head);
 
+void		ft_ctrl_d(char *input);
 t_export	*create_export_node(const char *key, const char *value);
 void		add_export_node(t_export **head, const char *key,
 				const char *value);
@@ -199,9 +202,9 @@ void		update_status(int status, t_env **env);
 int			find_heredoc(char **operators);
 void		wait_close_free(t_data *data, int **pipes, int *pids, t_env **env);
 int			question_mark(t_data *data, t_env **env);
-char		*get_expanded(const char *str, t_env **env_list);
-void		expand_stsh(const char *str, t_exp_stsh *stsh, int sf, int df, 
-				t_env **env_list);
+char		*get_expanded(const char *str, t_env **env_list, t_data *data);
+void		expand_stsh(const char *str, t_exp_stsh *stsh,
+				t_data *data, t_env **env_list);
 void		ft_dollarize(const char *str, t_exp_stsh *stsh, t_env **env_list);
 t_exp_stsh	*get_stsh(const char *str);
 void		*ft_realloc(void *ptr, size_t b_amount, size_t b_size);
@@ -242,5 +245,8 @@ void		readline_fill(char *print, char *input, t_globals *globals);
 void		readline_free(char *input, char *print);
 int			main_controller(t_data *data, t_token **tokens, char *input,
 				char *print);
+void		dollar_helper(t_exp_stsh *stsh, char *var_val, int var_len);
+void		export_helper(char **str, char *key,
+				char *value, t_export **exp_list);
 
 #endif

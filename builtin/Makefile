@@ -1,14 +1,18 @@
 NOM = libbuiltin.a
-SRC = builtin_start.c runs.c runs2.c question_mark.c
+SRC = builtin_start.c runs.c runs2.c question_mark.c runs3.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -I..
+AR = ar
 
 all: $(NOM)
 
 $(NOM): $(OBJ)
 	$(AR) -rcs $(NOM) $(OBJ)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
 	$(RM) $(OBJ) *~

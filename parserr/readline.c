@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 05:27:22 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 06:48:56 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 09:19:29 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,15 @@ int	ft_readline(t_data *data, t_globals *globals,
 	t_token	**tokens;
 	char	*print;
 
+	(void)env_list;
 	print = full_pwd(globals);
 	input = readline(print);
+	ft_ctrl_d(input);
 	add_history(input);
 	if (!input_check(input, print, data))
 		return (0);
-	input = get_expanded(input, env_list);
-	tokens = tokenize_input(input);
+	input = get_expanded(input, env_list, data);
+	tokens = tokenize_input(input, data);
 	if (!main_controller(data, tokens, input, print))
 		return (0);
 	data->pipe_count = pipe_counter(data, tokens);

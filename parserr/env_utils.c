@@ -6,13 +6,13 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:40:18 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 04:10:39 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 08:20:13 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*load_environment(char *envp[])
+t_env	*load_environment(char *envp[], int argc, char **argv)
 {
 	t_env	*head;
 	char	*key;
@@ -20,6 +20,8 @@ t_env	*load_environment(char *envp[])
 	char	**str;
 	int		i;
 
+	(void)argv;
+	(void)argc;
 	head = NULL;
 	i = 0;
 	while (envp[i] != NULL)

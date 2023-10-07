@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:32:29 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 05:31:51 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:55:10 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int	ft_isalnum(int c)
 {
 	return (ft_isdigit(c) || ft_isalpha(c));
 }
+
 void	*ft_realloc(void *ptr, size_t b_amount, size_t b_size)
 {
 	void	*rt;

@@ -6,7 +6,7 @@
 /*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 19:36:51 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 01:09:26 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 07:20:48 by alakin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_env	*find_env_node(t_env *head, const char *key)
 	current = head;
 	while (current != NULL)
 	{
-		if (strcmp(current->key, key) == 0)
+		if (ft_strcmp(current->key, key) == 0)
 			return (current);
 		current = current->next;
 	}

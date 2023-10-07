@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alakin <alakin@student.42istanbul.com.t    +#+  +:+       +#+        */
+/*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 03:11:17 by alakin            #+#    #+#             */
-/*   Updated: 2023/10/07 03:23:38 by alakin           ###   ########.fr       */
+/*   Updated: 2023/10/07 06:54:00 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ char	*ft_strcpy(char *s1, char *s2)
 	s1[i] = s2[i];
 	return (s1);
 }
-
