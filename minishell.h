@@ -166,6 +166,8 @@ void	    delete_export_node(t_export **head, const char *key);
 void	    print_export_list(t_export *head);
 
 void        update_status(int status, t_env **env);
+int         find_heredoc(char **operators);
+void	wait_close_free(t_data *data, int **pipes, int *pids, t_env **env);
+int     question_mark(t_data *data, t_env **env);
 
 #endif
-

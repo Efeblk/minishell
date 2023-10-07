@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:27:33 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 02:30:21 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 03:14:44 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,3 @@ void	run_echo(t_data *data, int i)
 			data->nodes[i].is_builtin = 0;
 	}
 }
-

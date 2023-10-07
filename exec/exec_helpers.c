@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:50:34 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 02:51:44 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 03:12:02 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,20 @@ pid_t	*pid_create(int size)
 	return (tmp);
 }
 
-void	update_status(int status, t_env **env)
+void	wait_close_free(t_data *data, int **pipes, int *pids, t_env **env)
 {
-	char	*tmpchar;
+	int		i;
+	char	*chart;
+	int		status;
 
-	tmpchar = ft_itoa(status);
-	update_env_node(*env, "?", tmpchar);
-	free (tmpchar);
+	chart = get_env_val("?", *env);
+	status = atoi(chart);
+	i = -1;
+	close_pipes(pipes, data->pipe_count);
+	while (++i < data->pipe_count + 1)
+	{
+		waitpid(pids[i], &status, 0);
+		update_status(status, env);
+	}
+	free(pids);
 }

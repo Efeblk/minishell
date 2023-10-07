@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:22:55 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 02:45:33 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 03:13:52 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,7 @@ static int	is_path(t_data *data, int *valid, int *j)
 		c = return_pwd();
 		tmp = ft_strjoin(c, ++(data->nodes[*j].cmd));
 		if ((access(tmp, F_OK | X_OK)) == -1)
-		{
 			data->nodes[*j].is_valid_path = 0;
-		}
 		data->nodes[*j].args[0] = tmp;
 		--(data->nodes[*j].cmd);
 		free(c);
@@ -96,17 +94,10 @@ static int	is_accessible(char **bin, t_data *data)
 	return (valid);
 }
 
-int	find_env(t_data *data, t_env **env)
+void	find_helper(t_data *data, t_env **env)
 {
-	char	*path;
-	char	**bin;
 	int		i;
 
-	path = get_env_val("PATH", *env);
-	if (!path)
-		return (-1);
-	bin = ft_split(path, ':');
-	is_accessible(bin, data);
 	i = -1;
 	while (++i < data->pipe_count + 1)
 	{
@@ -126,6 +117,19 @@ int	find_env(t_data *data, t_env **env)
 			break ;
 		}
 	}
+}
+
+int	find_env(t_data *data, t_env **env)
+{
+	char	*path;
+	char	**bin;
+
+	path = get_env_val("PATH", *env);
+	if (!path)
+		return (-1);
+	bin = ft_split(path, ':');
+	is_accessible(bin, data);
+	find_helper(data, env);
 	free_array((void **)bin);
 	return (0);
 }

@@ -6,70 +6,15 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:26:27 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 02:31:03 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 04:11:32 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	question_mark(t_data *data, t_env **env)
-{
-	int		i;
-	int		j;
-	int		flag;
-	int		status;
-	char	*tmp;
-
-	flag = 0;
-	j = 1;
-	i = 0;
-	tmp = get_env_val("?", *env);
-	status = ft_atoi(tmp);
-	while (i < data->pipe_count + 1)
-	{
-		if (data->nodes[i].cmd != NULL)
-		{
-			if (data->nodes[i].cmd[0] == '$' && data->nodes[i].cmd[1] == '?')
-			{
-				flag = 1;
-				if (status > 255)
-				{
-					status = status % 255;
-					update_status(status, env);
-				}
-				printf("%i: ", status);
-				break ;
-			}
-		}
-		else
-		{
-			while (data->nodes[i].args[j] != NULL)
-			{
-				if (data->nodes[i].args[j][0] == '$'
-					&& data->nodes[i].args[j][1] == '?')
-				{
-					flag = 1;
-					if (status > 255)
-					{
-						status = status % 255;
-						update_status(status, env);
-					}
-					printf("%i: ", status);
-					break ;
-				}
-				if (flag)
-					break ;
-				j++;
-			}
-		}
-		i++;
-	}
-	return (flag);
-}
-
 static void is_builtin(char *cmd, t_data *data, int i, t_env **env, t_export **exp_list)
 {
-	int flag;
+	int	flag;
 
 	data->nodes[i].is_builtin = 1;
 	flag = question_mark(data, env);
@@ -94,9 +39,7 @@ static void is_builtin(char *cmd, t_data *data, int i, t_env **env, t_export **e
 		else if (ft_strncmp(cmd, "unset", 5) == 0)
 			run_unset(env, exp_list, i, data);
 		else
-		{
 			data->nodes[i].is_builtin = 0;
-		}
 	}
 	else
 		data->nodes[i].is_builtin = 0;

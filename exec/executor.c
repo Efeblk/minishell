@@ -6,7 +6,7 @@
 /*   By: ibalik <ibalik@student.42istanbul.com.t    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 02:18:30 by ibalik            #+#    #+#             */
-/*   Updated: 2023/10/07 02:43:21 by ibalik           ###   ########.fr       */
+/*   Updated: 2023/10/07 03:12:07 by ibalik           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ static void	first_process(t_data *data, int **pipes, int i)
 	}
 	close_pipes(pipes, data->pipe_count);
 	op_router(data, i);
-}
-
-static int	find_heredoc(char **operators)
-{
-	int	i;
-
-	i = 0;
-	while (operators[i] != NULL)
-	{
-		if (ft_strncmp(operators[i], "<<", 2) == 0)
-			return (1);
-	}
-	return (0);
 }
 
 static void	middle_process(t_data *data, int **pipes, int i)
@@ -56,22 +43,21 @@ static void	last_process(t_data *data, int **pipes, int i)
 	op_router(data, i);
 }
 
-static void	wait_close_free(t_data *data, int **pipes, int *pids, t_env **env)
+static void	process_router(int i, t_data *data, int **pipes, t_env **env)
 {
-	int		i;
-	char	*chart;
-	int		status;
+	char	**envs;
 
-	chart = get_env_val("?", *env);
-	status = atoi(chart);
-	i = -1;
-	close_pipes(pipes, data->pipe_count);
-	while (++i < data->pipe_count + 1)
+	if (i == 0)
+		first_process(data, pipes, i);
+	else if (i == data->pipe_count)
+		last_process(data, pipes, i);
+	else
+		middle_process(data, pipes, i);
+	if (data->nodes[i].is_valid_path == 1)
 	{
-		waitpid(pids[i], &status, 0);
-		update_status(status, env);
+		envs = get_env_arr(*env);
+		execve(data->nodes[i].args[0], data->nodes[i].args, envs);
 	}
-	free(pids);
 }
 
 int	executor(t_data *data, t_env **env)
@@ -79,7 +65,6 @@ int	executor(t_data *data, t_env **env)
 	int		**pipes;
 	pid_t	*pids;
 	int		i;
-	char	**envs;
 
 	find_env(data, env);
 	i = -1;
@@ -95,17 +80,7 @@ int	executor(t_data *data, t_env **env)
 			pids[i] = fork();
 			if (pids[i] == 0)
 			{
-				if (i == 0)
-					first_process(data, pipes, i);
-				else if (i == data->pipe_count)
-					last_process(data, pipes, i);
-				else
-					middle_process(data, pipes, i);
-				if (data->nodes[i].is_valid_path == 1)
-				{
-					envs = get_env_arr(*env);
-					execve(data->nodes[i].args[0], data->nodes[i].args, envs);
-				}
+				process_router(i, data, pipes, env);
 				exit(0);
 			}
 		}
